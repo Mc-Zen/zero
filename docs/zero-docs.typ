@@ -15,7 +15,7 @@ _Advanced scientific number formatting._
 Proper formatting of numbers requires some love for detail to guarantee a readable and clear output. This package provides tools to ensure consistent formatting and follow established practice. Key features are
 - *standardized* formatting,
 - digit *grouping*, e.g., $299 thin 792thin 458$ instead of $299792458$,
-- *plug-and-play number alignment in tables*
+- *plug-and-play* number *alignment in tables*
 - quick scientific notation, e.g., "2e4" #sym.arrow #num[2e4],
 - symmetric and asymmetric *uncertainties*,
 - rounding,

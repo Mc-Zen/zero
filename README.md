@@ -2,14 +2,25 @@
 # $Z\cdot e^{ro}$
 
 
-_Advanced scientific number formatting._
+_Advanced scientific number formatting ._
 
-# Introduction
+[![Typst Package](https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fraw.githubusercontent.com%2FMc-Zen%2Fzero%2Fmain%2Ftypst.toml&query=%24.package.version&prefix=v&logo=typst&label=package&color=239DAD)](https://typst.app/universe/package/zero)
+[![Test Status](https://github.com/Mc-Zen/zero/actions/workflows/run_tests.yml/badge.svg)](https://github.com/Mc-Zen/zero/actions/workflows/run_tests.yml)
+[![MIT License](https://img.shields.io/badge/license-MIT-blue)](https://github.com/Mc-Zen/zero/blob/main/LICENSE)
+
+
+- [Introduction](#introduction)
+- [Quick Demo](#quick-demo)
+- [Features](#features)
+- [Table alignment](#table-alignment)
+- [Zero for packages](#zero-for-packages)
+
+## Introduction
 
 Proper formatting of numbers requires some love for detail to guarantee a readable and clear output. This package provides tools to ensure consistent formatting and follow established practice. Key features are
 - **standardized** formatting,
 - digit **grouping**, e.g., $299\,792\,458$ instead of $299792458$,
-- **plug-and-play number alignment in tables**
+- **plug-and-play** number **alignment in tables**
 - quick scientific notation, e.g., `"2e4"` becomes $2\cdot10^4$,
 - symmetric and asymmetric **uncertainties**,
 - rounding,
@@ -25,11 +36,6 @@ The anatomy of a formatted number is shown in the following figure.
 </p>
 
 For generating formatted numbers, *Zero* provides the `num` type along with the types `coefficient`, `uncertainty`, and `power` that allow for fine-grained customization with `show` and `set` rules. 
-
-- [Quick Demo](#quick-demo)
-- [Features](#features)
-- [Table alignment](#table-alignment)
-- [Zero for packages](#zero-for-packages)
 
 ## Quick Demo
 

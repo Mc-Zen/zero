@@ -15,6 +15,8 @@
   [10], "17", [0], 
 )
 
+#pagebreak()
+
 #ztable(
   columns: 4,
   format: (auto,) * 4,
