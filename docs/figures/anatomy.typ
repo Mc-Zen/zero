@@ -2,8 +2,10 @@
 #import "@preview/cetz:0.2.2"
 #set page(width: auto, height: auto, margin: 2pt, fill: white)
 
-#let anatomy = scale(120%, reflow: true, cetz.canvas({
+#set text(1.2em)
+#let anatomy = cetz.canvas({
   import cetz.draw: *
+  scale(120%)
   rect((0,-.15), (2.26,.37), fill: blue.transparentize(70%), stroke: blue + .5pt)
   rect((1.2,-.15), (2.125,.37), fill: red.transparentize(70%), stroke: red + .5pt)
   rect((2.3,-.15), (3.32,.37), fill: green.transparentize(70%), stroke: green + .5pt)
@@ -28,7 +30,7 @@
   
   line((3.7,.36), (3.3,.27), name: "line1")
   content((4.4,.42), text(.8em)[exponent])
-}))
+})
 
 
 #anatomy
