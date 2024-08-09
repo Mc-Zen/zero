@@ -19,9 +19,9 @@ _Advanced scientific number formatting ._
 
 Proper formatting of numbers requires some love for detail to guarantee a readable and clear output. This package provides tools to ensure consistent formatting and follow established practice. Key features are
 - **standardized** formatting,
-- digit **grouping**, e.g., $299\,792\,458$ instead of $299792458$,
+- digit **grouping**, e.g., $`299\,792\,458`$ instead of $299792458$,
 - **plug-and-play** number **alignment in tables**
-- quick scientific notation, e.g., `"2e4"` becomes $2\cdot10^4$,
+- quick scientific notation, e.g., `"2e4"` becomes $2\times10^4$,
 - symmetric and asymmetric **uncertainties**,
 - rounding,
 - some specials for package authors,
@@ -41,11 +41,11 @@ For generating formatted numbers, *Zero* provides the `num` type along with the 
 
 | asd | asd|
 |-----|----|
-| `#num[1.2e4]`        | $1.2\cdot 10^4$  |
-| `#num[-5e-4]`        | $-5\cdot 10^{-4}$|
+| `#num[1.2e4]`        | $1.2\times 10^4$  |
+| `#num[-5e-4]`        | $-5\times 10^{-4}$|
 | `#num[9.81+-.01]`    | $9.81\pm 0.01$  |
 | `#num[9.81+0.02-.01]`| $9.81^{+0.02}_{-0.01}$|
-| `#num[9.81+-.01e2]`      | $(9.81\pm0.01)\cdot 10^2$|
+| `#num[9.81+-.01e2]`      | $(9.81\pm0.01)\times 10^2$|
 
 
 
@@ -75,7 +75,7 @@ Zero supports both and can convert between these two, so that you can pick the d
 
 How do uncertainties interplay with exponents? The uncertainty needs to come first and the exponent applies to both the mantissa and the uncertainty, e.g., `num("1.23+-.04e2")` becomes
 
-$$ (1.23\pm0.04)\cdot 10^2 $$
+$$ (1.23\pm0.04)\times 10^2 $$
 
 Note that the coefficient is now put in parentheses to disambiguate the application of the power. 
 
