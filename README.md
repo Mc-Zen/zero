@@ -2,7 +2,7 @@
 # $Z\cdot e^{ro}$
 
 
-_Advanced scientific number formatting ._
+_Advanced scientific number formatting._
 
 [![Typst Package](https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fraw.githubusercontent.com%2FMc-Zen%2Fzero%2Fmain%2Ftypst.toml&query=%24.package.version&prefix=v&logo=typst&label=package&color=239DAD)](https://typst.app/universe/package/zero)
 [![Test Status](https://github.com/Mc-Zen/zero/actions/workflows/run_tests.yml/badge.svg)](https://github.com/Mc-Zen/zero/actions/workflows/run_tests.yml)
@@ -17,17 +17,17 @@ _Advanced scientific number formatting ._
 
 ## Introduction
 
-Proper formatting of numbers requires some love for detail to guarantee a readable and clear output. This package provides tools to ensure consistent formatting and follow established practice. Key features are
+Proper formatting of numbers requires some love for detail to guarantee a readable and clear output. This package provides tools to ensure consistent formatting and to simplify following established practices. Key features are
 - **standardized** formatting,
 - digit **grouping**, e.g., $`299\,792\,458`$ instead of $299792458$,
 - **plug-and-play** number **alignment in tables**
 - quick scientific notation, e.g., `"2e4"` becomes $2\times10^4$,
 - symmetric and asymmetric **uncertainties**,
 - rounding,
-- some specials for package authors,
-- and localization?. 
+- and some specials for package authors.
+<!-- - and localization? -->
 
-A number in scientific notation consists of three parts of which the latter two are optional. The first part is the _coefficient_ that may consist of an _integer_ and a _fractional_ part. In many fields, values are not known exactly and the corresponding _uncertainty_ is then given after the coefficient. Lastly, to facilitate reading very large or small numbers, the coefficient may be multiplied with a _power_ of 10 (or another base). 
+A number in scientific notation consists of three parts of which the latter two are optional. The first part is the _coefficient_ that may consist of an _integer_ and a _fractional_ part. In many fields of science, values are not known exactly and the corresponding _uncertainty_ is then given along with the coefficient. Lastly, to facilitate reading very large or small numbers, the coefficient may be multiplied with a _power_ of 10 (or another base). 
 
 The anatomy of a formatted number is shown in the following figure.
 
@@ -42,9 +42,9 @@ For generating formatted numbers, *Zero* provides the `num` type along with the 
 | Code | Output | Code | Output |
 |------|--------|------|--------|
 | `num("1.2e4")`        | $1.2\times 10^4$          | `num[1.2e4]`           | $1.2\times 10^4$       |
-| `num("-5e-4")`        | $-5\times 10^{-4}$        | `num(fixed: -2)[0.02]` | $2\times 10^{-2}$      |
-| `num("9.81+-.01")`    | $9.81\pm 0.01$            | `num("9.81+0.02-.01")`| $9.81^{+0.02}_{-0.01}$ |    
-| `num("9.81+-.01e2")`  | $(9.81\pm0.01)\times 10^2$| `num(base: 2)[3e4]` | $3\times 2^{2}$      |
+| `num("-5e-4")`        | $-5\times 10^{-4}$        | `num(fixed: -2)[0.02]` | $2\times 10^{-2}$      |
+| `num("9.81+-.01")`    | $9.81\pm 0.01$            | `num("9.81+0.02-.01")` | $9.81^{+0.02}_{-0.01}$ |
+| `num("9.81+-.01e2")`  | $(9.81\pm0.01)\times 10^2$| `num(base: 2)[3e4]`    | $3\times 2^4$          |
 
 
 
@@ -59,7 +59,7 @@ For generating formatted numbers, *Zero* provides the `num` type along with the 
 
 ### `num`
 
-The function `num()` is the heart of *Zero*. It provides a wide range number formatting utilities and its default values are configurable via `set-num()` which takes the same named arguments as `num()`. 
+The function `num()` is the heart of *Zero*. It provides a wide range of number formatting utilities and its default values are configurable via `set-num()` which takes the same named arguments as `num()`. 
 
 ```typ
 #let num(
@@ -77,17 +77,17 @@ The function `num()` is the heart of *Zero*. It provides a wide range number for
   uncertainty-mode:       str = "separate"
 )
 ```
-- `number: str | content | int | float | array` : Number input, `str` should be favoured. If the input is `content`, it may only contain text nodes. Numeric types `int` and `float` are supported but not encouraged because of information loss (e.g., number of "0" digits, exponent). The types `dictionary` and `array` are for advanced use, see [below](#zero-for-packages).
+- `number: str | content | int | float | array` : Number input; `str` is preferred. If the input is `content`, it may only contain text nodes. Numeric types `int` and `float` are supported but not encouraged because of information loss (e.g., the number of "0" digits or the exponent). The possible types `dictionary` and `array` are for advanced use, see [below](#zero-for-packages).
 - `digits: auto | int = auto` : Truncates the number at a given number of decimal places or pads the number with zeros if necessary. This is independent of [rounding](#rounding).
 - `fixed: none | int = none` : If not `none`, forces a fixed integer exponent. 
-- `decimal-marker: str = "."` : Specifies the marker that is used separating integer and decimal part.
-- `times: content = sym.times` : Specifies the multiplication symbol used when scientic notation is used. 
-- `tight: boolean = false` : If true, tight spacing is applied between operands (applies to multiplication and $\pm$). 
+- `decimal-marker: str = "."` : Specifies the marker that is used for separating integer and decimal part.
+- `times: content = sym.times` : Specifies the multiplication symbol used when scientific notation is used. 
+- `tight: boolean = false` : If true, tight spacing is applied between operands (applies to $\times$ and $\pm$). 
 - `omit-unit-mantissa: boolean = false` : Determines whether a mantissa of 1 is omitted in scientic notation, e.g., $10^4$ instead of $1\cdot 10^4$. 
-- `implicit-plus: boolean = false` : If set to `true`, positive signs are shown as well for the coeffient. 
-- `implicit-plus-exponent: boolean = false` : If set to `true`, positive signs are shown as well for the exponent. 
+- `implicit-plus: boolean = false` : If set to `true`, positive coefficients are shown with a $+$ sign. 
+- `implicit-plus-exponent: boolean = false` : If set to `true`, positive exponents are shown with a $+$ sign. 
 - `base: int | content = 10` : The base used for scientific power notation. 
-- `uncertainty-mode: str = "separate"` : Selects one of the modes `"separate"`, `"compact"`, or `"compact-marker"` for displaying uncertainties: 
+- `uncertainty-mode: str = "separate"` : Selects one of the modes `"separate"`, `"compact"`, or `"compact-marker"` for displaying uncertainties. The different behaviours are shown below:
 
 | `"separate"` |  `"compact"` |  `"compact-marker"` |
 |---|---|---|
@@ -97,10 +97,15 @@ The function `num()` is the heart of *Zero*. It provides a wide range number for
 | $1.7^{+2.0}_{-5.0}$ | $1.7^{+20}_{-50}$ | $1.7^{+2.0}_{-5.0}$ |
 
 
+Configuration example: 
+```typ
+#set-num(times: math.dot, tight: true)
+```
+
 ### Grouping
 
 
-Digit grouping is important for keeping large figures readable. It is customary to separate thousands with a thin space, a dot, comma or an apostrophe (however, we discourage using a dot or a comma to avoid confusion since both are used for decimal markers in many countries). 
+Digit grouping is important for keeping large figures readable. It is customary to separate thousands with a thin space, a period, comma or an apostrophe (however, we discourage using a period or a comma to avoid confusion since both are used for decimal markers in many countries). 
 
 <p align="center">
   <img alt="Digit grouping" src="docs/figures/grouping.svg">
@@ -120,7 +125,16 @@ Digit grouping can be configured with the `set-group()` function.
 - `sep: content = sym.space.thin` : Separator between groups. 
 - `threshold: int = 5` : Necessary number of digits needed for digit grouping to kick in. Four-digit numbers for example are often not grouped at all since they can still be read easily. 
 
+
+
+Configuration example: 
+```typ
+#set-group(sep: "'", threshold: 4)
+```
+
 Grouping can be turned off altogether by setting the `threshold` to `calc.inf`. 
+
+
 
 ### Rounding
 
@@ -182,7 +196,7 @@ In scientific publication, presenting many numbers in a readable fashion can be 
   align: center,
   format: (none, auto, auto),
   $n$, $α$, $β$,
-  [1],   [3.45],  [-11.1],
+  [1], [3.45], [-11.1],
   ..
 )
 ```

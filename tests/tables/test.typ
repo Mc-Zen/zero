@@ -1,9 +1,9 @@
-#import "/src/zero.typ": *
+#import "/src/zero.typ"
 #set page(width: auto, height: auto, margin: .5em)
 
 #set table(stroke: none, align: center)
 
-#ztable(
+#zero.ztable(
   columns: 3,
   format: (none, auto, auto),
   $n$, $α$, $β$,
@@ -17,7 +17,7 @@
 
 #pagebreak()
 
-#ztable(
+#zero.ztable(
   columns: 4,
   format: (auto,) * 4,
   $n$, $α$, $β$, $γ$,
