@@ -190,7 +190,7 @@
   
   let omit-mantissa = (
     it.omit-unit-mantissa and it.int == "1" and
-    it.frac == "" and it.e != none and it.pm == none
+    it.frac == "" and it.e != none and it.pm == none and it.digits == auto
   )
 
   let concise-uncertainty = it.uncertainty-mode != "separate"
@@ -242,17 +242,17 @@
   } 
   
   
+  if it.pm != none and it.e != none and not concise-uncertainty {
+    integer-part = ("(",) + integer-part
+    uncertainty-part.push(")")
+  }
+  
   let result = (
     integer-part,
     fractional-part,
     uncertainty-part,
     format-power(power),
   )
-  if it.pm != none and it.e != none and not concise-uncertainty {
-    result.first() = ("(",) + result.first()
-    result.at(2).push(")")
-  }
-  
   return result
 }
 
