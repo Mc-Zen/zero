@@ -190,7 +190,7 @@
   
   let omit-mantissa = (
     it.omit-unit-mantissa and it.int == "1" and
-    it.frac == "" and it.e != none and it.pm == none and it.digits == auto
+    it.frac == "" and it.e != none and it.pm == none and it.digits == 0
   )
 
   let concise-uncertainty = it.uncertainty-mode != "separate"

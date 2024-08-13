@@ -90,19 +90,21 @@
 
 #let num(
   number, 
-  digits: auto,
   align: none,
-  fixed: none,
   ..args
-) = context {
-  let it = num-state.get() + (
-    number: number,
-    digits: digits,
-    align: align,
-    fixed: fixed,
-    ..args.named()
-  )
-  show-num(it)
+) = {
+  if type(number) == array {
+    let it = num-state.get() + (align: align, ..args.named())
+    return number.map(n => show-num(it + (number: n)))
+  }
+  context {
+    let it = num-state.get() + (
+      number: number,
+      align: align,
+      ..args.named()
+    )
+    show-num(it)
+  }
 }
 
 

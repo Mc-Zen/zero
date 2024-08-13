@@ -184,7 +184,7 @@
 #num("1234.4321") \
 #set-group(sep: "'", size: 2)
 #num("12345.54321") \
-#set-group(sep: sym.space.thin, size: 4, threshold: 5)
+#set-group(sep: sym.space.thin, size: 3, threshold: 5)
 
 
 

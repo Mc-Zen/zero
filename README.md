@@ -11,7 +11,7 @@ _Advanced scientific number formatting ._
 
 - [Introduction](#introduction)
 - [Quick Demo](#quick-demo)
-- [Features](#features)
+- [Documentation](#documentation)
 - [Table alignment](#table-alignment)
 - [Zero for packages](#zero-for-packages)
 
@@ -39,23 +39,27 @@ For generating formatted numbers, *Zero* provides the `num` type along with the 
 
 ## Quick Demo
 
-| asd | asd|
-|-----|----|
-| `#num[1.2e4]`        | $1.2\times 10^4$  |
-| `#num[-5e-4]`        | $-5\times 10^{-4}$|
-| `#num[9.81+-.01]`    | $9.81\pm 0.01$  |
-| `#num[9.81+0.02-.01]`| $9.81^{+0.02}_{-0.01}$|
-| `#num[9.81+-.01e2]`      | $(9.81\pm0.01)\times 10^2$|
+| Code | Output | Code | Output |
+|------|--------|------|--------|
+| `num("1.2e4")`        | $1.2\times 10^4$          | `num[1.2e4]`           | $1.2\times 10^4$       |
+| `num("-5e-4")`        | $-5\times 10^{-4}$        | `num(fixed: -2)[0.02]` | $2\times 10^{-2}$      |
+| `num("9.81+-.01")`    | $9.81\pm 0.01$            | `num("9.81+0.02-.01")`| $9.81^{+0.02}_{-0.01}$ |    
+| `num("9.81+-.01e2")`  | $(9.81\pm0.01)\times 10^2$| `num(base: 2)[3e4]` | $3\times 2^{2}$      |
+
 
 
 
 ## Documentation
 
-- [`num`](#num)
+- [Function `num`](#num)
 - [Grouping](#grouping)
 - [Rounding](#rounding)
+- [Uncertainties](#specifying-uncertainties)
+- [Table alignment](#table-alignment)
 
 ### `num`
+
+The function `num()` is the heart of *Zero*. It provides a wide range number formatting utilities and its default values are configurable via `set-num()` which takes the same named arguments as `num()`. 
 
 ```typ
 #let num(
@@ -74,7 +78,7 @@ For generating formatted numbers, *Zero* provides the `num` type along with the 
 )
 ```
 - `number: str | content | int | float | array` : Number input, `str` should be favoured. If the input is `content`, it may only contain text nodes. Numeric types `int` and `float` are supported but not encouraged because of information loss (e.g., number of "0" digits, exponent). The types `dictionary` and `array` are for advanced use, see **below**.
-- `digits: auto | int = auto` : Truncates the number at a given number of decimal places or pads the number with zeros if necessary. This is independent of **rounding**. 
+- `digits: auto | int = auto` : Truncates the number at a given number of decimal places or pads the number with zeros if necessary. This is independent of [rounding](#rounding).
 - `fixed: none | int = none` : If not `none`, forces a fixed integer exponent. 
 - `decimal-marker: str = "."` : Specifies the marker that is used separating integer and decimal part.
 - `times: content = sym.times` : Specifies the multiplication symbol used when scientic notation is used. 
@@ -83,14 +87,14 @@ For generating formatted numbers, *Zero* provides the `num` type along with the 
 - `implicit-plus: boolean = false` : If set to `true`, positive signs are shown as well for the coeffient. 
 - `implicit-plus-exponent: boolean = false` : If set to `true`, positive signs are shown as well for the exponent. 
 - `base: int | content = 10` : The base used for scientific power notation. 
-- `uncertainty-mode: str = "separate"` : Selects one of the modes `"separate"`, `"compact"`, or `"compact-marker"` for displaying uncertainties: <table><tr><th>`"separate"`</th><th>`"compact"`</th><th>`"compact-marker"`</th></tr><tr><td>$1.7\pm0.2$</td><td>$1.7(2)$</td> <td>$1.7(2)$</td> </tr><tr><td>$6.2\pm2.1$</td><td>$6.2(21)$</td><td>$6.2(2.1)$</td></tr><tr><td>$1.7^{+0.2}_{-0.5}$</td><td>$1.7^{+2}_{-5}$</td><td>$1.7^{+2}_{-5}$</td></tr><tr><td>$1.7^{+2.0}_{-5.0}$</td><td>$1.7^{+20}_{-50}$</td><td>$1.7^{+2.0}_{-5.0}$</td></tr></table>
-<!-- 
+- `uncertainty-mode: str = "separate"` : Selects one of the modes `"separate"`, `"compact"`, or `"compact-marker"` for displaying uncertainties: 
+
 | `"separate"` |  `"compact"` |  `"compact-marker"` |
 |---|---|---|
 | $1.7\pm0.2$ | $1.7(2)$  | $1.7(2)$   |
 | $6.2\pm2.1$ | $6.2(21)$ | $6.2(2.1)$ |
 | $1.7^{+0.2}_{-0.5}$ | $1.7^{+2}_{-5}$ | $1.7^{+2}_{-5}$ |
-| $1.7^{+2.0}_{-5.0}$ | $1.7^{+20}_{-50}$ | $1.7^{+2.0}_{-5.0}$ | -->
+| $1.7^{+2.0}_{-5.0}$ | $1.7^{+20}_{-50}$ | $1.7^{+2.0}_{-5.0}$ |
 
 
 ### Grouping
@@ -120,6 +124,7 @@ Grouping can be turned off altogether by setting the `threshold` to `calc.inf`.
 
 ### Rounding
 
+Rounding can be configured with the `set-round()` function. 
 
 ```typ
 #let set-round(
@@ -142,16 +147,15 @@ Grouping can be turned off altogether by setting the `threshold` to `calc.inf`.
 - `pad: boolean = true` : 
 - `direction: str = "nearest"` : Sets the rounding direction. 
   - `"nearest"`: Rounding takes place in the usual fashion, rounding to the nearer 
-    number, e.g., 2.34 -> 2.3 and 2.36 -> 2.4. 
-  - `"down"`: Always rounds down, e.g., 2.38 -> 2.3, 2.30 -> 2.3. 
-  - `"up"`: Always rounds up, e.g., 2.32 -> 2.4, 2.30 -> 2.3. 
+    number, e.g., 2.34 → 2.3 and 2.36 → 2.4. 
+  - `"down"`: Always rounds down, e.g., 2.38 → 2.3 and 2.30 → 2.3. 
+  - `"up"`: Always rounds up, e.g., 2.32 → 2.4 and 2.30 → 2.3. 
 
 
-## Features
 
 ### Specifying uncertainties
 
-There are two main ways of specifying uncertainties:
+There are two ways of specifying uncertainties:
 - Applying an uncertainty to the last significant digits using parentheses, e.g., `2.3(4)`,
 - Denoting an absolute uncertainty, e.g., `2.3+-0.4` becomes $2.3\pm0.4$. 
 
@@ -167,7 +171,7 @@ In some cases, the uncertainty is asymmetric which can be expressed via `num("1.
 
 $$ 1.23^{+0.02}_{-0.01} $$
 
-## Table alignment
+### Table alignment
 
 In scientific publication, presenting large amounts of numbers in a readable fashion is a high discipline. A good starting point is to align numbers in a table at the decimal marker. With _Zero_, this can be accomplished by using the `ztable`. This is a wrapper for the built-in `table` which features an additional argument `format` which takes an array of `none` or `auto` values to turn on number alignment for specific columns. 
 

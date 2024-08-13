@@ -1,5 +1,7 @@
 
 #let num-state = state("num-state", (
+  digits: auto,
+  fixed: none,
   times: sym.times,
   decimal-marker: ".",
   tight: false,
