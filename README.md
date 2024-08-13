@@ -49,21 +49,105 @@ For generating formatted numbers, *Zero* provides the `num` type along with the 
 
 
 
+## Documentation
+
+- [`num`](#num)
+- [Grouping](#grouping)
+- [Rounding](#rounding)
+
+### `num`
+
+```typ
+#let num(
+  number:                 str | content | int | float | dictionary | array,
+  digits:                 auto | int = auto,
+  fixed:                  none | int = none,
+
+  decimal-marker:         str = ".",
+  times:                  content = sym.times,
+  tight:                  boolean = false,
+  omit-unit-mantissa:     boolean = true,
+  implicit-plus:          boolean = false,
+  implicit-plus-exponent: boolean = false,
+  base:                   int | content = 10,
+  uncertainty-mode:       str = "separate"
+)
+```
+- `number: str | content | int | float | array` : Number input, `str` should be favoured. If the input is `content`, it may only contain text nodes. Numeric types `int` and `float` are supported but not encouraged because of information loss (e.g., number of "0" digits, exponent). The types `dictionary` and `array` are for advanced use, see **below**.
+- `digits: auto | int = auto` : Truncates the number at a given number of decimal places or pads the number with zeros if necessary. This is independent of **rounding**. 
+- `fixed: none | int = none` : If not `none`, forces a fixed integer exponent. 
+- `decimal-marker: str = "."` : Specifies the marker that is used separating integer and decimal part.
+- `times: content = sym.times` : Specifies the multiplication symbol used when scientic notation is used. 
+- `tight: boolean = false` : If true, tight spacing is applied between operands (applies to multiplication and $\pm$). 
+- `omit-unit-mantissa: boolean = false` : Determines whether a mantissa of 1 is omitted in scientic notation, e.g., $10^4$ instead of $1\cdot 10^4$. 
+- `implicit-plus: boolean = false` : If set to `true`, positive signs are shown as well for the coeffient. 
+- `implicit-plus-exponent: boolean = false` : If set to `true`, positive signs are shown as well for the exponent. 
+- `base: int | content = 10` : The base used for scientific power notation. 
+- `uncertainty-mode: str = "separate"` : Selects one of the modes `"separate"`, `"compact"`, or `"compact-marker"` for displaying uncertainties: <table><tr><th>`"separate"`</th><th>`"compact"`</th><th>`"compact-marker"`</th></tr><tr><td>$1.7\pm0.2$</td><td>$1.7(2)$</td> <td>$1.7(2)$</td> </tr><tr><td>$6.2\pm2.1$</td><td>$6.2(21)$</td><td>$6.2(2.1)$</td></tr><tr><td>$1.7^{+0.2}_{-0.5}$</td><td>$1.7^{+2}_{-5}$</td><td>$1.7^{+2}_{-5}$</td></tr><tr><td>$1.7^{+2.0}_{-5.0}$</td><td>$1.7^{+20}_{-50}$</td><td>$1.7^{+2.0}_{-5.0}$</td></tr></table>
+<!-- 
+| `"separate"` |  `"compact"` |  `"compact-marker"` |
+|---|---|---|
+| $1.7\pm0.2$ | $1.7(2)$  | $1.7(2)$   |
+| $6.2\pm2.1$ | $6.2(21)$ | $6.2(2.1)$ |
+| $1.7^{+0.2}_{-0.5}$ | $1.7^{+2}_{-5}$ | $1.7^{+2}_{-5}$ |
+| $1.7^{+2.0}_{-5.0}$ | $1.7^{+20}_{-50}$ | $1.7^{+2.0}_{-5.0}$ | -->
 
 
-## Features
-### Digit grouping
+### Grouping
 
-Digit grouping is important for keeping large figures readable. It is customary to separate thousands with a thin space, a dot, comma or an apostrophe (however, we discourage using a dot or a comma to avoid confusion since both are used for decimal markers in many countries). The separator can be configured via the `group-sep` option. 
 
+Digit grouping is important for keeping large figures readable. It is customary to separate thousands with a thin space, a dot, comma or an apostrophe (however, we discourage using a dot or a comma to avoid confusion since both are used for decimal markers in many countries). 
 
 <p align="center">
   <img alt="Digit grouping" src="docs/figures/grouping.svg">
 </p>
 
-By default, both the integer and the fractional part are split into groups of three, starting at the decimal marker. The size of the groups can be configured with `group-size`. Four-digit numbers are often not grouped at all since they can still be read easily. The option `group-threshold` controls the _least_ number of digits for digit grouping to kick in. 
+Digit grouping can be configured with the `set-group()` function. 
 
-Digit grouping can be turned off altogether with `group-digits: false`. 
+
+```typ
+#let set-group(
+  size:       int = 3, 
+  sep:        content = sym.space.thin,
+  threshold:  int = 5
+)
+```
+- `size: int = 3` : Determines the size of the groups. 
+- `sep: content = sym.space.thin` : Separator between groups. 
+- `threshold: int = 5` : Necessary number of digits needed for digit grouping to kick in. Four-digit numbers for example are often not grouped at all since they can still be read easily. 
+
+Grouping can be turned off altogether by setting the `threshold` to `calc.inf`. 
+
+### Rounding
+
+
+```typ
+#let set-round(
+  mode:       none | str =  none,
+  precision:  int = 2,
+  pad:        boolean = true,
+  direction:  str = "nearest",
+)
+```
+- `mode: none | str =  none` : Sets the rounding mode. The possible options are
+  - `none` : Rounding is turned off. 
+  - `"places"` : The number is rounded to the number of places after the 
+     decimal point given by the `precision` parameter. 
+  - `"figures"` : The number is rounded to a number of significant figures.
+  - `"uncertainty"` : Requires giving an uncertainty value. The uncertainty is 
+     rounded to significant figures according to the `precision` argument and 
+    then the number is rounded to the same number of places as the 
+    uncertainty. 
+- `precision: int = 2` : 
+- `pad: boolean = true` : 
+- `direction: str = "nearest"` : Sets the rounding direction. 
+  - `"nearest"`: Rounding takes place in the usual fashion, rounding to the nearer 
+    number, e.g., 2.34 -> 2.3 and 2.36 -> 2.4. 
+  - `"down"`: Always rounds down, e.g., 2.38 -> 2.3, 2.30 -> 2.3. 
+  - `"up"`: Always rounds up, e.g., 2.32 -> 2.4, 2.30 -> 2.3. 
+
+
+## Features
 
 ### Specifying uncertainties
 

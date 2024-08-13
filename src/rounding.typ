@@ -76,7 +76,7 @@
   /// Fractional part. -> str
   frac,
   /// Rounding mode.
-  /// - `"places"`: The number is ronded to the number of places after the 
+  /// - `"places"`: The number is rounded to the number of places after the 
   ///   decimal point given by the `precision` parameter. 
   /// - `"figures"`: The number is rounded to a number of significant figures.
   /// - `"uncertainty"`: Requires giving the uncertainty. The uncertainty is rounded

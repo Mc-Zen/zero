@@ -45,7 +45,7 @@
   }
 
   /// Maybe shift exponent
-  if it.fixed != auto {
+  if it.fixed != none {
     let e = if info.e == none { 0 } else { int(info.e) }
     info.e = str(it.fixed).replace(sym.minus, "-")
     (info.int, info.frac) = utility.shift-decimal-left(info.int, info.frac, it.fixed - e)
@@ -92,7 +92,7 @@
   number, 
   digits: auto,
   align: none,
-  fixed: auto,
+  fixed: none,
   ..args
 ) = context {
   let it = num-state.get() + (
