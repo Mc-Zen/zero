@@ -13,7 +13,7 @@ _Advanced scientific number formatting ._
 - [Quick Demo](#quick-demo)
 - [Documentation](#documentation)
 - [Table alignment](#table-alignment)
-- [Zero for packages](#zero-for-packages)
+- [Zero for third-party packages](#zero-for-third-party-packages)
 
 ## Introduction
 
@@ -77,7 +77,7 @@ The function `num()` is the heart of *Zero*. It provides a wide range number for
   uncertainty-mode:       str = "separate"
 )
 ```
-- `number: str | content | int | float | array` : Number input, `str` should be favoured. If the input is `content`, it may only contain text nodes. Numeric types `int` and `float` are supported but not encouraged because of information loss (e.g., number of "0" digits, exponent). The types `dictionary` and `array` are for advanced use, see **below**.
+- `number: str | content | int | float | array` : Number input, `str` should be favoured. If the input is `content`, it may only contain text nodes. Numeric types `int` and `float` are supported but not encouraged because of information loss (e.g., number of "0" digits, exponent). The types `dictionary` and `array` are for advanced use, see [below](#zero-for-packages).
 - `digits: auto | int = auto` : Truncates the number at a given number of decimal places or pads the number with zeros if necessary. This is independent of [rounding](#rounding).
 - `fixed: none | int = none` : If not `none`, forces a fixed integer exponent. 
 - `decimal-marker: str = "."` : Specifies the marker that is used separating integer and decimal part.
@@ -163,17 +163,17 @@ Zero supports both and can convert between these two, so that you can pick the d
 
 How do uncertainties interplay with exponents? The uncertainty needs to come first and the exponent applies to both the mantissa and the uncertainty, e.g., `num("1.23+-.04e2")` becomes
 
-$$ (1.23\pm0.04)\times 10^2 $$
+$$ (1.23\pm0.04)\times 10^2. $$
 
 Note that the coefficient is now put in parentheses to disambiguate the application of the power. 
 
 In some cases, the uncertainty is asymmetric which can be expressed via `num("1.23+0.02-0.01")`
 
-$$ 1.23^{+0.02}_{-0.01} $$
+$$ 1.23^{+0.02}_{-0.01}. $$
 
 ### Table alignment
 
-In scientific publication, presenting large amounts of numbers in a readable fashion is a high discipline. A good starting point is to align numbers in a table at the decimal marker. With _Zero_, this can be accomplished by using the `ztable`. This is a wrapper for the built-in `table` which features an additional argument `format` which takes an array of `none` or `auto` values to turn on number alignment for specific columns. 
+In scientific publication, presenting many numbers in a readable fashion can be a difficult discipline. A good starting point is to align numbers in a table at the decimal marker. With _Zero_, this can be accomplished by using `ztable`. This is a wrapper for the built-in `table` which features an additional argument `format` which takes an array of `none` or `auto` values to turn on number alignment for specific columns. 
 
 
 ```typ
@@ -187,7 +187,7 @@ In scientific publication, presenting large amounts of numbers in a readable fas
 )
 ```
 
-Non-number entries (e.g., in the header) are automatically recognized in some cases and will not be aligned. In ambiguous cases, adding a leading or trailing space tells _Zero_ not to align this cell, for example `[Angle ]` instead of `[Angle]`. 
+Non-number entries (e.g., in the header) are automatically recognized in some cases and will not be aligned. In ambiguous cases, adding a leading or trailing space tells _Zero_ not to apply alignment to this cell, for example `[Angle ]` instead of `[Angle]`. 
 
 
 <p align="center">
@@ -202,4 +202,18 @@ The numbers are not only aligned at the decimal point but also at the uncertaint
 </p>
 
 
-## Zero for packages
+## Zero for third-party packages
+
+This package provides some useful extras for third-party packages that generate formatted numbers (for example graphics libraries). 
+
+Instead of passing a `str` to `num()`, it is also possible to pass a dictionary of the form
+```typ
+(
+  mantissa: str | int | float,
+  e: none | str,
+  pm: none | array
+)
+```
+This way, parsing the number can be avoided which makes especially sense for packages that generate numbers (e.g., tick labels for a diagram axis). 
+
+Furthermore, `num()` also allows `array` arguments for `number` which allows for more efficient batch-processing of numbers with the same setup. In this case, the caller of the function needs to provide `context`. 
