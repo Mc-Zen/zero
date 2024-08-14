@@ -17,13 +17,13 @@ _Advanced scientific number formatting._
 
 ## Introduction
 
-Proper formatting of numbers requires some love for detail to guarantee a readable and clear output. This package provides tools to ensure consistent formatting and to simplify following established practices. Key features are
+Proper number formatting requires some love for detail to guarantee a readable and clear output. This package provides tools to ensure consistent formatting and to simplify the process of following established practices. Key features are
 - **standardized** formatting,
-- digit **grouping**, e.g., $`299\,792\,458`$ instead of $299792458$,
-- **plug-and-play** number **alignment in tables**
+- digit [**grouping**](#grouping), e.g., $`299\,792\,458`$ instead of $299792458$,
+- **plug-and-play** number [**alignment in tables**](#table-alignment)
 - quick scientific notation, e.g., `"2e4"` becomes $2\times10^4$,
-- symmetric and asymmetric **uncertainties**,
-- rounding,
+- symmetric and asymmetric [**uncertainties**](#specifying-uncertainties),
+- [**rounding**](#rounding) in various modes,
 - and some specials for package authors.
 <!-- - and localization? -->
 
@@ -35,7 +35,7 @@ The anatomy of a formatted number is shown in the following figure.
   <img alt="Anatomy of a formatted number" src="docs/figures/anatomy.svg">
 </p>
 
-For generating formatted numbers, *Zero* provides the `num` type along with the types `coefficient`, `uncertainty`, and `power` that allow for fine-grained customization with `show` and `set` rules. 
+<!-- For generating formatted numbers, *Zero* provides the `num` type along with the types `coefficient`, `uncertainty`, and `power` that allow for fine-grained customization with `show` and `set` rules.  -->
 
 ## Quick Demo
 
@@ -77,13 +77,13 @@ The function `num()` is the heart of *Zero*. It provides a wide range of number 
   uncertainty-mode:       str = "separate"
 )
 ```
-- `number: str | content | int | float | array` : Number input; `str` is preferred. If the input is `content`, it may only contain text nodes. Numeric types `int` and `float` are supported but not encouraged because of information loss (e.g., the number of "0" digits or the exponent). The possible types `dictionary` and `array` are for advanced use, see [below](#zero-for-packages).
-- `digits: auto | int = auto` : Truncates the number at a given number of decimal places or pads the number with zeros if necessary. This is independent of [rounding](#rounding).
-- `fixed: none | int = none` : If not `none`, forces a fixed integer exponent. 
+- `number: str | content | int | float | array` : Number input; `str` is preferred. If the input is `content`, it may only contain text nodes. Numeric types `int` and `float` are supported but not encouraged because of information loss (e.g., the number of trailing "0" digits or the exponent). The possible types `dictionary` and `array` are intended for advanced use, see [below](#zero-for-packages).
+- `digits: auto | int = auto` : Truncates the number at a given (positive) number of decimal places or pads the number with zeros if necessary. This is independant of [rounding](#rounding).
+- `fixed: none | int = none` : If not `none`, forces a fixed exponent. Additional exponents given in the number input are taken into account. 
 - `decimal-marker: str = "."` : Specifies the marker that is used for separating integer and decimal part.
 - `times: content = sym.times` : Specifies the multiplication symbol used when scientific notation is used. 
 - `tight: boolean = false` : If true, tight spacing is applied between operands (applies to $\times$ and $\pm$). 
-- `omit-unit-mantissa: boolean = false` : Determines whether a mantissa of 1 is omitted in scientic notation, e.g., $10^4$ instead of $1\cdot 10^4$. 
+- `omit-unit-mantissa: boolean = false` : Determines whether a mantissa of 1 is omitted in scientific notation, e.g., $10^4$ instead of $1\cdot 10^4$. 
 - `implicit-plus: boolean = false` : If set to `true`, positive coefficients are shown with a $+$ sign. 
 - `implicit-plus-exponent: boolean = false` : If set to `true`, positive exponents are shown with a $+$ sign. 
 - `base: int | content = 10` : The base used for scientific power notation. 
@@ -105,7 +105,7 @@ Configuration example:
 ### Grouping
 
 
-Digit grouping is important for keeping large figures readable. It is customary to separate thousands with a thin space, a period, comma or an apostrophe (however, we discourage using a period or a comma to avoid confusion since both are used for decimal markers in many countries). 
+Digit grouping is important for keeping large figures readable. It is customary to separate thousands with a thin space, a period, comma or an apostrophe (however, we discourage using a period or a comma to avoid confusion since both are used for decimal separators in many countries). 
 
 <p align="center">
   <img alt="Digit grouping" src="docs/figures/grouping.svg">
@@ -150,15 +150,15 @@ Rounding can be configured with the `set-round()` function.
 ```
 - `mode: none | str =  none` : Sets the rounding mode. The possible options are
   - `none` : Rounding is turned off. 
-  - `"places"` : The number is rounded to the number of places after the 
-     decimal point given by the `precision` parameter. 
+  - `"places"` : The number is rounded to the number of decimal places given by the `precision` parameter. 
   - `"figures"` : The number is rounded to a number of significant figures.
   - `"uncertainty"` : Requires giving an uncertainty value. The uncertainty is 
      rounded to significant figures according to the `precision` argument and 
     then the number is rounded to the same number of places as the 
     uncertainty. 
-- `precision: int = 2` : 
-- `pad: boolean = true` : 
+- `precision: int = 2` : The precision to round to. Also see parameter `mode`. 
+- `pad: boolean = true` : Whether to pad the number with zeros if the 
+   number has less digits than the rounding precision. 
 - `direction: str = "nearest"` : Sets the rounding direction. 
   - `"nearest"`: Rounding takes place in the usual fashion, rounding to the nearer 
     number, e.g., 2.34 → 2.3 and 2.36 → 2.4. 
@@ -173,7 +173,7 @@ There are two ways of specifying uncertainties:
 - Applying an uncertainty to the last significant digits using parentheses, e.g., `2.3(4)`,
 - Denoting an absolute uncertainty, e.g., `2.3+-0.4` becomes $2.3\pm0.4$. 
 
-Zero supports both and can convert between these two, so that you can pick the displayed style independently from the input style. 
+Zero supports both and can convert between these two, so that you can pick the displayed style independantly from the input style. 
 
 How do uncertainties interplay with exponents? The uncertainty needs to come first and the exponent applies to both the mantissa and the uncertainty, e.g., `num("1.23+-.04e2")` becomes
 
@@ -187,7 +187,7 @@ $$ 1.23^{+0.02}_{-0.01}. $$
 
 ### Table alignment
 
-In scientific publication, presenting many numbers in a readable fashion can be a difficult discipline. A good starting point is to align numbers in a table at the decimal marker. With _Zero_, this can be accomplished by using `ztable`. This is a wrapper for the built-in `table` which features an additional argument `format` which takes an array of `none` or `auto` values to turn on number alignment for specific columns. 
+In scientific publication, presenting many numbers in a readable fashion can be a difficult discipline. A good starting point is to align numbers in a table at the decimal separator. With _Zero_, this can be accomplished by using `ztable`, a wrapper for the built-in `table` function. It features an additional parameter `format` which takes an array of `none`, `auto`, or `dictionary` values to turn on number alignment for specific columns. 
 
 
 ```typ
@@ -208,8 +208,18 @@ Non-number entries (e.g., in the header) are automatically recognized in some ca
   <img alt="Number alignment in tables" src="docs/figures/table1.svg">
 </p>
 
-The numbers are not only aligned at the decimal point but also at the uncertainty and exponent part. 
+The numbers are not only aligned at the decimal point but also at the uncertainty and exponent part. Moreover, by passing a `dictionary` instead of `auto`, a set of `num()` arguments to apply to all numbers in a column can be specified. 
 
+```typ
+#ztable(
+  columns: 4,
+  align: center,
+  format: (none, auto, auto, (digits: 1)),
+  $n$, $α$, $β$, $γ$,
+  [1],   [3.45e2],  [-11.1+-3],       [0],
+  ..
+)
+```
 
 <p align="center">
   <img alt="Advanced number alignment in tables" src="docs/figures/table2.svg">
@@ -228,6 +238,6 @@ Instead of passing a `str` to `num()`, it is also possible to pass a dictionary 
   pm: none | array
 )
 ```
-This way, parsing the number can be avoided which makes especially sense for packages that generate numbers (e.g., tick labels for a diagram axis). 
+This way, parsing the number can be avoided which makes especially sense for packages that generate numbers (e.g., tick labels for a diagram axis) with independant coefficient and exponent.  
 
 Furthermore, `num()` also allows `array` arguments for `number` which allows for more efficient batch-processing of numbers with the same setup. In this case, the caller of the function needs to provide `context`. 
