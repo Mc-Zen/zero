@@ -1,10 +1,11 @@
 #import "/src/zero.typ"
 #set page(width: auto, height: auto, margin: .5em)
 
-#set table(stroke: none, align: center)
+#set table(stroke: none)
 
 #zero.ztable(
   columns: 3,
+  align: center,
   format: (none, auto, auto),
   $n$, $α$, $β$,
   table.hline(),
@@ -19,6 +20,7 @@
 
 #zero.ztable(
   columns: 4,
+  align: center,
   format: (auto,) * 4,
   $n$, $α$, $β$, $γ$,
   table.hline(),
@@ -35,3 +37,22 @@
   "2.3", "3422",
   "10", "101",
 )
+
+
+#pagebreak()
+
+// check that auto alignment works
+
+#{
+  set align(right)
+    
+  zero.ztable(
+    columns: 2,
+    format: (auto, (decimal-marker: ",", fixed: 2)),
+    [ Long title], [ Defg ],
+    table.hline(),
+    "2.3", "3422",
+    "10", "101",
+  )
+
+}
