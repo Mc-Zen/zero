@@ -68,7 +68,7 @@
 
 
 #let contextual-group(x, invert: false) = {
-  insert-group-separators(x, invert: invert, ..group-state.get())
+  insert-group-separators(x, invert: invert)
 }
 
 
@@ -91,7 +91,7 @@
 
 #let format-integer = it => {
   // int, group
-  if it.group and it.int != none { it.int = contextual-group(it.int) }
+  if type(it.group) == dictionary and it.int != none { it.int = insert-group-separators(it.int, ..it.group) }
   if it.int == "" { it.int = "0" }
   it.int
 }
@@ -102,7 +102,7 @@
   // frac, group, digits, decimal-marker?
   let frac = fit-decimals(it.frac, it.digits)
   if frac.len() == 0 { return none }
-  if it.group { frac = contextual-group(frac, invert: true) }
+  if type(it.group) == dictionary { frac = insert-group-separators(frac, invert: true, ..it.group) }
   it.decimal-marker + frac
 }
 
@@ -201,8 +201,8 @@
   let integer = (
     sign: it.sign,
     int: if omit-mantissa { none } else { it.int },
-    group: true,
-    decimal-marker: it.decimal-marker
+    decimal-marker: it.decimal-marker,
+    group: it.group
   )
   
 
@@ -231,7 +231,7 @@
   )
   
   let fractional-part = (
-    format-fractional((frac: it.frac, group: true, digits: it.digits, decimal-marker: it.decimal-marker)),
+    format-fractional((frac: it.frac, group: it.group, digits: it.digits, decimal-marker: it.decimal-marker)),
   )
 
   let uncertainty-part = format-uncertainty(uncertainty)

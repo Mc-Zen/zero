@@ -2,6 +2,7 @@
 #import "formatting.typ": *
 #import "rounding.typ": *
 #import "assertations.typ": *
+#import "parsing.typ"
 
 #let update-state(state, args, name: none) = {
   state.update(s => {
@@ -16,14 +17,13 @@
 #let set-round(..args) = update-state(round-state, args, name: "set-round")
 
 
-#let contextual-round(int, frac, pm) = {
-  let state = round-state.get()
+#let contextual-round(int, frac, pm, round-state) = {
   round(
     int, frac, 
-    mode: state.mode,
-    precision: state.precision,
-    direction: state.direction,
-    pad: state.pad,
+    mode: round-state.mode,
+    precision: round-state.precision,
+    direction: round-state.direction,
+    pad: round-state.pad,
     pm: pm
   )
 }
@@ -36,6 +36,13 @@
   let info
   if type(it.number) == dictionary {
     info = it.number
+    if "mantissa" in info {
+      let mantissa = info.mantissa 
+      if type(mantissa) in (int, float) { mantissa = str(mantissa).replace(sym.minus, "-") }
+      let (sign, int, frac) = parsing.decompose-signed-float-string(mantissa)
+      info += (sign: sign, int: int, frac: frac)
+    }
+    if "sign" not in info {info.sign = "" }
   } else {
     let num-str = number-to-string(it.number)
     if num-str == none {
@@ -52,8 +59,8 @@
   }
 
   /// Round number and uncertainty
-  if round-state.get().mode != none {
-    (info.int, info.frac, info.pm) = contextual-round(info.int, info.frac, info.pm)
+  if it.round.mode != none {
+    (info.int, info.frac, info.pm) = contextual-round(info.int, info.frac, info.pm, it.round)
   }
   
   let digits = if it.digits == auto { info.frac.len() } else { it.digits }
@@ -88,6 +95,18 @@
 }
 
 
+#let merge-state(args, align) = {
+  let named = args.named()
+  let round-state = round-state.get()
+  if "round" in named { round-state += named.round }
+  let it = num-state.get() + (
+    align: align,
+    ..args.named()
+  )
+  it.round = round-state
+  it
+}
+
 
 #let num(
   number, 
@@ -95,19 +114,32 @@
   ..args
 ) = {
   if type(number) == array {
-    let it = num-state.get() + (align: align, ..args.named())
-    return number.map(n => show-num(it + (number: n)))
-  }
-  context {
+    let named = args.named()
+    let round-state = round-state.get()
+    if "round" in named { round-state += named.round }
     let it = num-state.get() + (
-      number: number,
       align: align,
       ..args.named()
     )
+    it.round = round-state
+    return number.map(n => show-num(it + (number: n)))
+  }
+  context {
+    let named = args.named()
+    let round-state = round-state.get()
+    let group-state = group-state.get()
+    if "round" in named { round-state += named.round }
+    if "group" in named { group-state += named.group }
+    let it = num-state.get() + (
+      align: align,
+      number: number,
+      ..args.named()
+    )
+    it.round = round-state
+    it.group = group-state
     show-num(it)
   }
 }
-
 
 
 
