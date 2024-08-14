@@ -3,12 +3,13 @@
 
 // #let ptable-counter = counter("__pillar-table__")
 
-#let is-normal-cell(it, format) = {
-  format.at(it.x, default: none) == none or number-to-string(it.body) == none 
+#let is-normal-cell(cell, format, default: none) = {
+  format.at(cell.x, default: default) == none or number-to-string(cell.body) == none 
 }
     
-#let call-num(cell, format, col-widths: auto) = {
-  let args = if type(format.at(cell.x)) == dictionary { format.at(cell.x) } else { () }
+#let call-num(cell, format, col-widths: auto, default: none) = {
+  let cell-fmt = format.at(cell.x, default: default)
+  let args = if type(cell-fmt) == dictionary { cell-fmt } else { () }
   num(cell.body, align: (col-widths: col-widths, col: cell.x), ..args) 
 }
 
@@ -16,8 +17,7 @@
 
 #let ztable(..children, format: none) = {
   if format == none { return table(..children) }
-  if format == auto { format = (auto,) }
-  assert.eq(type(format), array)
+  assert.eq(type(format), array, message: "The parameter `format` requires an array argument, got " + repr(format))
   
   // ptable-counter.step()
   
