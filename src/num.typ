@@ -57,6 +57,7 @@
   }
   
   let digits = if it.digits == auto { info.frac.len() } else { it.digits }
+  if digits < 0 { assert(false, message: "`digits` needs to be positive, got " + str(digits)) }
   
   if info.pm != none {
     let pm = info.pm
