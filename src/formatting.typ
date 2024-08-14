@@ -16,18 +16,18 @@
 
 /// Formats a sign. If the sign is the ASCII character "-", the minus
 /// unicode symbol "−" is returned. Otherwise, "+" is returned but only 
-/// if `implicit-plus` is set to true. In all other cases, the result is
+/// if `positive-sign` is set to true. In all other cases, the result is
 /// `none`. 
-#let format-sign(sign, implicit-plus: false) = {
+#let format-sign(sign, positive-sign: false) = {
   if sign == "-" { return sym.minus }
-  else if sign == "+" and implicit-plus { return sym.plus }
+  else if sign == "+" and positive-sign { return sym.plus }
 }
 
-#assert.eq(format-sign("-", implicit-plus: false), sym.minus)
-#assert.eq(format-sign("+", implicit-plus: false), none)
-#assert.eq(format-sign("-", implicit-plus: true), sym.minus)
-#assert.eq(format-sign("+", implicit-plus: true), sym.plus)
-#assert.eq(format-sign(none, implicit-plus: true), none)
+#assert.eq(format-sign("-", positive-sign: false), sym.minus)
+#assert.eq(format-sign("+", positive-sign: false), none)
+#assert.eq(format-sign("-", positive-sign: true), sym.minus)
+#assert.eq(format-sign("+", positive-sign: true), sym.plus)
+#assert.eq(format-sign(none, positive-sign: true), none)
 
 
 
@@ -109,10 +109,10 @@
 
 
 #let format-comma-number = it => {
-  // sign, int, frac, digits, group, implicit-plus
+  // sign, int, frac, digits, group, positive-sign
   let frac = format-fractional((frac: it.frac, group: it.group, digits: it.digits, decimal-marker: it.decimal-marker))
   
-  return format-sign(it.sign, implicit-plus: it.implicit-plus) + format-integer((int: it.int, group: it.group)) + frac
+  return format-sign(it.sign, positive-sign: it.positive-sign) + format-integer((int: it.int, group: it.group)) + frac
 }
 
 
@@ -138,7 +138,7 @@
 
   pm = pm.map(((int, frac)) => 
     format-comma-number((
-      sign: none, int: int, frac: frac, digits: it.digits, group: false, implicit-plus: false, decimal-marker: it.decimal-marker
+      sign: none, int: int, frac: frac, digits: it.digits, group: false, positive-sign: false, decimal-marker: it.decimal-marker
     ))
   )
   if is-symmetric {
@@ -164,18 +164,18 @@
 
 
 #let format-power = it => {
-  /// x, base, times, implicit-plus-exponent, tight, 
+  /// x, base, product, positive-sign-exponent, tight, 
   if it.exponent == none { return () }
   
   let (sign, integer, fractional) = decompose-signed-float-string(it.exponent)
-  let exponent = format-comma-number((sign: sign, int: integer, frac: fractional, digits: auto, group: false, implicit-plus: it.implicit-plus-exponent, decimal-marker: it.decimal-marker))
+  let exponent = format-comma-number((sign: sign, int: integer, frac: fractional, digits: auto, group: false, positive-sign: it.positive-sign-exponent, decimal-marker: it.decimal-marker))
 
   let power = math.attach([#it.base], t: [#exponent])
-  if it.times == none { (power,) }
+  if it.product == none { (power,) }
   else {
     (
       box(),
-      math.class(if it.tight {"normal"} else {"binary"}, it.times),
+      math.class(if it.tight {"normal"} else {"binary"}, it.product),
       power
     )
   }
@@ -186,7 +186,7 @@
 #let show-num-impl = it => {
   /// sign, int, frac, e, pm, 
   /// digits
-  /// omit-unit-mantissa, uncertainty-mode, implicit-plus
+  /// omit-unit-mantissa, uncertainty-mode, positive-sign
   
   let omit-mantissa = (
     it.omit-unit-mantissa and it.int == "1" and
@@ -219,14 +219,14 @@
   let power = (
     exponent: it.e, 
     base: it.base,
-    times: if omit-mantissa {none} else {it.times},
-    implicit-plus-exponent: it.implicit-plus-exponent,
+    product: if omit-mantissa {none} else {it.product},
+    positive-sign-exponent: it.positive-sign-exponent,
     tight: it.tight,
     decimal-marker: it.decimal-marker
   )
   
   let integer-part = (
-    format-sign(it.sign, implicit-plus: it.implicit-plus),
+    format-sign(it.sign, positive-sign: it.positive-sign),
     format-integer(integer),
   )
   

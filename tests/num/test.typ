@@ -71,10 +71,10 @@
 // multiplication symbol
 
 #num("2e9") \
-#num("2e9", times: math.dot) \
-#set-num(times: math.dot)
+#num("2e9", product: math.dot) \
+#set-num(product: math.dot)
 #num("2e9") \
-#set-num(times: math.times)
+#set-num(product: math.times)
 #num("2e9") \
 
 
@@ -99,13 +99,13 @@
 
 // implicit plus
 
-#num("1", implicit-plus: false)
-#num("1", implicit-plus: true)
-#num("-1", implicit-plus: false)
-#num("-1", implicit-plus: true) \
-#set-num(implicit-plus: true)
+#num("1", positive-sign: false)
+#num("1", positive-sign: true)
+#num("-1", positive-sign: false)
+#num("-1", positive-sign: true) \
+#set-num(positive-sign: true)
 #num("9")
-#set-num(implicit-plus: false)
+#set-num(positive-sign: false)
 #num("9")
 
 
@@ -114,13 +114,13 @@
 
 // implicit plus exponent
 
-#num("1e3", implicit-plus-exponent: false)
-#num("1e3", implicit-plus-exponent: true)
-#num("1e-1", implicit-plus-exponent: false)
-#num("1e-1", implicit-plus-exponent: true) \
-#set-num(implicit-plus-exponent: true)
+#num("1e3", positive-sign-exponent: false)
+#num("1e3", positive-sign-exponent: true)
+#num("1e-1", positive-sign-exponent: false)
+#num("1e-1", positive-sign-exponent: true) \
+#set-num(positive-sign-exponent: true)
 #num("1e9")
-#set-num(implicit-plus-exponent: false)
+#set-num(positive-sign-exponent: false)
 #num("1e9")
 
 
@@ -244,9 +244,9 @@
 
 #pagebreak()
 
-// combine implicit-plus and omit-unit-mantissa
-#num("1e3", implicit-plus: true, omit-unit-mantissa: true) \
-#num("-1e3", implicit-plus: true, omit-unit-mantissa: true) \
+// combine positive-sign and omit-unit-mantissa
+#num("1e3", positive-sign: true, omit-unit-mantissa: true) \
+#num("-1e3", positive-sign: true, omit-unit-mantissa: true) \
 
 // combine "compact" and exponential
 #num("2.1+-.2e1", uncertainty-mode: "compact") \

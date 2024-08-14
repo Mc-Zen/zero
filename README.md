@@ -73,11 +73,11 @@ The function `num()` is the heart of *Zero*. It provides a wide range of number 
   fixed:                  none | int = none,
 
   decimal-marker:         str = ".",
-  times:                  content = sym.times,
+  product:                  content = sym.times,
   tight:                  boolean = false,
   omit-unit-mantissa:     boolean = true,
-  implicit-plus:          boolean = false,
-  implicit-plus-exponent: boolean = false,
+  positive-sign:          boolean = false,
+  positive-sign-exponent: boolean = false,
   base:                   int | content = 10,
   uncertainty-mode:       str = "separate"
 )
@@ -86,11 +86,11 @@ The function `num()` is the heart of *Zero*. It provides a wide range of number 
 - `digits: auto | int = auto` : Truncates the number at a given (positive) number of decimal places or pads the number with zeros if necessary. This is independant of [rounding](#rounding).
 - `fixed: none | int = none` : If not `none`, forces a fixed exponent. Additional exponents given in the number input are taken into account. 
 - `decimal-marker: str = "."` : Specifies the marker that is used for separating integer and decimal part.
-- `times: content = sym.times` : Specifies the multiplication symbol used when scientific notation is used. 
+- `product: content = sym.times` : Specifies the multiplication symbol used when scientific notation is used. 
 - `tight: boolean = false` : If true, tight spacing is applied between operands (applies to $\times$ and $\pm$). 
 - `omit-unit-mantissa: boolean = false` : Determines whether a mantissa of 1 is omitted in scientific notation, e.g., $10^4$ instead of $1\cdot 10^4$. 
-- `implicit-plus: boolean = false` : If set to `true`, positive coefficients are shown with a $+$ sign. 
-- `implicit-plus-exponent: boolean = false` : If set to `true`, positive exponents are shown with a $+$ sign. 
+- `positive-sign: boolean = false` : If set to `true`, positive coefficients are shown with a $+$ sign. 
+- `positive-sign-exponent: boolean = false` : If set to `true`, positive exponents are shown with a $+$ sign. 
 - `base: int | content = 10` : The base used for scientific power notation. 
 - `uncertainty-mode: str = "separate"` : Selects one of the modes `"separate"`, `"compact"`, or `"compact-marker"` for displaying uncertainties. The different behaviours are shown below:
 
@@ -104,7 +104,7 @@ The function `num()` is the heart of *Zero*. It provides a wide range of number 
 
 Configuration example: 
 ```typ
-#set-num(times: math.dot, tight: true)
+#set-num(product: math.dot, tight: true)
 ```
 
 ### Grouping

@@ -2,12 +2,12 @@
 #let num-state = state("num-state", (
   digits: auto,
   fixed: none,
-  times: sym.times,
+  product: sym.times,
   decimal-marker: ".",
   tight: false,
   omit-unit-mantissa: true,
-  implicit-plus: false,
-  implicit-plus-exponent: false,
+  positive-sign: false,
+  positive-sign-exponent: false,
   base: 10,
   uncertainty-mode: "separate"
 ))
@@ -34,14 +34,14 @@
 //      tight
 //      
 //      omit-zero-exponent
-//      implicit-plus
+//      positive-sign
 //      
 
 // num.mantissa: omit-unit-mantissa?
 //               digits
 // num.uncertainty: mode
 
-// num.exponent: implicit-plus
+// num.exponent: positive-sign
 //               base
 //               multiplier/times/product
 

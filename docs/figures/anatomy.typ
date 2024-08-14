@@ -27,7 +27,7 @@
   content((-.6, -.55), text(.8em)[#set par(leading: 2pt);decimal \ marker])
   
   line((2.4,.6), (2.5,.3), name: "line1")
-  content((2.3,.8), text(.8em)[times])
+  content((2.3,.8), text(.8em)[product])
   
   line((3.1,.6), (2.97,.32), name: "line1")
   content((3.2,.8), text(.8em)[base])
