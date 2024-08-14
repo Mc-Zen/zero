@@ -26,3 +26,12 @@
   $Beta$, "12+-23", "66e98", "-17+-2e-4",
   $Gamma$, "0+-.2", "1e7", "-.23(2)e-4",
 )
+
+#pagebreak()
+
+#zero.ztable(
+  columns: 2,
+  format: (auto, (decimal-marker: ",", fixed: 2)),
+  "2.3", "3422",
+  "10", "101",
+)

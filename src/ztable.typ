@@ -9,7 +9,7 @@
     
 #let call-num(cell, format, col-widths: auto) = {
   let args = if type(format.at(cell.x)) == dictionary { format.at(cell.x) } else { () }
-  num(cell.body, align: (col-widths: col-widths, col: cell.x)) 
+  num(cell.body, align: (col-widths: col-widths, col: cell.x), ..args) 
 }
 
 
