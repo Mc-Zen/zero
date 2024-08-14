@@ -18,7 +18,7 @@
       options = options.slice(0, -1).join(", ") + ", or " + options.last()
     }
     assert(
-      false, message: "Expected " + options + "for `" + name + "`, got " + "\"" + value + "\""
+      false, message: "Expected " + options + " for `" + name + "`, got " + "\"" + value + "\""
     )
   }
 }
