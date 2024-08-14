@@ -1,7 +1,17 @@
 #import "/src/zero.typ": *
-#set page(width: auto, height: auto, margin: 2pt, fill: white)
+#set page(width: auto, height: auto, margin: 4pt)
 
-#set text(1.1em)
+
+#let clr = if "dark" in sys.inputs { white } else { black }
+#set page(fill: white) if clr == black
+
+#set text(fill: clr)
+#set text(1.2em)
+#set table(stroke: clr + .5pt)
+#set table(stroke: (x, y) => {
+  if y == 0 { (bottom: clr + .6pt) }
+  if x > 0 { (left: clr + .6pt) }
+})
 
 #let table1 = ztable(
   columns: 3,

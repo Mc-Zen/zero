@@ -1,13 +1,17 @@
 #import "/src/zero.typ": *
 #import "@preview/cetz:0.2.2"
-#set page(width: auto, height: auto, margin: 2pt, fill: white)
+#set text(1.3em)
+#set page(width: auto, height: auto, margin: 1em)
 
-#set text(1.2em)
+#let clr = if "dark" in sys.inputs { white } else { black }
+#set page(fill: white) if clr == black
+#set text(fill: clr)
+
 #let grouping = cetz.canvas({
   import cetz.draw: *
-  scale(120%)
+  scale(130%)
   content((0, 0), num[10973731.5682], anchor: "south-west")
-  set-style(stroke: .3pt)
+  set-style(stroke: .3pt + clr)
   line((0.46, -.045), (0.46, -.12), (1.04, -.12), (1.04, -.045))
   content((.4, -.35), text(.8em)[`group.size`])
   

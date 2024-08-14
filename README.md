@@ -31,8 +31,13 @@ A number in scientific notation consists of three parts of which the latter two 
 
 The anatomy of a formatted number is shown in the following figure.
 
+
 <p align="center">
-  <img alt="Anatomy of a formatted number" src="docs/figures/anatomy.svg">
+  <picture>
+    <source media="(prefers-color-scheme: light)" srcset="docs/figures/anatomy.svg">
+    <source media="(prefers-color-scheme: dark)" srcset="docs/figures/anatomy-dark.svg">
+    <img alt="Anatomy of a formatted number" src="docs/figures/anatomy.svg">
+  </picture>
 </p>
 
 <!-- For generating formatted numbers, *Zero* provides the `num` type along with the types `coefficient`, `uncertainty`, and `power` that allow for fine-grained customization with `show` and `set` rules.  -->
@@ -107,9 +112,15 @@ Configuration example:
 
 Digit grouping is important for keeping large figures readable. It is customary to separate thousands with a thin space, a period, comma or an apostrophe (however, we discourage using a period or a comma to avoid confusion since both are used for decimal separators in many countries). 
 
+
 <p align="center">
-  <img alt="Digit grouping" src="docs/figures/grouping.svg">
+  <picture>
+    <source media="(prefers-color-scheme: light)" srcset="docs/figures/grouping.svg">
+    <source media="(prefers-color-scheme: dark)" srcset="docs/figures/grouping-dark.svg">
+    <img alt="Digit grouping" src="docs/figures/grouping.svg">
+  </picture>
 </p>
+
 
 Digit grouping can be configured with the `set-group()` function. 
 
@@ -205,7 +216,11 @@ Non-number entries (e.g., in the header) are automatically recognized in some ca
 
 
 <p align="center">
-  <img alt="Number alignment in tables" src="docs/figures/table1.svg">
+  <picture>
+    <source media="(prefers-color-scheme: light)" srcset="docs/figures/table1.svg">
+    <source media="(prefers-color-scheme: dark)" srcset="docs/figures/table1-dark.svg">
+    <img alt="Number alignment in tables" src="docs/figures/table1.svg">
+  </picture>
 </p>
 
 The numbers are not only aligned at the decimal point but also at the uncertainty and exponent part. Moreover, by passing a `dictionary` instead of `auto`, a set of `num()` arguments to apply to all numbers in a column can be specified. 
@@ -222,9 +237,12 @@ The numbers are not only aligned at the decimal point but also at the uncertaint
 ```
 
 <p align="center">
-  <img alt="Advanced number alignment in tables" src="docs/figures/table2.svg">
+  <picture>
+    <source media="(prefers-color-scheme: light)" srcset="docs/figures/table2.svg">
+    <source media="(prefers-color-scheme: dark)" srcset="docs/figures/table2-dark.svg">
+    <img alt="Advanced number alignment in tables" src="docs/figures/table2.svg">
+  </picture>
 </p>
-
 
 ## Zero for third-party packages
 

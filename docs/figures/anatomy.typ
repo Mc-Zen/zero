@@ -1,11 +1,15 @@
 #import "/src/zero.typ": *
 #import "@preview/cetz:0.2.2"
-#set page(width: auto, height: auto, margin: 2pt, fill: white)
+#set text(1.4em)
+#set page(width: auto, height: auto, margin: 1em)
 
-#set text(1.2em)
+#let clr = if "dark" in sys.inputs { white } else { black }
+#set page(fill: white) if clr == black
+#set text(fill: clr)
+
 #let anatomy = cetz.canvas({
   import cetz.draw: *
-  scale(120%)
+  scale(140%)
   rect((0,-.15), (2.26,.37), fill: blue.transparentize(70%), stroke: blue + .5pt)
   rect((1.2,-.15), (2.125,.37), fill: red.transparentize(70%), stroke: red + .5pt)
   rect((2.3,-.15), (3.32,.37), fill: green.transparentize(70%), stroke: green + .5pt)
@@ -15,7 +19,7 @@
   content((1.4, -.5), text(red)[uncertainty])
   content((3.1, -.5), text(green)[power])
 
-  set-style(stroke: .3pt)
+  set-style(stroke: .3pt + clr)
   line((-.3,.25), (.22,.16), name: "line1")
   content((-.7, .35), text(.8em)[sign])
 
