@@ -51,18 +51,18 @@
 
 #pagebreak()
 
-// decimal marker (in- and output)
+// decimal separator (in- and output)
 
 #num("1.2+-,1") #num("1,2+-.9") \
 #num("2e1.2") #num("2e1,2")
 
-#set-num(decimal-marker: ",")
+#set-num(decimal-separator: ",")
 #num("1.2+-,1") #num("1,2+-.9") \
 #num("2e1.2") #num("2e1,2")
-#set-num(decimal-marker: ".")
+#set-num(decimal-separator: ".")
 
-#num("1.234", decimal-marker: ",") \
-#num("1.234", decimal-marker: "__") \
+#num("1.234", decimal-separator: ",") \
+#num("1.234", decimal-separator: "__") \
 
 
 
@@ -83,14 +83,14 @@
 
 // unit mantissa
 
-#num("1e9", omit-unit-mantissa: false) \
-#num("1e9", omit-unit-mantissa: true) \
-#num("2e9", omit-unit-mantissa: true) \
-#num("1+-1e9", omit-unit-mantissa: true) \
-#num("1", omit-unit-mantissa: true) \
-#set-num(omit-unit-mantissa: true)
+#num("1e9", omit-unity-mantissa: false) \
+#num("1e9", omit-unity-mantissa: true) \
+#num("2e9", omit-unity-mantissa: true) \
+#num("1+-1e9", omit-unity-mantissa: true) \
+#num("1", omit-unity-mantissa: true) \
+#set-num(omit-unity-mantissa: true)
 #num("1e3") \
-#set-num(omit-unit-mantissa: false)
+#set-num(omit-unity-mantissa: false)
 #num("1e3") \
 
 
@@ -159,11 +159,11 @@
 
 #table(
   columns: 3, align: center, stroke: none,
-  [`separate`], [`compact`], [`compact-marker`],
+  [`separate`], [`compact`], [`compact-separator`],
   ..array.zip(
     examples.map(num.with(uncertainty-mode: "separate")),
     examples.map(num.with(uncertainty-mode: "compact")),
-    examples.map(num.with(uncertainty-mode: "compact-marker")),
+    examples.map(num.with(uncertainty-mode: "compact-separator")),
   ).flatten()
 )
 
@@ -182,9 +182,9 @@
 #num("1234567") \
 #set-group(threshold: 3)
 #num("1234.4321") \
-#set-group(sep: "'", size: 2)
+#set-group(separator: "'", size: 2)
 #num("12345.54321") \
-#set-group(sep: sym.space.thin, size: 3, threshold: 5)
+#set-group(separator: sym.space.thin, size: 3, threshold: 5)
 
 
 
@@ -244,9 +244,9 @@
 
 #pagebreak()
 
-// combine positive-sign and omit-unit-mantissa
-#num("1e3", positive-sign: true, omit-unit-mantissa: true) \
-#num("-1e3", positive-sign: true, omit-unit-mantissa: true) \
+// combine positive-sign and omit-unity-mantissa
+#num("1e3", positive-sign: true, omit-unity-mantissa: true) \
+#num("-1e3", positive-sign: true, omit-unity-mantissa: true) \
 
 // combine "compact" and exponential
 #num("2.1+-.2e1", uncertainty-mode: "compact") \

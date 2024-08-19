@@ -22,14 +22,14 @@ Proper formatting of numbers requires some love for detail to guarantee a readab
 - some specials for package authors,
 - and localization?. 
 
-A number in scientific notation consists of three parts of which the latter two are optional. The first part is the _coefficient_ that may consist of an _integer_ and a _fractional_ part. In many fields, values are not known exactly and the corresponding _uncertainty_ is then given after the coefficient. Lastly, to facilitate reading very large or small numbers, the coefficient may be multiplied with a _power_ of 10 (or another base). 
+A number in scientific notation consists of three parts of which the latter two are optional. The first part is the _mantissa_ that may consist of an _integer_ and a _fractional_ part. In many fields, values are not known exactly and the corresponding _uncertainty_ is then given after the mantissa. Lastly, to facilitate reading very large or small numbers, the mantissa may be multiplied with a _power_ of 10 (or another base). 
 
 The anatomy of a formatted number is shown in the following figure.
 
 #import "figures/anatomy.typ": anatomy
 #figure(anatomy)
 
-For generating formatted numbers, *Zero* provides the `num` type along with the types `coefficient`, `uncertainty`, and `power` that allow for fine-grained customization with `show` and `set` rules. 
+For generating formatted numbers, *Zero* provides the `num` type along with the types `mantissa`, `uncertainty`, and `power` that allow for fine-grained customization with `show` and `set` rules. 
 
 #pad(x: 5%, outline(title: none, depth: 1))
 
@@ -65,12 +65,12 @@ For generating formatted numbers, *Zero* provides the `num` type along with the 
 = Features
 == Digit grouping
 
-Digit grouping is important for keeping large figures readable. It is customary to separate thousands with a thin space, a dot, comma or an apostrophe (however, we discourage using a dot or a comma to avoid confusion since both are used for decimal markers in many countries). The separator can be configured via the `group-sep` option. 
+Digit grouping is important for keeping large figures readable. It is customary to separate thousands with a thin space, a dot, comma or an apostrophe (however, we discourage using a dot or a comma to avoid confusion since both are used for decimal separators in many countries). The separator can be configured via the `group-sep` option. 
 
 #import "figures/grouping.typ": grouping
 #figure(grouping)
 
-By default, both the integer and the fractional part are split into groups of three, starting at the decimal marker. The size of the groups can be configured with `group-size`. Four-digit numbers are often not grouped at all since they can still be read easily. The option `group-threshold` controls the _least_ number of digits for digit grouping to kick in. 
+By default, both the integer and the fractional part are split into groups of three, starting at the decimal separator. The size of the groups can be configured with `group-size`. Four-digit numbers are often not grouped at all since they can still be read easily. The option `group-threshold` controls the _least_ number of digits for digit grouping to kick in. 
 
 Digit grouping can be turned off altogether with `group-digits: false`. 
 
@@ -86,7 +86,7 @@ How do uncertainties interplay with exponents? The uncertainty needs to come fir
 
 #figure(num("1.23+-.04e2"))
 
-Note that the coefficient is now put in parentheses to disambiguate the application of the power. 
+Note that the mantissa is now put in parentheses to disambiguate the application of the power. 
 
 In some cases, the uncertainty is asymmetric which can be expressed via `num("1.23+0.02-0.01")`
 
@@ -94,7 +94,7 @@ In some cases, the uncertainty is asymmetric which can be expressed via `num("1.
 
 = Table alignment
 
-In scientific publication, presenting large amounts of numbers in a readable fashion is a high discipline. A good starting point is to align numbers in a table at the decimal marker. With _Zero_, this can be accomplished by using the `ztable`. This is a wrapper for the built-in `table` which features an additional argument `format` which takes an array of `none` or `auto` values to turn on number alignment for specific columns. 
+In scientific publication, presenting large amounts of numbers in a readable fashion is a high discipline. A good starting point is to align numbers in a table at the decimal separator. With _Zero_, this can be accomplished by using the `ztable`. This is a wrapper for the built-in `table` which features an additional argument `format` which takes an array of `none` or `auto` values to turn on number alignment for specific columns. 
 
 
 ```typ

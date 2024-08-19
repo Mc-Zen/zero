@@ -3,9 +3,9 @@
   digits: auto,
   fixed: none,
   product: sym.times,
-  decimal-marker: ".",
+  decimal-separator: ".",
   tight: false,
-  omit-unit-mantissa: true,
+  omit-unity-mantissa: true,
   positive-sign: false,
   positive-sign-exponent: false,
   base: 10,
@@ -14,7 +14,7 @@
 
 #let group-state = state("group-state", (
   size: 3, 
-  sep: sym.space.thin,
+  separator: sym.space.thin,
   threshold: 5
 ))
 
@@ -24,25 +24,4 @@
   pad: true,
   direction: "nearest",
 ))
-
-
-// num: decimal-marker
-//      group-digits
-//      group-size
-//      group-sep
-//      group-min-digits
-//      tight
-//      
-//      omit-zero-exponent
-//      positive-sign
-//      
-
-// num.mantissa: omit-unit-mantissa?
-//               digits
-// num.uncertainty: mode
-
-// num.exponent: positive-sign
-//               base
-//               multiplier/times/product
-
 

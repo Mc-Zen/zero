@@ -42,28 +42,28 @@
   invert: false,
   threshold: 5,
   size: 3,
-  sep: sym.space.thin
+  separator: sym.space.thin
 ) = {
   if x.len() < threshold { return x }
   
   if not invert { x = x.rev() }
   let chunks = x.codepoints().chunks(size)
   if not invert { chunks = chunks.rev().map(array.rev) }
-  return chunks.intersperse(sep).flatten().join()
+  return chunks.intersperse(separator).flatten().join()
 }
 
 #assert.eq(insert-group-separators("123"), "123")
 #assert.eq(insert-group-separators("1234"), "1234")
-#assert.eq(insert-group-separators("12345", sep: " "), "12 345")
-#assert.eq(insert-group-separators("123456", sep: " "), "123 456")
-#assert.eq(insert-group-separators("1234567", sep: " "), "1 234 567")
-#assert.eq(insert-group-separators("12345678", sep: " "), "12 345 678")
-#assert.eq(insert-group-separators("12345678", sep: " ", size: 2), "12 34 56 78")
-#assert.eq(insert-group-separators("1234", sep: " ", threshold: 3), "1 234")
+#assert.eq(insert-group-separators("12345", separator: " "), "12 345")
+#assert.eq(insert-group-separators("123456", separator: " "), "123 456")
+#assert.eq(insert-group-separators("1234567", separator: " "), "1 234 567")
+#assert.eq(insert-group-separators("12345678", separator: " "), "12 345 678")
+#assert.eq(insert-group-separators("12345678", separator: " ", size: 2), "12 34 56 78")
+#assert.eq(insert-group-separators("1234", separator: " ", threshold: 3), "1 234")
 
-#assert.eq(insert-group-separators("1234", sep: " ", threshold: 3, invert: true), "123 4")
-#assert.eq(insert-group-separators("1234567", sep: " ", threshold: 3, invert: true), "123 456 7")
-#assert.eq(insert-group-separators("1234567", sep: " ", size: 2, threshold: 3, invert: true), "12 34 56 7")
+#assert.eq(insert-group-separators("1234", separator: " ", threshold: 3, invert: true), "123 4")
+#assert.eq(insert-group-separators("1234567", separator: " ", threshold: 3, invert: true), "123 456 7")
+#assert.eq(insert-group-separators("1234567", separator: " ", size: 2, threshold: 3, invert: true), "12 34 56 7")
 
 
 
@@ -99,18 +99,18 @@
 
 
 #let format-fractional = it => {
-  // frac, group, digits, decimal-marker?
+  // frac, group, digits, decimal-separator?
   let frac = fit-decimals(it.frac, it.digits)
   if frac.len() == 0 { return none }
   if type(it.group) == dictionary { frac = insert-group-separators(frac, invert: true, ..it.group) }
-  it.decimal-marker + frac
+  it.decimal-separator + frac
 }
 
 
 
 #let format-comma-number = it => {
   // sign, int, frac, digits, group, positive-sign
-  let frac = format-fractional((frac: it.frac, group: it.group, digits: it.digits, decimal-marker: it.decimal-marker))
+  let frac = format-fractional((frac: it.frac, group: it.group, digits: it.digits, decimal-separator: it.decimal-separator))
   
   return format-sign(it.sign, positive-sign: it.positive-sign) + format-integer((int: it.int, group: it.group)) + frac
 }
@@ -127,7 +127,7 @@
   if it.concise {
     let compact-pm = (
       it.mode == "compact" or 
-      (it.mode == "compact-marker" and pm.map(x => x.first().trim("0")).all(x => x.len() == 0))
+      (it.mode == "compact-separator" and pm.map(x => x.first().trim("0")).all(x => x.len() == 0))
     )
       
     if compact-pm {
@@ -138,7 +138,7 @@
 
   pm = pm.map(((int, frac)) => 
     format-comma-number((
-      sign: none, int: int, frac: frac, digits: it.digits, group: false, positive-sign: false, decimal-marker: it.decimal-marker
+      sign: none, int: int, frac: frac, digits: it.digits, group: false, positive-sign: false, decimal-separator: it.decimal-separator
     ))
   )
   if is-symmetric {
@@ -168,7 +168,7 @@
   if it.exponent == none { return () }
   
   let (sign, integer, fractional) = decompose-signed-float-string(it.exponent)
-  let exponent = format-comma-number((sign: sign, int: integer, frac: fractional, digits: auto, group: false, positive-sign: it.positive-sign-exponent, decimal-marker: it.decimal-marker))
+  let exponent = format-comma-number((sign: sign, int: integer, frac: fractional, digits: auto, group: false, positive-sign: it.positive-sign-exponent, decimal-separator: it.decimal-separator))
 
   let power = math.attach([#it.base], t: [#exponent])
   if it.product == none { (power,) }
@@ -186,10 +186,10 @@
 #let show-num-impl = it => {
   /// sign, int, frac, e, pm, 
   /// digits
-  /// omit-unit-mantissa, uncertainty-mode, positive-sign
+  /// omit-unity-mantissa, uncertainty-mode, positive-sign
   
   let omit-mantissa = (
-    it.omit-unit-mantissa and it.int == "1" and
+    it.omit-unity-mantissa and it.int == "1" and
     it.frac == "" and it.e != none and it.pm == none and it.digits == 0
   )
 
@@ -201,7 +201,7 @@
   let integer = (
     sign: it.sign,
     int: if omit-mantissa { none } else { it.int },
-    decimal-marker: it.decimal-marker,
+    decimal-separator: it.decimal-separator,
     group: it.group
   )
   
@@ -212,7 +212,7 @@
     concise: concise-uncertainty,
     tight: it.tight,
     mode: it.uncertainty-mode,
-    decimal-marker: it.decimal-marker
+    decimal-separator: it.decimal-separator
   )
   
   
@@ -222,7 +222,7 @@
     product: if omit-mantissa {none} else {it.product},
     positive-sign-exponent: it.positive-sign-exponent,
     tight: it.tight,
-    decimal-marker: it.decimal-marker
+    decimal-separator: it.decimal-separator
   )
   
   let integer-part = (
@@ -231,7 +231,7 @@
   )
   
   let fractional-part = (
-    format-fractional((frac: it.frac, group: it.group, digits: it.digits, decimal-marker: it.decimal-marker)),
+    format-fractional((frac: it.frac, group: it.group, digits: it.digits, decimal-separator: it.decimal-separator)),
   )
 
   let uncertainty-part = format-uncertainty(uncertainty)

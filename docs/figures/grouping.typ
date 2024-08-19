@@ -20,7 +20,7 @@
 
 
   line((1.2,.5), (1.1,.3), name: "line1")
-  content((1.9, .7), text(.8em)[`group.sep`])
+  content((1.9, .7), text(.8em)[`group.separator`])
 })
 
 #grouping

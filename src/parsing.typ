@@ -23,7 +23,7 @@
 /// - or a content value that contains only text nodes but does not start 
 ///   or end with a space. 
 /// In case of a failure, `none` is returned. 
-/// The output is normalized, meaning that both decimals markers "," and 
+/// The output is normalized, meaning that both decimals separators "," and 
 /// "." are unified to "." and the minus symbol "−" is replaced by the 
 /// ASCII "-" character. 
 #let number-to-string(number) = {
@@ -104,7 +104,7 @@
 
 
 /// Decomposes a normalized number string into sign, integer, fractional,
-/// uncertainty and exponent. Here, normalized means that the decimal marker
+/// uncertainty and exponent. Here, normalized means that the decimal separator
 /// is `"."`, and `"+"`, `"-"` is used for all signs (as opposed to 
 /// `sym.minus`). 
 ///

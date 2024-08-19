@@ -15,7 +15,7 @@
   rect((2.3,-.15), (3.32,.37), fill: green.transparentize(70%), stroke: green + .5pt)
   content((0, 0), num[-10.4+-0.2e3], anchor: "south-west")
 
-  content((.6, .8), text(blue)[coefficient])
+  content((.6, .8), text(blue)[mantissa])
   content((1.4, -.5), text(red)[uncertainty])
   content((3.1, -.5), text(green)[power])
 
@@ -24,7 +24,7 @@
   content((-.7, .35), text(.8em)[sign])
 
   line((-.0,-.4), (.8,-.1), name: "line1")
-  content((-.6, -.55), text(.8em)[#set par(leading: 2pt);decimal \ marker])
+  content((-.6, -.55), text(.8em)[#set par(leading: 2pt);decimal \ separator])
   
   line((2.4,.6), (2.5,.3), name: "line1")
   content((2.3,.8), text(.8em)[product])
