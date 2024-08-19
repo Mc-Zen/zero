@@ -17,10 +17,10 @@ _Advanced scientific number formatting._
 
 ## Introduction
 
-Proper number formatting requires some love for detail to guarantee a readable and clear output. This package provides tools to ensure consistent formatting and to simplify the process of following established practices. Key features are
+Proper number formatting requires some love for detail to guarantee a readable and clear output. This package provides tools to ensure consistent formatting and to simplify the process of following established publication practices. Key features are
 - **standardized** formatting,
 - digit [**grouping**](#grouping), e.g., $`299\,792\,458`$ instead of $299792458$,
-- **plug-and-play** number [**alignment in tables**](#table-alignment)
+- **plug-and-play** number [**alignment in tables**](#table-alignment),
 - quick scientific notation, e.g., `"2e4"` becomes $2\times10^4$,
 - symmetric and asymmetric [**uncertainties**](#specifying-uncertainties),
 - [**rounding**](#rounding) in various modes,
@@ -79,14 +79,16 @@ The function `num()` is the heart of *Zero*. It provides a wide range of number 
   positive-sign:          boolean = false,
   positive-sign-exponent: boolean = false,
   base:                   int | content = 10,
-  uncertainty-mode:       str = "separate"
+  uncertainty-mode:       str = "separate",
+  rounding:               dictionary,
+  grouping:               dictionary,
 )
 ```
-- `number: str | content | int | float | array` : Number input; `str` is preferred. If the input is `content`, it may only contain text nodes. Numeric types `int` and `float` are supported but not encouraged because of information loss (e.g., the number of trailing "0" digits or the exponent). The possible types `dictionary` and `array` are intended for advanced use, see [below](#zero-for-packages).
+- `number: str | content | int | float | array` : Number input; `str` is preferred. If the input is `content`, it may only contain text nodes. Numeric types `int` and `float` are supported but not encouraged because of information loss (e.g., the number of trailing "0" digits or the exponent). The remaining types `dictionary` and `array` are intended for advanced use, see [below](#zero-for-third-party-packages).
 - `digits: auto | int = auto` : Truncates the number at a given (positive) number of decimal places or pads the number with zeros if necessary. This is independent of [rounding](#rounding).
 - `fixed: none | int = none` : If not `none`, forces a fixed exponent. Additional exponents given in the number input are taken into account. 
 - `decimal-separator: str = "."` : Specifies the marker that is used for separating integer and decimal part.
-- `product: content = sym.times` : Specifies the multiplication symbol used when scientific notation is used. 
+- `product: content = sym.times` : Specifies the multiplication symbol used for scientific notation. 
 - `tight: boolean = false` : If true, tight spacing is applied between operands (applies to $\times$ and $\pm$). 
 - `omit-unity-mantissa: boolean = false` : Determines whether a mantissa of 1 is omitted in scientific notation, e.g., $10^4$ instead of $1\cdot 10^4$. 
 - `positive-sign: boolean = false` : If set to `true`, positive coefficients are shown with a $+$ sign. 
@@ -101,6 +103,8 @@ The function `num()` is the heart of *Zero*. It provides a wide range of number 
 | $1.7^{+0.2}_{-0.5}$ | $1.7^{+2}_{-5}$ | $1.7^{+2}_{-5}$ |
 | $1.7^{+2.0}_{-5.0}$ | $1.7^{+20}_{-50}$ | $1.7^{+2.0}_{-5.0}$ |
 
+- `rounding: dictionary` : You can provide one or more rounding options in a dictionary. Also see [rounding](#rounding). 
+- `grouping: dictionary` : You can provide one or more grouping options in a dictionary. Also see [grouping](#grouping). 
 
 Configuration example: 
 ```typ
@@ -110,7 +114,7 @@ Configuration example:
 ### Grouping
 
 
-Digit grouping is important for keeping large figures readable. It is customary to separate thousands with a thin space, a period, comma, or an apostrophe (however, we discourage using a period or a comma to avoid confusion since both are used for decimal separators in many countries). 
+Digit grouping is important for keeping large figures readable. It is customary to separate thousands with a thin space, a period, comma, or an apostrophe (however, we discourage using a period or a comma to avoid confusion since both are used for decimal separators in various countries). 
 
 
 <p align="center">
@@ -134,7 +138,7 @@ Digit grouping can be configured with the `set-group()` function.
 ```
 - `size: int = 3` : Determines the size of the groups. 
 - `separator: content = sym.space.thin` : Separator between groups. 
-- `threshold: int = 5` : Necessary number of digits needed for digit grouping to kick in. Four-digit numbers for example are often not grouped at all since they can still be read easily. 
+- `threshold: int = 5` : Necessary number of digits needed for digit grouping to kick in. Four-digit numbers for example are usually not grouped at all since they can still be read easily. 
 
 
 
@@ -162,10 +166,10 @@ Rounding can be configured with the `set-round()` function.
 - `mode: none | str = none` : Sets the rounding mode. The possible options are
   - `none` : Rounding is turned off. 
   - `"places"` : The number is rounded to the number of decimal places given by the `precision` parameter. 
-  - `"figures"` : The number is rounded to a number of significant figures.
+  - `"figures"` : The number is rounded to a number of significant figures given by the `precision` parameter.
   - `"uncertainty"` : Requires giving an uncertainty value. The uncertainty is 
      rounded to significant figures according to the `precision` argument and 
-    then the number is rounded to the same number of places as the 
+    then the number is rounded to the same number of decimal places as the 
     uncertainty. 
 - `precision: int = 2` : The precision to round to. Also see parameter `mode`. 
 - `pad: boolean = true` : Whether to pad the number with zeros if the 
@@ -181,10 +185,10 @@ Rounding can be configured with the `set-round()` function.
 ### Specifying uncertainties
 
 There are two ways of specifying uncertainties:
-- Applying an uncertainty to the last significant digits using parentheses, e.g., `2.3(4)`,
+- Applying an uncertainty to the least significant digits using parentheses, e.g., `2.3(4)`,
 - Denoting an absolute uncertainty, e.g., `2.3+-0.4` becomes $2.3\pm0.4$. 
 
-Zero supports both and can convert between these two, so that you can pick the displayed style independently from the input style. 
+Zero supports both and can convert between these two, so that you can pick the displayed style (configured via `uncertainty-mode`, see above) independently of the input style. 
 
 How do uncertainties interplay with exponents? The uncertainty needs to come first, and the exponent applies to both the mantissa and the uncertainty, e.g., `num("1.23+-.04e2")` becomes
 
@@ -212,7 +216,7 @@ In scientific publication, presenting many numbers in a readable fashion can be 
 )
 ```
 
-Non-number entries (e.g., in the header) are automatically recognized in some cases and will not be aligned. In ambiguous cases, adding a leading or trailing space tells _Zero_ not to apply alignment to this cell, for example `[Angle ]` instead of `[Angle]`. 
+Non-number entries (e.g., in the header) are automatically recognized in some cases and will not be aligned. In ambiguous cases, adding a leading or trailing space tells _Zero_ not to apply alignment to this cell, e.g., `[Angle ]` instead of `[Angle]`. 
 
 
 <p align="center">
