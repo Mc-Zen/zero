@@ -5,7 +5,7 @@
   product: sym.times,
   decimal-separator: ".",
   tight: false,
-  omit-unity-mantissa: true,
+  omit-unity-mantissa: false,
   positive-sign: false,
   positive-sign-exponent: false,
   base: 10,
