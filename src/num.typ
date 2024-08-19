@@ -95,18 +95,6 @@
 }
 
 
-#let merge-state(args, align) = {
-  let named = args.named()
-  let round-state = round-state.get()
-  if "round" in named { round-state += named.round }
-  let it = num-state.get() + (
-    align: align,
-    ..args.named()
-  )
-  it.round = round-state
-  it
-}
-
 
 #let num(
   number, 
@@ -116,12 +104,15 @@
   if type(number) == array {
     let named = args.named()
     let round-state = round-state.get()
+    let group-state = group-state.get()
     if "round" in named { round-state += named.round }
+    if "group" in named { group-state += named.group }
     let it = num-state.get() + (
       align: align,
       ..args.named()
     )
     it.round = round-state
+    it.group = group-state
     return number.map(n => show-num(it + (number: n)))
   }
   context {
