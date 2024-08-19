@@ -18,6 +18,8 @@
 
 #pagebreak()
 
+#zero.set-num(omit-unity-mantissa: true)
+
 #zero.ztable(
   columns: 4,
   align: center,
