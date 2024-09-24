@@ -77,10 +77,11 @@
 
   // Format number
   let components = show-num-impl(info + it)
-  if it.align == none { return make-equation(components.join()) }
+  let collect = if it.math { make-equation } else { it => it.join() }
+  if it.align == none { return collect(components.join()) }
 
   let (col-widths, col) = it.align
-  components = components.map(make-equation)
+  components = components.map(collect)
   let widths = components.map(x => measure(x).width)
   
   if col-widths != auto {

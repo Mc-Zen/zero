@@ -58,3 +58,16 @@
   )
 
 }
+
+#pagebreak()
+
+// Check that `math: false` works with tables
+
+#[
+  #show math.equation: set text(2pt)
+  #zero.ztable(
+    format: ((math: false),),
+    columns: 1,
+    [12.3], [2.211]
+  )
+]

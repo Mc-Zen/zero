@@ -260,3 +260,12 @@
 #num[.1]
 #num[,1]
 #num[2e-1,2]
+
+#pagebreak()
+
+// Mode math: false
+
+#[
+  #show math.equation: set text(2pt)
+  #num(math: false)[2,3]
+]
