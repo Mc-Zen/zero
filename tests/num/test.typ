@@ -266,6 +266,6 @@
 // Mode math: false
 
 #[
-  #set text(font: "Noto Sans")
+  #set text(font: "Linux Biolinum")
   #num(math: false)[2,3]
 ]
