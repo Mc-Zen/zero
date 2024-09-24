@@ -64,7 +64,7 @@
 // Check that `math: false` works with tables
 
 #[
-  #set text(font: "Comic Neue")
+  #set text(font: "Noto Sans")
   #zero.ztable(
     format: ((math: false),),
     columns: 1,
