@@ -266,6 +266,6 @@
 // Mode math: false
 
 #[
-  #set text(font: "Linux Biolinum")
+  #show math.equation: set text(2pt)
   #num(math: false)[2,3]
 ]
