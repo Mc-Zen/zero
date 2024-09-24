@@ -9,7 +9,8 @@
   positive-sign: false,
   positive-sign-exponent: false,
   base: 10,
-  uncertainty-mode: "separate"
+  uncertainty-mode: "separate",
+  math: true
 ))
 
 #let group-state = state("group-state", (
