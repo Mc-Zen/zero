@@ -80,8 +80,8 @@ The function `num()` is the heart of *Zero*. It provides a wide range of number 
   positive-sign-exponent: boolean = false,
   base:                   int | content = 10,
   uncertainty-mode:       str = "separate",
-  rounding:               dictionary,
-  grouping:               dictionary,
+  round:                  dictionary,
+  group:                  dictionary,
 )
 ```
 - `number: str | content | int | float | array` : Number input; `str` is preferred. If the input is `content`, it may only contain text nodes. Numeric types `int` and `float` are supported but not encouraged because of information loss (e.g., the number of trailing "0" digits or the exponent). The remaining types `dictionary` and `array` are intended for advanced use, see [below](#zero-for-third-party-packages).
@@ -103,8 +103,8 @@ The function `num()` is the heart of *Zero*. It provides a wide range of number 
 | $1.7^{+0.2}_{-0.5}$ | $1.7^{+2}_{-5}$ | $1.7^{+2}_{-5}$ |
 | $1.7^{+2.0}_{-5.0}$ | $1.7^{+20}_{-50}$ | $1.7^{+2.0}_{-5.0}$ |
 
-- `rounding: dictionary` : You can provide one or more rounding options in a dictionary. Also see [rounding](#rounding). 
-- `grouping: dictionary` : You can provide one or more grouping options in a dictionary. Also see [grouping](#grouping). 
+- `round: dictionary` : You can provide one or more rounding options in a dictionary. Also see [rounding](#rounding). 
+- `group: dictionary` : You can provide one or more grouping options in a dictionary. Also see [grouping](#grouping). 
 
 Configuration example: 
 ```typ
