@@ -109,7 +109,11 @@
   [#components.join()#metadata((col,) + widths)<__pillar-num__>]
 }
 
-
+#let update-num-state(state, args) = {
+  if "round" in args { state.round += args.round; args.remove("round") }
+  if "group" in args { state.group += args.group; args.remove("group") }
+  return state + args
+}
 
 #let num(
   number, 
@@ -132,28 +136,18 @@
     it.group = group-state
     return number.map(n => show-num(it + (number: n)))
   }
-
   
   if state != auto {
-    let named = args.named()
-    if "round" in named { state.round += named.round; named.remove("round") }
-    if "group" in named { state.group += named.group; named.remove("group") }
-    let it = state + (
+    let it = update-num-state(state, args.named()) + (
       align: align,
-      number: number,
-      ..args.named()
+      number: number
     )
     return show-num(it)
   }
   context {
-    let named = args.named()
-    let state = num-state.get()
-    if "round" in named { state.round += named.round; named.remove("round") }
-    if "group" in named { state.group += named.group; named.remove("group") }
-    let it = state + (
+    let it = update-num-state(num-state.get(), args.named()) + (
       align: align,
-      number: number,
-      ..args.named()
+      number: number
     )
     show-num(it)
   }
