@@ -100,15 +100,17 @@
 #let num(
   number, 
   align: none,
+  state: auto,
   ..args
 ) = {
   if type(number) == array {
     let named = args.named()
-    let round-state = round-state.get()
-    let group-state = group-state.get()
+    let num-state = if state == auto { num-state.get() } else { state }
+    let round-state = if state == auto { round-state.get() } else { num-state.round }
+    let group-state = if state == auto { group-state.get() } else { num-state.group }
     if "round" in named { round-state += named.round }
     if "group" in named { group-state += named.group }
-    let it = num-state.get() + (
+    let it = num-state + (
       align: align,
       ..args.named()
     )
@@ -116,13 +118,27 @@
     it.group = group-state
     return number.map(n => show-num(it + (number: n)))
   }
+
+  
+  if state != auto {
+    let named = args.named()
+    if "round" in named { state.round += named.round; named.remove("round") }
+    if "group" in named { state.group += named.group; named.remove("group") }
+    let it = state + (
+      align: align,
+      number: number,
+      ..args.named()
+    )
+    return show-num(it)
+  }
   context {
     let named = args.named()
-    let round-state = round-state.get()
-    let group-state = group-state.get()
+    let num-state = if state == auto { num-state.get() } else { state }
+    let round-state = if state == auto { round-state.get() } else { num-state.round }
+    let group-state = if state == auto { group-state.get() } else { num-state.group }
     if "round" in named { round-state += named.round }
     if "group" in named { group-state += named.group }
-    let it = num-state.get() + (
+    let it = num-state + (
       align: align,
       number: number,
       ..args.named()
