@@ -13,8 +13,22 @@
 
 
 #let set-num(..args) = update-state(num-state, args, name: "set-num")
-#let set-group(..args) = update-state(group-state, args, name: "set-group")
-#let set-round(..args) = update-state(round-state, args, name: "set-round")
+
+#let set-group(..args) = {
+  num-state.update(s => {
+    assert-settable-args(args, s.group, name: "set-group")
+    s.group += args.named()
+    s
+  })
+}
+
+#let set-round(..args) = {
+  num-state.update(s => {
+    assert-settable-args(args, s.round, name: "set-round")
+    s.round += args.named()
+    s
+  })
+}
 
 
 #let contextual-round(int, frac, pm, round-state) = {
@@ -133,18 +147,14 @@
   }
   context {
     let named = args.named()
-    let num-state = if state == auto { num-state.get() } else { state }
-    let round-state = if state == auto { round-state.get() } else { num-state.round }
-    let group-state = if state == auto { group-state.get() } else { num-state.group }
-    if "round" in named { round-state += named.round }
-    if "group" in named { group-state += named.group }
-    let it = num-state + (
+    let state = num-state.get()
+    if "round" in named { state.round += named.round; named.remove("round") }
+    if "group" in named { state.group += named.group; named.remove("group") }
+    let it = state + (
       align: align,
       number: number,
       ..args.named()
     )
-    it.round = round-state
-    it.group = group-state
     show-num(it)
   }
 }
