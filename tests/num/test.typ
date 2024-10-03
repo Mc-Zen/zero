@@ -269,3 +269,14 @@
   #show math.equation: set text(2pt)
   #num(math: false)[2,3]
 ]
+
+#pagebreak()
+
+// num with manual state
+
+#[
+  #let state = default-state
+  #{state.decimal-separator = ","}
+  #let num = num.with(state: state)
+  #num[2.34]
+]
