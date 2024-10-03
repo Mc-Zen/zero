@@ -95,8 +95,8 @@
   if it.align == none { return collect(components.join()) }
 
   let (col-widths, col) = it.align
-  components = components.map(collect)
-  let widths = components.map(x => measure(x).width)
+  let components = components.map(x => if x == () { none } else { collect(x) })
+  let widths = components.map(x => if x == none { 0pt } else { measure(x).width })
   
   if col-widths != auto {
     for i in range(4) {
