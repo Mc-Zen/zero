@@ -75,6 +75,7 @@ The function `num()` is the heart of *Zero*. It provides a wide range of number 
   decimal-separator:      str = ".",
   product:                content = sym.times,
   tight:                  boolean = false,
+  math:                   boolean = true,
   omit-unity-mantissa:    boolean = true,
   positive-sign:          boolean = false,
   positive-sign-exponent: boolean = false,
@@ -90,6 +91,7 @@ The function `num()` is the heart of *Zero*. It provides a wide range of number 
 - `decimal-separator: str = "."` : Specifies the marker that is used for separating integer and decimal part.
 - `product: content = sym.times` : Specifies the multiplication symbol used for scientific notation. 
 - `tight: boolean = false` : If true, tight spacing is applied between operands (applies to $\times$ and $\pm$). 
+- `math: boolean = true` : If set to `false`, the parts of the number won't be wrapped in a `math.equation` wherever feasible. This makes it possible to use `num()` with non-math fonts to some extent. Powers are always rendered in math mode. 
 - `omit-unity-mantissa: boolean = false` : Determines whether a mantissa of 1 is omitted in scientific notation, e.g., $10^4$ instead of $1\cdot 10^4$. 
 - `positive-sign: boolean = false` : If set to `true`, positive coefficients are shown with a $+$ sign. 
 - `positive-sign-exponent: boolean = false` : If set to `true`, positive exponents are shown with a $+$ sign. 
@@ -263,3 +265,12 @@ Instead of passing a `str` to `num()`, it is also possible to pass a dictionary 
 This way, parsing the number can be avoided which makes especially sense for packages that generate numbers (e.g., tick labels for a diagram axis) with independent mantissa and exponent. 
 
 Furthermore, `num()` also allows `array` arguments for `number` which allows for more efficient batch-processing of numbers with the same setup. In this case, the caller of the function needs to provide `context`. 
+
+
+## Changelog
+
+### Version 0.2.0
+- Added support for using non-math fonts for `num` via the option `math`. This can be activated by calling `#set-num(math: false)`. 
+- Performance improvements for both `num()` and `ztable(9)`
+
+### Version 0.1.0
