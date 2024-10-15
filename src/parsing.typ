@@ -16,6 +16,33 @@
 #assert.eq(content-to-string([a $a$]), none)
 
 
+/// Converts a content value into a string if it contains only text nodes. 
+/// Otherwise, `none` is returned. 
+#let content-to-stringw(x) = {
+  let prefix = none
+  let suffix = none
+  if x.has("text") { return (x.text, prefix, suffix) }
+  if x.has("children") and x.children.len() != 0 {
+    if x.children.all(x => x.has("text")){
+      return (x.children.map(x => x.text).join(), prefix, suffix)
+    }
+    let main = none
+    for child in x.children {
+      if child.has("text") { main += child.text }
+      else if child.func() == highlight {
+        if main == none { prefix = child.body }
+        else { suffix = child.body }
+      }
+      else { return x}
+    }
+    return (main, prefix, suffix)
+  }
+  return none
+}
+
+#let nonum = highlight
+#assert.eq(content-to-stringw[#nonum[€]12], ("12", [€], none))
+#assert.eq(content-to-stringw[#nonum[€]12.43#nonum[#footnote[1]]], ("12.43", [€], footnote[1]))
 
 /// Converts a number into a string if the input is either
 /// - an integer or a float,
@@ -34,6 +61,17 @@
   else { result = none }
   if result == none { return none }
   return result.replace(",", ".").replace(sym.minus, "-")
+}
+
+#let number-to-stringw(number) = {
+  let result
+  if type(number) == str { result = number }
+  else if type(number) in (int, float) { result = str(number) }
+  else if type(number) == content  { result = content-to-stringw(number) } 
+  else { result = none }
+  if result == none { return none }
+  result.at(0) = result.at(0).replace(",", ".").replace(sym.minus, "-")
+  return result
 }
 
 #assert.eq(number-to-string("123"), "123")

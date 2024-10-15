@@ -2,7 +2,7 @@
 #import "formatting.typ": *
 #import "rounding.typ": *
 #import "assertations.typ": *
-#import "parsing.typ"
+#import "parsing.typ" as parsing: nonum
 
 #let update-state(state, args, name: none) = {
   state.update(s => {
