@@ -33,7 +33,7 @@
         if main == none { prefix = child.body }
         else { suffix = child.body }
       }
-      else { return x}
+      else { return none }
     }
     return (main, prefix, suffix)
   }
@@ -41,6 +41,7 @@
 }
 
 #let nonum = highlight
+#assert.eq(content-to-stringw[alpha ], none)
 #assert.eq(content-to-stringw[#nonum[€]12], ("12", [€], none))
 #assert.eq(content-to-stringw[#nonum[€]12.43#nonum[#footnote[1]]], ("12.43", [€], footnote[1]))
 
@@ -70,6 +71,7 @@
   else if type(number) == content  { result = content-to-stringw(number) } 
   else { result = none }
   if result == none { return none }
+  if type(result) != array { result = (result, none, none) }
   result.at(0) = result.at(0).replace(",", ".").replace(sym.minus, "-")
   return result
 }
