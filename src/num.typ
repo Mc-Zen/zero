@@ -2,7 +2,7 @@
 #import "formatting.typ": *
 #import "rounding.typ": *
 #import "assertations.typ": *
-#import "parsing.typ"
+#import "parsing.typ" as parsing: nonum
 
 #let update-state(state, args, name: none) = {
   state.update(s => {
@@ -92,10 +92,18 @@
   // Format number
   let components = show-num-impl(info + it)
   let collect = if it.math { make-equation } else { it => it.join() }
-  if it.align == none { return collect(components.join()) }
+  if it.align == none { return it.prefix + collect(components.join()) + it.suffix }
 
   let (col-widths, col) = it.align
   let components = components.map(x => if x == () { none } else { collect(x) })
+  components.at(0) = it.prefix + components.at(0)
+  if it.suffix != none {
+    if components.at(2) == none and components.at(3) == none {
+      components.at(1) += it.suffix
+    } else {
+      components.at(3) += it.suffix
+    }
+  }
   let widths = components.map(x => if x == none { 0pt } else { measure(x).width })
   
   if col-widths != auto {
@@ -119,6 +127,8 @@
   number, 
   align: none,
   state: auto,
+  prefix: none,
+  suffix: none,
   ..args
 ) = {
   if type(number) == array {
@@ -140,14 +150,18 @@
   if state != auto {
     let it = update-num-state(state, args.named()) + (
       align: align,
-      number: number
+      number: number,
+      prefix: prefix,
+      suffix: suffix
     )
     return show-num(it)
   }
   context {
     let it = update-num-state(num-state.get(), args.named()) + (
       align: align,
-      number: number
+      number: number,
+      prefix: prefix,
+      suffix: suffix
     )
     show-num(it)
   }
