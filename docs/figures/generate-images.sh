@@ -6,3 +6,6 @@ typst c docs/figures/grouping.typ docs/figures/grouping-dark.svg --root . --inpu
 
 typst c docs/figures/table.typ docs/figures/table{n}.svg --root .
 typst c docs/figures/table.typ docs/figures/table{n}-dark.svg --root . --input dark=true
+
+typst c docs/figures/nonum.typ --format svg --root .
+typst c docs/figures/nonum.typ docs/figures/nonum-dark.svg --root . --input dark=true

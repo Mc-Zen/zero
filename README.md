@@ -4,7 +4,7 @@
 
 _Advanced scientific number formatting._
 
-[![Typst Package](https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fraw.githubusercontent.com%2FMc-Zen%2Fzero%2Fmain%2Ftypst.toml&query=%24.package.version&prefix=v&logo=typst&label=package&color=239DAD)](https://typst.app/universe/package/zero)
+[![Typst Package](https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fraw.githubusercontent.com%2FMc-Zen%2Fzero%2Fv0.2.0%2Ftypst.toml&query=%24.package.version&prefix=v&logo=typst&label=package&color=239DAD)](https://typst.app/universe/package/zero)
 [![Test Status](https://github.com/Mc-Zen/zero/actions/workflows/run_tests.yml/badge.svg)](https://github.com/Mc-Zen/zero/actions/workflows/run_tests.yml)
 [![MIT License](https://img.shields.io/badge/license-MIT-blue)](https://github.com/Mc-Zen/zero/blob/main/LICENSE)
 
@@ -229,6 +229,24 @@ Non-number entries (e.g., in the header) are automatically recognized in some ca
   </picture>
 </p>
 
+In addition, you can prefix or suffix a numeral with content wrapped by the function `nonum[]` to mark it as _not belonging to the number_. The remaining content may still be recognized as a number and formatted/aligned accordingly. 
+```typ
+#ztable(
+  format: (auto,),
+  [#nonum[€]123.0#nonum(footnote[A special number])],
+  [12.111],
+)
+```
+
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: light)" srcset="docs/figures/nonum.svg">
+    <source media="(prefers-color-scheme: dark)" srcset="docs/figures/nonum-dark.svg">
+    <img alt="Number alignment in tables" src="docs/figures/nonum.svg">
+  </picture>
+</p>
+
+
 Zero not only aligns numbers at the decimal point but also at the uncertainty and exponent part. Moreover, by passing a `dictionary` instead of `auto`, a set of `num()` arguments to apply to all numbers in a column can be specified. 
 
 ```typ
@@ -250,6 +268,7 @@ Zero not only aligns numbers at the decimal point but also at the uncertainty an
   </picture>
 </p>
 
+
 ## Zero for third-party packages
 
 This package provides some useful extras for third-party packages that generate formatted numbers (for example graphics libraries). 
@@ -269,8 +288,12 @@ Furthermore, `num()` also allows `array` arguments for `number` which allows for
 
 ## Changelog
 
+### Version 0.3.0
+- Adds `nonum[]` function that can be used to mark content in cells as _not belonging to the number_. The remaining content may still be recognized as a number and formatted/aligned accordingly. The content wrapped by `nonum[]` is preserved. 
+- Fixes number alignment tables with new version Typst 0.12. 
+
 ### Version 0.2.0
-- Added support for using non-math fonts for `num` via the option `math`. This can be activated by calling `#set-num(math: false)`. 
+- Adds support for using non-math fonts for `num` via the option `math`. This can be activated by calling `#set-num(math: false)`. 
 - Performance improvements for both `num()` and `ztable(9)`
 
 ### Version 0.1.0
