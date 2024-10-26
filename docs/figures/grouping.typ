@@ -5,6 +5,7 @@
 
 #let clr = if "dark" in sys.inputs { white } else { black }
 #set page(fill: white) if clr == black
+#set page(fill: none) if clr != black
 #set text(fill: clr)
 
 #let grouping = cetz.canvas({
