@@ -1,16 +1,17 @@
-#import "num.typ": num, number-to-string
+#import "num.typ": num, number-to-stringw
 #import "state.typ": num-state
 
 // #let ptable-counter = counter("__pillar-table__")
 
 #let is-normal-cell(cell, format, default: none) = {
-  format.at(cell.x, default: default) == none or number-to-string(cell.body) == none 
+  format.at(cell.x, default: default) == none or number-to-stringw(cell.body) == none 
 }
     
-#let call-num(cell, format, col-widths: auto, default: none, state: auto) = {
+#let call-num(cell, format, col-widths: auto, default: none, state: auto) = context{
+  let (numeral, prefix, suffix) = number-to-stringw(cell.body)
   let cell-fmt = format.at(cell.x, default: default)
   let args = if type(cell-fmt) == dictionary { cell-fmt } else { () }
-  num(cell.body, state: state, align: (col-widths: col-widths, col: cell.x), ..args) 
+  num(numeral, prefix: prefix, suffix: suffix, state: state, align: (col-widths: col-widths, col: cell.x), ..args) 
 }
 
 
