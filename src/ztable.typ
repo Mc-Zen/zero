@@ -7,7 +7,7 @@
   format.at(cell.x, default: default) == none or number-to-stringw(cell.body) == none 
 }
     
-#let call-num(cell, format, col-widths: auto, default: none, state: auto) = {
+#let call-num(cell, format, col-widths: auto, default: none, state: auto) = context{
   let (numeral, prefix, suffix) = number-to-stringw(cell.body)
   let cell-fmt = format.at(cell.x, default: default)
   let args = if type(cell-fmt) == dictionary { cell-fmt } else { () }
