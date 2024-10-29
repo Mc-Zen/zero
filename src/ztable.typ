@@ -59,12 +59,12 @@
     show table.cell: it => {
       if is-normal-cell(it, format) { it }
       else {
-        let content = box(
+        table.cell(
+          call-num(it, format, col-widths: col-widths.at(it.x)),
+          align: it.align,
+          x: it.x, y: it.y,
           inset: it.inset,
-          call-num(it, format, col-widths: col-widths.at(it.x), state: state)
         )
-        if it.align == auto { content }
-        else { align(it.align, content) }
       }
     }
     table(..children)

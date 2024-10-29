@@ -71,3 +71,18 @@
     [12.3], [2.211]
   )
 ]
+
+#pagebreak()
+
+#[
+  #show table.cell.where(y: 1): strong
+  #show table.cell.where(y: 1): text.with(blue)
+  
+  #zero.ztable(
+    columns: 2,
+    align: center,
+    format: (none, auto),
+    [4], [1.2+-3], 
+    [4], [1.2+-5], 
+  )
+]
