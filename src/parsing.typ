@@ -18,7 +18,7 @@
 
 /// Converts a content value into a string if it contains only text nodes. 
 /// Otherwise, `none` is returned. 
-#let content-to-stringw(x) = {
+#let content-to-string-table(x) = {
   let prefix = none
   let suffix = none
   if x.has("text") { return (x.text, prefix, suffix) }
@@ -41,9 +41,9 @@
 }
 
 #let nonum = highlight
-#assert.eq(content-to-stringw[alpha ], none)
-#assert.eq(content-to-stringw[#nonum[€]12], ("12", [€], none))
-#assert.eq(content-to-stringw[#nonum[€]12.43#nonum[#footnote[1]]], ("12.43", [€], footnote[1]))
+#assert.eq(content-to-string-table[alpha ], none)
+#assert.eq(content-to-string-table[#nonum[€]12], ("12", [€], none))
+#assert.eq(content-to-string-table[#nonum[€]12.43#nonum[#footnote[1]]], ("12.43", [€], footnote[1]))
 
 /// Converts a number into a string if the input is either
 /// - an integer or a float,
@@ -64,15 +64,18 @@
   return result.replace(",", ".").replace(sym.minus, "-")
 }
 
-#let number-to-stringw(number) = {
+#let number-to-string-table(number) = {
   let result
   if type(number) == str { result = number }
   else if type(number) in (int, float) { result = str(number) }
-  else if type(number) == content  { result = content-to-stringw(number) } 
+  else if type(number) == content  { result = content-to-string-table(number) } 
   else { result = none }
   if result == none { return none }
   if type(result) != array { result = (result, none, none) }
   result.at(0) = result.at(0).replace(",", ".").replace(sym.minus, "-")
+  if result.len() == 0 or result.at(0).at(0) not in "0123456789+-.," { 
+    return none
+  }
   return result
 }
 
