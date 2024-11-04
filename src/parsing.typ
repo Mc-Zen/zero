@@ -73,7 +73,7 @@
   if result == none { return none }
   if type(result) != array { result = (result, none, none) }
   result.at(0) = result.at(0).replace(",", ".").replace(sym.minus, "-")
-  if result.len() == 0 or result.at(0).at(0) not in "0123456789+-.," { 
+  if result.len() == 0 or result.at(0).at(0) not in "0123456789+-." { 
     return none
   }
   return result
