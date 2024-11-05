@@ -1,5 +1,8 @@
-#import "units.typ": define
+#import "units.typ"
 
+#let define(unit) = (
+  value => if value == [] { units.unit(unit)} else { units.qty(value, unit) }
+)
 
 // SI base units ..
 #let ampere = define("A")

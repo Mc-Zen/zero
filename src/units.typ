@@ -109,6 +109,9 @@
   }
 }
 
+#let unit(unit) = {
+  show-unit(parse-unit-str(unit))
+}
 
 
 #let qty(
@@ -122,8 +125,5 @@
 }
 
 
-#let define(unit) = (
-  value => qty(value, unit)
-)
 
 #qty("1232+-2", "m/s")
