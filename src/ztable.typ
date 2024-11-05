@@ -60,7 +60,7 @@
       if is-normal-cell(it, format) { it }
       else {
         table.cell(
-          call-num(it, format, col-widths: col-widths.at(it.x)),
+          call-num(it, format, col-widths: col-widths.at(it.x), state: state),
           align: it.align,
           x: it.x, y: it.y,
           inset: it.inset,
