@@ -1,0 +1,9 @@
+#set page(width: auto, height: auto, margin: .5em)
+#import "/src/si.typ"
+
+#si.N[12] \
+#si.m-s[12] \
+#si.kg[12] \
+#si.candela[23] \
+#si.arcsecond[23] \
+#si.kN[23] \
