@@ -74,6 +74,8 @@
 
 #pagebreak()
 
+// See issue #9
+
 #[
   #show table.cell.where(y: 1): strong
   #show table.cell.where(y: 1): text.with(blue)
@@ -86,3 +88,14 @@
     [4], [1.2+-5], 
   )
 ]
+
+#pagebreak()
+
+// Test for regressions of issue #11
+
+#{
+  zero.set-num(math: false)
+
+  zero.ztable(format: (auto,), [0,2])
+
+}
