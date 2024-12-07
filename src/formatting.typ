@@ -77,12 +77,16 @@
 /// - body (content): Content to attach to
 /// - t (content): Superscript value
 /// - b (content): Subscript value
-#let non-math-attach(body, t: none, b: none) = context {
-  let t = super(typographic: false, t)
-  let b = sub(typographic: false, b)
-  let w = calc.max(measure(t).width, measure(b).width)
-  body + box(width: w, sym.zws + place(top, sym.zws + t) + place(top, sym.zws + b))
-}
+#let non-math-attach(body, t: none, b: none) = {
+  t = if t != none { super(typographic: false, t) } 
+  b = if b != none { sub(typographic: false, b) } 
+  if t != none and b != none {
+    let width = calc.max(measure(t).width, measure(b).width)
+    body + box(width: width, sym.zws + place(top, sym.zws + t) + place(top, sym.zws + b))
+  } else {
+    body + t + b
+  }
+} 
 
 
 /// Takes a sequence of digits and returns a new sequence of length `digits`. 
