@@ -267,7 +267,8 @@
 
 #[
   #show math.equation: set text(2pt)
-  #num(math: false)[2,3]
+  #num(math: false)[2,3+-23e2]\
+  #num(math: false, product: sym.dot)[2,3+.3-.4e2]
 ]
 
 #pagebreak()
