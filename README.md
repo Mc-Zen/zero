@@ -4,7 +4,7 @@
 
 _Advanced scientific number formatting._
 
-[![Typst Package](https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fraw.githubusercontent.com%2FMc-Zen%2Fzero%2Fv0.3.0%2Ftypst.toml&query=%24.package.version&prefix=v&logo=typst&label=package&color=239DAD)](https://typst.app/universe/package/zero)
+[![Typst Package](https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fraw.githubusercontent.com%2FMc-Zen%2Fzero%2Fv0.3.1%2Ftypst.toml&query=%24.package.version&prefix=v&logo=typst&label=package&color=239DAD)](https://typst.app/universe/package/zero)
 [![Test Status](https://github.com/Mc-Zen/zero/actions/workflows/run_tests.yml/badge.svg)](https://github.com/Mc-Zen/zero/actions/workflows/run_tests.yml)
 [![MIT License](https://img.shields.io/badge/license-MIT-blue)](https://github.com/Mc-Zen/zero/blob/main/LICENSE)
 
@@ -91,7 +91,7 @@ The function `num()` is the heart of *Zero*. It provides a wide range of number 
 - `decimal-separator: str = "."` : Specifies the marker that is used for separating integer and decimal part.
 - `product: content = sym.times` : Specifies the multiplication symbol used for scientific notation. 
 - `tight: boolean = false` : If true, tight spacing is applied between operands (applies to $\times$ and $\pm$). 
-- `math: boolean = true` : If set to `false`, the parts of the number won't be wrapped in a `math.equation` wherever feasible. This makes it possible to use `num()` with non-math fonts to some extent. Powers are always rendered in math mode. 
+- `math: boolean = true` : If set to `false`, the parts of the number won't be wrapped in a `math.equation`. This makes it possible to use `num()` with non-math fonts. 
 - `omit-unity-mantissa: boolean = false` : Determines whether a mantissa of 1 is omitted in scientific notation, e.g., $10^4$ instead of $1\cdot 10^4$. 
 - `positive-sign: boolean = false` : If set to `true`, positive coefficients are shown with a $+$ sign. 
 - `positive-sign-exponent: boolean = false` : If set to `true`, positive exponents are shown with a $+$ sign. 
@@ -288,12 +288,21 @@ Furthermore, `num()` also allows `array` arguments for `number` which allows for
 
 ## Changelog
 
+### Version 0.3.1 
+_Improvements for tables and math-less mode_
+- Fixes `show` rules with `table.cell` for number-aligned cells. 
+- Improves `math: false` mode: Formatting can now be handled entirely without equations which makes it possible to use _Zero_ with fonts without math support. 
+- Improves number recognition in tables. A number now needs to start with one of `0123456789+-,.`. This gets rid of many false positives (mostly encountered in header cells). 
+
 ### Version 0.3.0
+_Support for non-numerical content in number cells_
 - Adds `nonum[]` function that can be used to mark content in cells as _not belonging to the number_. The remaining content may still be recognized as a number and formatted/aligned accordingly. The content wrapped by `nonum[]` is preserved. 
 - Fixes number alignment tables with new version Typst 0.12. 
 
-### Version 0.2.0
+### Version 0.2.0 
+_Performance and math-less mode_
 - Adds support for using non-math fonts for `num` via the option `math`. This can be activated by calling `#set-num(math: false)`. 
 - Performance improvements for both `num()` and `ztable(9)`
 
 ### Version 0.1.0
+_Initial release_
