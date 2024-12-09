@@ -167,7 +167,7 @@
         pm.first()
       )
     } else {
-      let space = if it.tight { sym.zws } else { sym.space.med }
+      let space = if not it.tight { sym.space.thin }
       (
         space, sym.plus.minus, space,
         pm.first()
@@ -215,7 +215,7 @@
     let power = non-math-attach([#it.base], t: [#exponent])
     if it.product == none { (power,) }
     else {
-      let space = if it.tight { sym.zws } else { sym.space.med }
+      let space = if not it.tight { sym.space.thin }
       (
         box(), 
         space, it.product, space, 
