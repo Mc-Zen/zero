@@ -281,3 +281,23 @@
   #let num = num.with(state: state)
   #num[2.34]
 ]
+
+#pagebreak()
+
+// num with array input
+
+#context {
+  num(("1", "2")).join(" ")
+}
+
+#pagebreak()
+
+// num with state input
+
+#context {
+  let state = num-state.get()
+  num("1", state: state)
+  [ ]
+  num("2", state: state)
+  // stack(..a)
+}
