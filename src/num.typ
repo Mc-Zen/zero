@@ -1,4 +1,4 @@
-#import "state.typ": num-state, group-state, round-state
+#import "state.typ": num-state
 #import "formatting.typ": *
 #import "rounding.typ": *
 #import "assertations.typ": *
