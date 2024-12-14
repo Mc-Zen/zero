@@ -44,7 +44,7 @@
 
 
 
-#let show-num = it => {
+#let prep-num = it => {
   
   // Process input
   let info
@@ -91,6 +91,11 @@
 
   // Format number
   let components = show-num-impl(info + it)
+  return (it, components)
+}
+
+#let show-num = (it, components) => {
+
   let collect = if it.math { make-equation } else { it => it.join() }
   if it.align == none { return it.prefix + collect(components.join()) + it.suffix }
 
@@ -140,7 +145,7 @@
       suffix: suffix,
       ..args.named()
     )
-    return number.map(n => show-num(it + (number: n)))
+    return number.map(n => show-num(..prep-num(it + (number: n))))
   }
   
   if state != auto {
@@ -150,7 +155,7 @@
       prefix: prefix,
       suffix: suffix
     )
-    return show-num(it)
+    return show-num(..prep-num(it))
   }
   context {
     let it = update-num-state(num-state.get(), args.named()) + (
@@ -159,16 +164,50 @@
       prefix: prefix,
       suffix: suffix
     )
-    show-num(it)
+    show-num(..prep-num(it))
   }
 }
 
+#let aligned-nums(
+  strings, 
+  align: none,
+  state: auto,
+  prefix: none,
+  suffix: none,
+  ..args
+) = {
+  let it = update-num-state(if state == auto {num-state.get()} else {state}, args.named()) + (
+    align: align,
+    number: "",
+    prefix: prefix,
+    suffix: suffix
+  )
+  let collect = if it.math { make-equation } else { it => it.join() }
+  let widths = (0pt,) * 4  
+  let contents = ()
+  for s in strings {
+    let (it, components) = prep-num(it + (number: s))
+    for i in range(4) {
+      let w = measure(collect(components.at(i))).width
+      if w > widths.at(i) {
+        widths.at(i) = w
+      }
+    }
+    contents.push(components)
+  }  
+  it.align = (widths, 0)
+  return contents.map(x => show-num(it, x)) 
+}
+
+#set page(height: auto, width: auto, margin: 2pt)
+#num("-3.9+-4e-9")
 
 
+#let nums = ("-100", "-0.123", "1e6", "-37.9+-4e-9", "-37.9+-4.9")
+#context grid(inset: 3pt, grid.hline(), ..aligned-nums(nums, math: true))
 
-
-
-
+#let nums = ("-100", "-0.123", 99999999)
+#context grid(inset: 3pt, grid.hline(), ..aligned-nums(nums, math: true))
 
 
 /*
