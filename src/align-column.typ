@@ -5,6 +5,8 @@
 /// Turns a series of numeral strings into an array of aligned numbers. 
 /// This can be used to generate cells for a column in a `table` or `stack`. 
 /// 
+/// This function requires context from the caller. 
+/// 
 /// -> array
 #let align-column(
   /// Numerals and named options to pass on to `num`. 
