@@ -93,6 +93,7 @@
   let components = show-num-impl(info + it)
   let collect = if it.math { make-equation } else { it => it.join() }
   if it.align == none { return it.prefix + collect(components.join()) + it.suffix }
+  if it.align == "components" { return components.map(collect) }
 
   let (col-widths, col) = it.align
   let components = components.map(x => if x == () { none } else { collect(x) })
