@@ -94,7 +94,7 @@
   direction: "nearest",
   /// Determines whether the number should be padded with zeros if the number has less
   /// digits than the rounding precision. 
-  /// -> boolean
+  /// -> bool
   pad: true,
   /// Uncertainty
   pm: none

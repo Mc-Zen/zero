@@ -34,7 +34,7 @@
 /// Inserts group separators (e.g., thousand separators if `group-size` is 3)
 /// into a sequence of digits. 
 /// - x (str): Input sequence. 
-/// - invert (boolean): If `false`, the separators are inserted counting from
+/// - invert (bool): If `false`, the separators are inserted counting from
 ///   right-to-left (as customary for integers), if `true`, they are inserted
 ///   from left-to-right (for fractionals). 
 #let insert-group-separators(
