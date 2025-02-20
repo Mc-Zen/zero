@@ -4,7 +4,7 @@
 
 _Advanced scientific number formatting._
 
-[![Typst Package](https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fraw.githubusercontent.com%2FMc-Zen%2Fzero%2Fv0.3.2%2Ftypst.toml&query=%24.package.version&prefix=v&logo=typst&label=package&color=239DAD)](https://typst.app/universe/package/zero)
+[![Typst Package](https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fraw.githubusercontent.com%2FMc-Zen%2Fzero%2Fv0.3.3%2Ftypst.toml&query=%24.package.version&prefix=v&logo=typst&label=package&color=239DAD)](https://typst.app/universe/package/zero)
 [![Test Status](https://github.com/Mc-Zen/zero/actions/workflows/run_tests.yml/badge.svg)](https://github.com/Mc-Zen/zero/actions/workflows/run_tests.yml)
 [![MIT License](https://img.shields.io/badge/license-MIT-blue)](https://github.com/Mc-Zen/zero/blob/main/LICENSE)
 
@@ -289,6 +289,10 @@ Lastly, the function `align-columns` can be used to format and align an array of
 Also here, the caller of the function needs to provide `context`. 
 
 ## Changelog
+
+### Version 0.3.3
+_Fix_
+- Fixes an issue with negative numbers in parentheses due to a change in Typst 0.13. 
 
 ### Version 0.3.2
 _Fixes and more helpers for third-party package developers_
