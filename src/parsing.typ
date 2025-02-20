@@ -61,7 +61,7 @@
   else if type(number) == content  { result = content-to-string(number) } 
   else { result = none }
   if result == none { return none }
-  return result.replace(",", ".").replace(sym.minus, "-")
+  return result.replace(",", ".").replace("−", "-")
 }
 
 #let number-to-string-table(number) = {
@@ -72,7 +72,7 @@
   else { result = none }
   if result == none { return none }
   if type(result) != array { result = (result, none, none) }
-  result.at(0) = result.at(0).replace(",", ".").replace(sym.minus, "-")
+  result.at(0) = result.at(0).replace(",", ".").replace("−", "-")
   if result.len() == 0 or result.at(0).at(0) not in "0123456789+-." { 
     return none
   }
@@ -81,7 +81,7 @@
 
 #assert.eq(number-to-string("123"), "123")
 #assert.eq(number-to-string("-2.0"), "-2.0")
-#assert.eq(number-to-string(sym.minus + "2,0"), "-2.0")
+#assert.eq(number-to-string("−" + "2,0"), "-2.0")
 #assert.eq(number-to-string[2], "2")
 #assert.eq(number-to-string[-2.1], "-2.1")
 #assert.eq(number-to-string[-2.], "-2.")
@@ -149,7 +149,7 @@
 /// Decomposes a normalized number string into sign, integer, fractional,
 /// uncertainty and exponent. Here, normalized means that the decimal separator
 /// is `"."`, and `"+"`, `"-"` is used for all signs (as opposed to 
-/// `sym.minus`). 
+/// `"−"`). 
 ///
 /// Sign, integer and fractional part are guaranteed to be valid (however, 
 /// the latter two may be empty strings) while the uncertainty and the 

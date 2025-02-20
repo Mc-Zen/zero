@@ -52,7 +52,7 @@
     info = it.number
     if "mantissa" in info {
       let mantissa = info.mantissa 
-      if type(mantissa) in (int, float) { mantissa = str(mantissa).replace(sym.minus, "-") }
+      if type(mantissa) in (int, float) { mantissa = str(mantissa).replace("−", "-") }
       let (sign, int, frac) = parsing.decompose-signed-float-string(mantissa)
       info += (sign: sign, int: int, frac: frac)
     }
@@ -68,7 +68,7 @@
   /// Maybe shift exponent
   if it.fixed != none {
     let e = if info.e == none { 0 } else { int(info.e) }
-    info.e = str(it.fixed).replace(sym.minus, "-")
+    info.e = str(it.fixed).replace("−", "-")
     (info.int, info.frac) = utility.shift-decimal-left(info.int, info.frac, it.fixed - e)
   }
 
