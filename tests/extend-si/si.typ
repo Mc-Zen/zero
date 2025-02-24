@@ -1,5 +1,6 @@
 #import "/src/si.typ": *
 
 
-#let fs = define("fs")
-#let µZ = define("µZero")
+#let fs = declare("fs")
+#let µZ = declare("muZero")
+
