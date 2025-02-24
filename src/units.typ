@@ -18,7 +18,7 @@
 /// is always positive. 
 #let parse-unit-str(str) = {
   str += " "
-  str = str.replace("mu", math.mu)
+  str = str.replace("mu", "µ")
   let numerator = ()
   let denominator = ()
   let unit = ""
