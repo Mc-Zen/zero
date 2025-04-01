@@ -1,5 +1,5 @@
 #set page(width: auto, height: auto, margin: .5em)
-#import "/src/si.typ"
+#import "/src/zero.typ": si
 
 #si.N[12] \
 #si.m-s[12] \

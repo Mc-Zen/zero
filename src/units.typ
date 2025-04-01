@@ -19,10 +19,12 @@
 #let parse-unit-str(str) = {
   str += " "
   str = str.replace("mu", "µ")
+
   let numerator = ()
   let denominator = ()
   let unit = ""
   let per = false
+
   let get-symbol-and-exponent(str, per) = {
       let pow-index = str.position("^")
       if pow-index == none { return (str, "1") }
@@ -34,6 +36,7 @@
       assert(symbol.len() != 0, message: "Invalid unit: an exponent needs to be preceeded by a unit")
       return (symbol, exponent)
   }
+
   for c in str {
     if c in "/ " { // both "/" and " " terminate the current unit
       if unit.len() == 0 { 
@@ -76,7 +79,7 @@
   let fold-units(arr, exp-multiplier) = {
     math.upright(arr.map(x => {
       let exponent = x.at(1)//
-      if type(exponent) == "integer" { exponent*= exp-multiplier }
+      if type(exponent) == int { exponent*= exp-multiplier }
       else if exp-multiplier == -1 { exponent = sym.minus + exponent }
       if exponent in (1, [1]) { $#x.at(0)$ }
       else { $#x.at(0)^#exponent$ }
@@ -84,7 +87,7 @@
   }
 
   let numerator = fold-units(unit-spec.numerator, 1)
-  if unit-spec.denominator.len() == 0  { return numerator }
+  if unit-spec.denominator.len() == 0 { return numerator }
   
   let denom-exp-multiplier = if per-mode == "power" { -1 } else { 1 }
   let denominator = fold-units(unit-spec.denominator, denom-exp-multiplier)
@@ -97,12 +100,11 @@
   // for the two fractional modes the numerator cannot be empty
   if unit-spec.numerator.len() == 0 { numerator = $1$ }
   if per-mode == "fraction" {
-    return $#numerator / #denominator $
+    return $#numerator / #denominator$
   } else if per-mode == "symbol" {
     if unit-spec.denominator.len() > 1 {
       denominator = $(#denominator)$
     }
-    // return numerator + h(0pt) + $\/$ + h(0pt) + denominator
     return $#numerator#h(0pt)\/#h(0pt)#denominator$
   } else {
     panic("Invalid per-mode: " + per-mode)
