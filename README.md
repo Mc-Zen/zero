@@ -27,6 +27,8 @@ Proper number formatting requires some love for detail to guarantee a readable a
 - and some specials for package authors.
 <!-- - and localization? -->
 
+- [**Units and quantities**](#units-and-quantities)
+
 A number in scientific notation consists of three parts of which the latter two are optional. The first part is the _mantissa_ that may consist of an _integer_ and a _fractional_ part. In many fields of science, values are not known exactly and the corresponding _uncertainty_ is then given along with the mantissa. Lastly, to facilitate reading very large or small numbers, the mantissa may be multiplied with a _power_ of 10 (or another base). 
 
 The anatomy of a formatted number is shown in the following figure.
@@ -265,6 +267,49 @@ Zero not only aligns numbers at the decimal point but also at the uncertainty an
     <source media="(prefers-color-scheme: light)" srcset="docs/figures/table2.svg">
     <source media="(prefers-color-scheme: dark)" srcset="docs/figures/table2-dark.svg">
     <img alt="Advanced number alignment in tables" src="docs/figures/table2.svg">
+  </picture>
+</p>
+
+
+## Units and quantities
+
+Numbers are frequently displayed together with a (physical) unit forming a so-called _quantity_. Zero has built-in support for formatting quantities through the `si` module. 
+
+Zero takes a different approach to units than other packages: In order to avoid repetition ([DRY principle](https://de.wikipedia.org/wiki/Don%E2%80%99t_repeat_yourself)) and to avoid accidental errors, every unit is
+- first _declared_ (or already predefined)
+- and then used as a function to produce a quantity. 
+
+Take a look at the example below:
+```typ
+#import "@preview/zero:0.3.3": si
+
+#let kgm-s2 = si.declare("kg m/s^2")
+
+- The current world record for the 100 metres is held by Usain Bolt with #si.s[9.58]. 
+- The velocity of light is #si.m-s[299792458].
+- A Newton is defined as #kgm-s2[1]. 
+- The unit of a frequency is #si.Hz[]
+```
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: light)" srcset="docs/figures/unit-demo.svg">
+    <source media="(prefers-color-scheme: dark)" srcset="docs/figures/unit-demo-dark.svg">
+    <img alt="Advanced number alignment in tables" src="docs/figures/unit-demo.svg">
+  </picture>
+</p>
+
+
+### Declaring a new unit
+
+All common single units as well as a few frequent combinations are predefined in the `si` module. 
+
+You can create a new unit through the `si.declare` function. The following naming convention is recommended to uniquely assign a variable name to the unit. 
+
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: light)" srcset="docs/figures/unit-notation.svg">
+    <source media="(prefers-color-scheme: dark)" srcset="docs/figures/unit-notation-dark.svg">
+    <img alt="Advanced number alignment in tables" src="docs/figures/unit-notation.svg">
   </picture>
 </p>
 
