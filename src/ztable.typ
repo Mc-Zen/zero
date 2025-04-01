@@ -1,13 +1,15 @@
 #import "num.typ": num, number-to-string-table
 #import "state.typ": num-state
+#import "parsing.typ": nonum
 
 // #let ptable-counter = counter("__pillar-table__")
 
 #let is-normal-cell(cell, format, default: none) = {
-  format.at(cell.x, default: default) == none or number-to-string-table(cell.body) == none 
+  (format.at(cell.x, default: default) == none or number-to-string-table(cell.body) == none) and cell.body.func() != nonum
 }
     
 #let call-num(cell, format, col-widths: auto, default: none, state: auto) = context{
+  if cell.body.func() == nonum { return cell.body.body }
   let (numeral, prefix, suffix) = number-to-string-table(cell.body)
   let cell-fmt = format.at(cell.x, default: default)
   let args = if type(cell-fmt) == dictionary { cell-fmt } else { () }
