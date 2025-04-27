@@ -10,7 +10,7 @@
 /// -> array
 #let align-column(
   /// Numerals and named options to pass on to `num`. 
-  /// -> str | int | float | content
+  /// -> str | int | float | content
   ..args
 ) = {
   let state = num-state.get()

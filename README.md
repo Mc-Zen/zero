@@ -68,8 +68,8 @@ The function `num()` is the heart of *Zero*. It provides a wide range of number 
 
 ```typ
 #let num(
-  number:                 str | content | int | float | dictionary | array,
-  digits:                 auto | int = auto,
+  number:                 str | content | int | float | dictionary | array,
+  digits:                 auto | int = auto,
   fixed:                  none | int = none,
 
   decimal-separator:      str = ".",
@@ -85,8 +85,8 @@ The function `num()` is the heart of *Zero*. It provides a wide range of number 
   group:                  dictionary,
 )
 ```
-- `number: str | content | int | float | array` : Number input; `str` is preferred. If the input is `content`, it may only contain text nodes. Numeric types `int` and `float` are supported but not encouraged because of information loss (e.g., the number of trailing "0" digits or the exponent). The remaining types `dictionary` and `array` are intended for advanced use, see [below](#zero-for-third-party-packages).
-- `digits: auto | int = auto` : Truncates the number at a given (positive) number of decimal places or pads the number with zeros if necessary. This is independent of [rounding](#rounding).
+- `number: str | content | int | float | array` : Number input; `str` is preferred. If the input is `content`, it may only contain text nodes. Numeric types `int` and `float` are supported but not encouraged because of information loss (e.g., the number of trailing "0" digits or the exponent). The remaining types `dictionary` and `array` are intended for advanced use, see [below](#zero-for-third-party-packages).
+- `digits: auto | int = auto` : Truncates the number at a given (positive) number of decimal places or pads the number with zeros if necessary. This is independent of [rounding](#rounding).
 - `fixed: none | int = none` : If not `none`, forces a fixed exponent. Additional exponents given in the number input are taken into account. 
 - `decimal-separator: str = "."` : Specifies the marker that is used for separating integer and decimal part.
 - `product: content = sym.times` : Specifies the multiplication symbol used for scientific notation. 
@@ -159,13 +159,13 @@ Rounding can be configured with the `set-round()` function.
 
 ```typ
 #let set-round(
-  mode:       none | str = none,
+  mode:       none | str = none,
   precision:  int = 2,
   pad:        bool = true,
   direction:  str = "nearest",
 )
 ```
-- `mode: none | str = none` : Sets the rounding mode. The possible options are
+- `mode: none | str = none` : Sets the rounding mode. The possible options are
   - `none` : Rounding is turned off. 
   - `"places"` : The number is rounded to the number of decimal places given by the `precision` parameter. 
   - `"figures"` : The number is rounded to a number of significant figures given by the `precision` parameter.
