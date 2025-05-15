@@ -92,30 +92,36 @@
   // Format number
   let components = show-num-impl(info + it)
   let collect = if it.math { make-equation } else { it => it.join() }
-  if it.align == none { return it.prefix + collect(components.join()) + it.suffix }
-  if it.align == "components" { return components.map(collect) }
+  if it.align == none { 
+    set text(dir: ltr)
+    it.prefix + collect(components.join()) + it.suffix 
+  } else if it.align == "components" { 
+    components.map(c => { set text(dir: ltr); collect(c) }) 
+  } else {
+    set text(dir: ltr)
 
-  let (col-widths, col) = it.align
-  let components = components.map(x => if x == () { none } else { collect(x) })
-  components.at(0) = it.prefix + components.at(0)
-  if it.suffix != none {
-    if components.at(2) == none and components.at(3) == none {
-      components.at(1) += it.suffix
-    } else {
-      components.at(3) += it.suffix
+    let (col-widths, col) = it.align
+    let components = components.map(x => if x == () { none } else { collect(x) })
+    components.at(0) = it.prefix + components.at(0)
+    if it.suffix != none {
+      if components.at(2) == none and components.at(3) == none {
+        components.at(1) += it.suffix
+      } else {
+        components.at(3) += it.suffix
+      }
     }
-  }
-  let widths = components.map(x => if x == none { 0pt } else { measure(x).width })
-  
-  if col-widths != auto {
-    for i in range(4) {
-      let alignment = if i == 0 { right } else { left }
-      let content = align(alignment, components.at(i))
-      components.at(i) = box(width: col-widths.at(i), content)
+    let widths = components.map(x => if x == none { 0pt } else { measure(x).width })
+    
+    if col-widths != auto {
+      for i in range(4) {
+        let alignment = if i == 0 { right } else { left }
+        let content = align(alignment, components.at(i))
+        components.at(i) = box(width: col-widths.at(i), content)
+      }
     }
-  }
 
-  [#components.join()#metadata((col,) + widths)<__pillar-num__>]
+    [#components.join()#metadata((col,) + widths)<__pillar-num__>]
+  }
 }
 
 #let update-num-state(state, args) = {
