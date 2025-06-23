@@ -301,3 +301,13 @@
   num("2", state: state)
   // stack(..a)
 }
+
+#pagebreak()
+
+// Figure kind detection
+
+#figure(
+  caption: [],
+  ztable(format: (auto,), [1])
+)
+
