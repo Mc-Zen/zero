@@ -71,5 +71,5 @@
     }
     table(..children)
   }
-  table + [#metadata(none)<__pillar-table__>]
+  table + [#metadata(none)<__pillar-table__>] + place(hide(std.table()))
 }
