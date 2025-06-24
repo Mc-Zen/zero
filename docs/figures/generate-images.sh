@@ -9,3 +9,9 @@ typst c docs/figures/table.typ docs/figures/table{n}-dark.svg --root . --input d
 
 typst c docs/figures/nonum.typ --format svg --root .
 typst c docs/figures/nonum.typ docs/figures/nonum-dark.svg --root . --input dark=true
+
+typst c docs/figures/unit-notation.typ --format svg --root .
+typst c docs/figures/unit-notation.typ docs/figures/unit-notation-dark.svg --root . --input dark=true
+
+typst c docs/figures/unit-demo.typ --format svg --root .
+typst c docs/figures/unit-demo.typ docs/figures/unit-demo-dark.svg --root . --input dark=true
