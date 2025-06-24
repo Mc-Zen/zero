@@ -17,7 +17,12 @@
 
 
 #let examples(..children) = {
-  show raw: box.with(fill: luma(90%), outset: (y: .3em), inset: (x: .3em), radius: .2em)
+  show raw: box.with(
+    fill: if clr == white { none } else { luma(90%) }, 
+    outset: (y: .3em), 
+    inset: (x: 0.3em), 
+    radius: 0.2em
+  )
   set raw(lang: "typc")
   table(
     stroke: (x, y) => if x > 0 { (left: .5pt + clr) },
@@ -34,19 +39,19 @@
   table.hline(stroke: clr),
   [Unit in\ the numerator], [Use the unit abbreviation], 
   examples(
-    `let m = si.declare("m")`, si.m[],
-    `let kg = si.declare("kg")`, si.kg[],
+    `let m = si.declare("m")`, si.m(),
+    `let kg = si.declare("kg")`, si.kg(),
   ),
   [Unit in\ the denomiator], [Prepend a dash],
   examples(
-    `let m-s = si.declare("m/s")`, si.m-s[],
-    `let N-mm = si.declare("N/mm")`, (si.declare("N/mm"))[],
-    `let _-s = si.declare("1/s")`, (si.declare("1/s"))[]
+    `let m-s = si.declare("m/s")`, si.m-s(),
+    `let N-mm = si.declare("N/mm")`, (si.declare("N/mm"))(),
+    `let _-s = si.declare("1/s")`, (si.declare("1/s"))()
   ),
   [Exponent], [Append exponent number], 
   examples(
-    `let m2 = si.declare("m^2")`, (si.declare("m^2"))[],
-    `let kgm-s2 = si.declare("kg m/s^2")`, (si.declare("kg m/s^2"))[],
+    `let m2 = si.declare("m^2")`, (si.declare("m^2"))(),
+    `let kgm-s2 = si.declare("kg m/s^2")`, (si.declare("kg m/s^2"))(),
   ),
 
 )

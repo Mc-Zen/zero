@@ -16,4 +16,4 @@
 - The current world record for the 100 metres is #si.s[9.58], held by Usain Bolt. 
 - The velocity of light is #si.m-s[299792458].
 - A Newton is defined as #kgm-s2[1]. 
-- The unit of a frequency is #si.Hz[]. 
+- The unit of a frequency is #si.Hz(). 

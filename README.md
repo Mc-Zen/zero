@@ -288,7 +288,7 @@ Take a look at the example below:
 - The current world record for the 100 metres is held by Usain Bolt with #si.s[9.58]. 
 - The velocity of light is #si.m-s[299792458].
 - A Newton is defined as #kgm-s2[1]. 
-- The unit of a frequency is #si.Hz[]
+- The unit of a frequency is #si.Hz(). 
 ```
 <p align="center">
   <picture>
