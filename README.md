@@ -308,7 +308,7 @@ You can create a new unit through the `si.declare` function. The following namin
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/c0c6b280-d53e-4b4f-a719-5f86001c326e">
-    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/9aa4a915-f8e3-4270-8f97-36a312340e75">
+    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/93954701-5c34-47cb-8ac2-457cff777283">
     <img alt="Declaring new units" src="[https://github.com/user-attachments/assets/9aa4a915-f8e3-4270-8f97-36a312340e75](https://github.com/user-attachments/assets/c0c6b280-d53e-4b4f-a719-5f86001c326e)">
   </picture>
 </p>
