@@ -76,11 +76,11 @@ The function `num()` is the heart of *Zero*. It provides a wide range of number 
 
   decimal-separator:      str = ".",
   product:                content = sym.times,
-  tight:                  boolean = false,
-  math:                   boolean = true,
-  omit-unity-mantissa:    boolean = true,
-  positive-sign:          boolean = false,
-  positive-sign-exponent: boolean = false,
+  tight:                  bool = false,
+  math:                   bool = true,
+  omit-unity-mantissa:    bool = true,
+  positive-sign:          bool = false,
+  positive-sign-exponent: bool = false,
   base:                   int | content = 10,
   uncertainty-mode:       str = "separate",
   round:                  dictionary,
@@ -92,11 +92,11 @@ The function `num()` is the heart of *Zero*. It provides a wide range of number 
 - `fixed: none | int = none` : If not `none`, forces a fixed exponent. Additional exponents given in the number input are taken into account. 
 - `decimal-separator: str = "."` : Specifies the marker that is used for separating integer and decimal part.
 - `product: content = sym.times` : Specifies the multiplication symbol used for scientific notation. 
-- `tight: boolean = false` : If true, tight spacing is applied between operands (applies to $\times$ and $\pm$). 
-- `math: boolean = true` : If set to `false`, the parts of the number won't be wrapped in a `math.equation` wherever feasible. This makes it possible to use `num()` with non-math fonts to some extent. Powers are always rendered in math mode. 
-- `omit-unity-mantissa: boolean = false` : Determines whether a mantissa of 1 is omitted in scientific notation, e.g., $10^4$ instead of $1\cdot 10^4$. 
-- `positive-sign: boolean = false` : If set to `true`, positive coefficients are shown with a $+$ sign. 
-- `positive-sign-exponent: boolean = false` : If set to `true`, positive exponents are shown with a $+$ sign. 
+- `tight: bool = false` : If true, tight spacing is applied between operands (applies to $\times$ and $\pm$). 
+- `math: bool = true` : If set to `false`, the parts of the number won't be wrapped in a `math.equation` wherever feasible. This makes it possible to use `num()` with non-math fonts to some extent. Powers are always rendered in math mode. 
+- `omit-unity-mantissa: bool = false` : Determines whether a mantissa of 1 is omitted in scientific notation, e.g., $10^4$ instead of $1\cdot 10^4$. 
+- `positive-sign: bool = false` : If set to `true`, positive coefficients are shown with a $+$ sign. 
+- `positive-sign-exponent: bool = false` : If set to `true`, positive exponents are shown with a $+$ sign. 
 - `base: int | content = 10` : The base used for scientific power notation. 
 - `uncertainty-mode: str = "separate"` : Selects one of the modes `"separate"`, `"compact"`, or `"compact-separator"` for displaying uncertainties. The different behaviors are shown below:
 
@@ -163,7 +163,7 @@ Rounding can be configured with the `set-round()` function.
 #let set-round(
   mode:       none | str = none,
   precision:  int = 2,
-  pad:        boolean = true,
+  pad:        bool = true,
   direction:  str = "nearest",
 )
 ```
@@ -176,7 +176,7 @@ Rounding can be configured with the `set-round()` function.
     then the number is rounded to the same number of decimal places as the 
     uncertainty. 
 - `precision: int = 2` : The precision to round to. Also see parameter `mode`. 
-- `pad: boolean = true` : Whether to pad the number with zeros if the 
+- `pad: bool = true` : Whether to pad the number with zeros if the 
    number has fewer digits than the rounding precision. 
 - `direction: str = "nearest"` : Sets the rounding direction. 
   - `"nearest"`: Rounding takes place in the usual fashion, rounding to the nearer 
