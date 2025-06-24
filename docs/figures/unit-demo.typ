@@ -8,12 +8,12 @@
 #set text(fill: clr)
 #set text(1.2em)
 
-#import "/src/zero.typ": si
+#import "/src/zero.typ": zi
 
 
-#let kgm-s2 = si.declare("kg m/s^2")
+#let kgm-s2 = zi.declare("kg m/s^2")
 
-- The current world record for the 100 metres is #si.s[9.58], held by Usain Bolt. 
-- The velocity of light is #si.m-s[299792458].
+- The current world record for the 100 metres is #zi.s[9.58], held by Usain Bolt. 
+- The velocity of light is #zi.m-s[299792458].
 - A Newton is defined as #kgm-s2[1]. 
-- The unit of a frequency is #si.Hz(). 
+- The unit of a frequency is #zi.Hz(). 

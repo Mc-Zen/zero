@@ -13,7 +13,7 @@
   if x > 0 { (left: clr + .6pt) }
 })
 
-#import "/src/zero.typ": si
+#import "/src/zero.typ": zi
 
 
 #let examples(..children) = {
@@ -39,19 +39,19 @@
   table.hline(stroke: clr),
   [Unit in\ the numerator], [Use the unit abbreviation], 
   examples(
-    `let m = si.declare("m")`, si.m(),
-    `let kg = si.declare("kg")`, si.kg(),
+    `let m = zi.declare("m")`, zi.m(),
+    `let kg = zi.declare("kg")`, zi.kg(),
   ),
   [Unit in\ the denomiator], [Prepend a dash],
   examples(
-    `let m-s = si.declare("m/s")`, si.m-s(),
-    `let N-mm = si.declare("N/mm")`, (si.declare("N/mm"))(),
-    `let _-s = si.declare("1/s")`, (si.declare("1/s"))()
+    `let m-s = zi.declare("m/s")`, zi.m-s(),
+    `let N-mm = zi.declare("N/mm")`, (zi.declare("N/mm"))(),
+    `let _-s = zi.declare("1/s")`, (zi.declare("1/s"))()
   ),
   [Exponent], [Append exponent number], 
   examples(
-    `let m2 = si.declare("m^2")`, (si.declare("m^2"))(),
-    `let kgm-s2 = si.declare("kg m/s^2")`, (si.declare("kg m/s^2"))(),
+    `let m2 = zi.declare("m^2")`, (zi.declare("m^2"))(),
+    `let kgm-s2 = zi.declare("kg m/s^2")`, (zi.declare("kg m/s^2"))(),
   ),
 
 )

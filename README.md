@@ -13,21 +13,22 @@ _Advanced scientific number formatting._
 - [Quick Demo](#quick-demo)
 - [Documentation](#documentation)
 - [Table alignment](#table-alignment)
+- [Units and quantities](#units-and-quantities)
 - [Zero for third-party packages](#zero-for-third-party-packages)
+
 
 ## Introduction
 
-Proper number formatting requires some love for detail to guarantee a readable and clear output. This package provides tools to ensure consistent formatting and to simplify the process of following established publication practices. Key features are
+Proper number formatting requires some love for detail to guarantee a readable and clear output. This package provides tools to ensure consistent formatting and to simplify the process of following established publication practices. Key features are:
 - **standardized** formatting,
 - digit [**grouping**](#grouping), e.g., $`299\,792\,458`$ instead of $299792458$,
 - **plug-and-play** number [**alignment in tables**](#table-alignment),
 - quick scientific notation, e.g., `"2e4"` becomes $2\times10^4$,
 - symmetric and asymmetric [**uncertainties**](#specifying-uncertainties),
 - [**rounding**](#rounding) in various modes,
-- and some specials for package authors.
-<!-- - and localization? -->
+- some specials for package authors,
+- and [**unit and quantity display**](#units-and-quantities). 
 
-- [**Units and quantities**](#units-and-quantities)
 
 A number in scientific notation consists of three parts of which the latter two are optional. The first part is the _mantissa_ that may consist of an _integer_ and a _fractional_ part. In many fields of science, values are not known exactly and the corresponding _uncertainty_ is then given along with the mantissa. Lastly, to facilitate reading very large or small numbers, the mantissa may be multiplied with a _power_ of 10 (or another base). 
 
@@ -281,14 +282,14 @@ Zero takes a different approach to units than other packages: In order to avoid 
 
 Take a look at the example below:
 ```typ
-#import "@preview/zero:0.3.3": si
+#import "@preview/zero:0.3.3": zi
 
-#let kgm-s2 = si.declare("kg m/s^2")
+#let kgm-s2 = zi.declare("kg m/s^2")
 
-- The current world record for the 100 metres is held by Usain Bolt with #si.s[9.58]. 
-- The velocity of light is #si.m-s[299792458].
+- The current world record for the 100 metres is held by Usain Bolt with #zi.s[9.58]. 
+- The velocity of light is #zi.m-s[299792458].
 - A Newton is defined as #kgm-s2[1]. 
-- The unit of a frequency is #si.Hz(). 
+- The unit of a frequency is #zi.Hz(). 
 ```
 <p align="center">
   <picture>
@@ -301,9 +302,9 @@ Take a look at the example below:
 
 ### Declaring a new unit
 
-All common single units as well as a few frequent combinations are predefined in the `si` module. 
+All common single units as well as a few frequent combinations have been predefined in the `si` module. 
 
-You can create a new unit through the `si.declare` function. The following naming convention is recommended to uniquely assign a variable name to the unit. 
+You can create a new unit through the `zi.declare` function. We recommend the following naming convention to uniquely assign a variable name to the unit. 
 
 <p align="center">
   <picture>

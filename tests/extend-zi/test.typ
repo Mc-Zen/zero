@@ -1,6 +1,6 @@
 #set page(width: auto, height: auto, margin: .5em)
-#import "si.typ"
+#import "zi.typ"
 
-#si.fs[1]
+#zi.fs[1]
 
-#si.µZ[1]
+#zi.µZ[1]
