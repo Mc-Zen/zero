@@ -364,6 +364,15 @@ Lastly, the function `align-columns` can be used to format and align an array of
 
 ## Changelog
 
+
+### Version 0.4.0
+_Units and quantities_
+- Adds the `zi` module for unit and quantity formatting. 
+- Added new way of applying table alignment via show-rules for seamless interoperability with other table packages. 
+- Fixes numbers in RTL direction context. 
+- Fixes `figure.kind` detection of`ztable`. 
+- Fixes direct usage of `nonum` in `ztable`. 
+
 ### Version 0.3.3
 _Fix_
 - Fixes an issue with negative numbers in parentheses due to a change in Typst 0.13. 
