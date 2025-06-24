@@ -11,7 +11,7 @@ _Advanced scientific number formatting._
 
 - [Introduction](#introduction)
 - [Quick Demo](#quick-demo)
-- [Documentation](#documentation)
+- [Number formatting](#number-formatting)
 - [Table alignment](#table-alignment)
 - [Units and quantities](#units-and-quantities)
 - [Zero for third-party packages](#zero-for-third-party-packages)
@@ -56,13 +56,12 @@ The anatomy of a formatted number is shown in the following figure.
 </p>
 
 
-## Documentation
+## Number formatting
 
 - [Function `num`](#num)
 - [Grouping](#grouping)
 - [Rounding](#rounding)
 - [Uncertainties](#specifying-uncertainties)
-- [Table alignment](#table-alignment)
 
 ### `num`
 
@@ -205,11 +204,47 @@ In some cases, the uncertainty is asymmetric which can be expressed via `num("1.
 
 $$ 1.23^{+0.02}_{-0.01}. $$
 
-### Table alignment
+## Table alignment
 
-In scientific publication, presenting many numbers in a readable fashion can be a difficult discipline. A good starting point is to align numbers in a table at the decimal separator. With _Zero_, this can be accomplished by using `ztable`, a wrapper for the built-in `table` function. It features an additional parameter `format` which takes an array of `none`, `auto`, or `dictionary` values to turn on number alignment for specific columns. 
+In scientific publication, presenting many numbers in a readable fashion can be a difficult discipline. A good starting point is to align numbers in a table at the decimal separator. With Zero, this can be easily accomplished by simply applying a show-rule to `table`. 
 
 
+```typ
+#{
+  show table: zero.format-table(none, auto, auto)
+  table(
+    columns: 3,
+    align: center,
+    $n$, $α$, $β$,
+    [1], [3.45], [-11.1],
+    ..
+  )
+}
+```
+
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/f964e693-b65a-43c5-81ce-e37a3122bea8">
+    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/c73d5fb5-56b6-42d4-90a6-924f6f03abd1">
+    <img alt="Number alignment in tables" src="https://github.com/user-attachments/assets/f964e693-b65a-43c5-81ce-e37a3122bea8">
+  </picture>
+</p>
+
+Arguments to `format-table` are `none`, `auto`, or dictionaries (see [below](#advanced-table-options)) that turn on or off number alignment for individual columns. In the example above, we activate number alignment for the second and third column. 
+
+Be careful to scope the show-rule with curly `{}` or square `[]` brackets to avoid applying the rule twice when changing format for the next table. You can use this in your figures in the following way:
+```typ
+#figure(
+  {
+    show table: zero.format-table(..)
+    table(..)
+  },
+  caption: []
+)
+```
+Through this show-rule, Zero can interoperate seamlessly with many other table packages for Typst. 
+
+Nevertheless, Zero also provides the function `ztable` that you can use as a drop-in replacement for the standard table function. It features an additional parameter `format` which takes an array of `none`, `auto`, or `dictionary` values to turn on number alignment for specific columns. With `ztable` the above example can be recreated like this:
 ```typ
 #ztable(
   columns: 3,
@@ -221,15 +256,9 @@ In scientific publication, presenting many numbers in a readable fashion can be 
 )
 ```
 
-Non-number entries (e.g., in the header) are automatically recognized in some cases and will not be aligned. In ambiguous cases, adding a leading or trailing space tells _Zero_ not to apply alignment to this cell, e.g., `[Angle ]` instead of `[Angle]`. 
+### Protect non-numerical content
 
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/f964e693-b65a-43c5-81ce-e37a3122bea8">
-    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/c73d5fb5-56b6-42d4-90a6-924f6f03abd1">
-    <img alt="Number alignment in tables" src="https://github.com/user-attachments/assets/f964e693-b65a-43c5-81ce-e37a3122bea8">
-  </picture>
-</p>
+Non-number entries (e.g., in the header) are automatically recognized in some cases and will not be aligned. In ambiguous cases, adding a leading or trailing space tells Zero not to apply alignment to this cell, e.g., `[Angle ]` instead of `[Angle]`. 
 
 
 In addition, you can prefix or suffix a numeral with content wrapped by the function `nonum[]` to mark it as _not belonging to the number_. The remaining content may still be recognized as a number and formatted/aligned accordingly. 
@@ -249,6 +278,8 @@ In addition, you can prefix or suffix a numeral with content wrapped by the func
   </picture>
 </p>
 
+
+### Advanced table options
 
 Zero not only aligns numbers at the decimal point but also at the uncertainty and exponent part. Moreover, by passing a `dictionary` instead of `auto`, a set of `num()` arguments to apply to all numbers in a column can be specified. 
 
@@ -347,7 +378,7 @@ _Fixes and more helpers for third-party package developers_
 ### Version 0.3.1 
 _Improvements for tables and math-less mode_
 - Fixes `show` rules with `table.cell` for number-aligned cells. 
-- Improves `math: false` mode: Formatting can now be handled entirely without equations which makes it possible to use _Zero_ with fonts without math support. 
+- Improves `math: false` mode: Formatting can now be handled entirely without equations which makes it possible to use Zero with fonts without math support. 
 - Improves number recognition in tables. A number now needs to start with one of `0123456789+-,.`. This gets rid of many false positives (mostly encountered in header cells). 
 
 ### Version 0.3.0
