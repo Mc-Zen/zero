@@ -5,7 +5,7 @@
 
 #let clr = if "dark" in sys.inputs { white } else { black }
 #set page(fill: white) if clr == black
-#set text(1.4em, fill: clr)
+#set text(fill: clr)
 
 #set raw(lang: "typc")
 #set table.cell(inset: .6em)
