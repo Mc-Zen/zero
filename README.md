@@ -1,8 +1,6 @@
-
 # $Z\cdot e^{ro}$
 
-
-_Advanced scientific number formatting._
+_Advanced scientific number formatting for Typst._
 
 [![Typst Package](https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fraw.githubusercontent.com%2FMc-Zen%2Fzero%2Fv0.3.3%2Ftypst.toml&query=%24.package.version&prefix=v&logo=typst&label=package&color=239DAD)](https://typst.app/universe/package/zero)
 [![Test Status](https://github.com/Mc-Zen/zero/actions/workflows/run_tests.yml/badge.svg)](https://github.com/Mc-Zen/zero/actions/workflows/run_tests.yml)
@@ -11,29 +9,28 @@ _Advanced scientific number formatting._
 
 - [Introduction](#introduction)
 - [Quick Demo](#quick-demo)
-- [Number formatting](#number-formatting)
-- [Table alignment](#table-alignment)
-- [Units and quantities](#units-and-quantities)
-- [Zero for third-party packages](#zero-for-third-party-packages)
+- [Number Formatting](#number-formatting)
+- [Table Alignment](#table-alignment)
+- [Units and Quantities](#units-and-quantities)
+- [Zero for Third-Party Packages](#zero-for-third-party-packages)
+- [Changelog](#changelog)
 
+---
 
 ## Introduction
 
-Proper number formatting requires some love for detail to guarantee a readable and clear output. This package provides tools to ensure consistent formatting and to simplify the process of following established publication practices. Key features are:
-- **standardized** formatting,
-- digit [**grouping**](#grouping), e.g., $`299\,792\,458`$ instead of $299792458$,
-- **plug-and-play** number [**alignment in tables**](#table-alignment),
-- quick scientific notation, e.g., `"2e4"` becomes $2\times10^4$,
-- symmetric and asymmetric [**uncertainties**](#specifying-uncertainties),
-- [**rounding**](#rounding) in various modes,
-- some specials for package authors,
-- and [**unit and quantity display**](#units-and-quantities). 
+Proper number formatting is essential for clear and readable scientific documents. **Zero** provides tools for consistent formatting and simplifies adherence to established publication standards. Key features include:
 
+- **Standardized** formatting
+- Digit [**grouping**](#grouping), e.g., $`299\,792\,458`$ instead of $299792458$
+- **Plug-and-play** number [**alignment in tables**](#table-alignment)
+- Quick scientific notation, e.g., `"2e4"` becomes $2\times10^4$
+- Symmetric and asymmetric [**uncertainties**](#specifying-uncertainties)
+- [**Rounding**](#rounding) in various modes
+- [**Unit and quantity display**](#units-and-quantities)
+- Helpers for package authors
 
-A number in scientific notation consists of three parts of which the latter two are optional. The first part is the _mantissa_ that may consist of an _integer_ and a _fractional_ part. In many fields of science, values are not known exactly and the corresponding _uncertainty_ is then given along with the mantissa. Lastly, to facilitate reading very large or small numbers, the mantissa may be multiplied with a _power_ of 10 (or another base). 
-
-The anatomy of a formatted number is shown in the following figure.
-
+A number in scientific notation consists of three parts: the _mantissa_, an optional _uncertainty_, and an optional _power_ (exponent). The following figure illustrates the anatomy of a formatted number:
 
 <p align="center">
   <picture>
@@ -56,7 +53,7 @@ The anatomy of a formatted number is shown in the following figure.
 </p>
 
 
-## Number formatting
+## Number Formatting
 
 - [Function `num`](#num)
 - [Grouping](#grouping)
@@ -65,7 +62,7 @@ The anatomy of a formatted number is shown in the following figure.
 
 ### `num`
 
-The function `num()` is the heart of *Zero*. It provides a wide range of number formatting utilities and its default values are configurable via `set-num()` which takes the same named arguments as `num()`. 
+Zero's core is the `num()` function, which provides flexible number formatting. Its defaults can be configured via `set-num()`. 
 
 ```typ
 #let num(
@@ -151,7 +148,7 @@ Configuration example:
 #set-group(separator: "'", threshold: 4)
 ```
 
-Grouping can be turned off altogether by setting the `threshold` to `calc.inf`. 
+Set `threshold: calc.inf` to disable grouping.
 
 
 
@@ -365,6 +362,7 @@ Furthermore, `num()` also allows `array` arguments for `number` which allows for
 Lastly, the function `align-columns` can be used to format and align an array of numerals into a single column. The returned array of items can be used to fill a column of a `table` or `stack`. Also here, the caller of the function needs to provide `context`. 
 
 
+## Changelog
 
 ### Version 0.3.3
 _Fix_
