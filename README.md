@@ -4,7 +4,7 @@
 
 _Advanced scientific number formatting._
 
-[![Typst Package](https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fraw.githubusercontent.com%2FMc-Zen%2Fzero%2Fv0.3.3%2Ftypst.toml&query=%24.package.version&prefix=v&logo=typst&label=package&color=239DAD)](https://typst.app/universe/package/zero)
+[![Typst Package](https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fraw.githubusercontent.com%2FMc-Zen%2Fzero%2Fv0.3.0%2Ftypst.toml&query=%24.package.version&prefix=v&logo=typst&label=package&color=239DAD)](https://typst.app/universe/package/zero)
 [![Test Status](https://github.com/Mc-Zen/zero/actions/workflows/run_tests.yml/badge.svg)](https://github.com/Mc-Zen/zero/actions/workflows/run_tests.yml)
 [![MIT License](https://img.shields.io/badge/license-MIT-blue)](https://github.com/Mc-Zen/zero/blob/main/LICENSE)
 
@@ -36,9 +36,9 @@ The anatomy of a formatted number is shown in the following figure.
 
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: light)" srcset="docs/figures/anatomy.svg">
-    <source media="(prefers-color-scheme: dark)" srcset="docs/figures/anatomy-dark.svg">
-    <img alt="Anatomy of a formatted number" src="docs/figures/anatomy.svg">
+    <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/a78ff9a4-eb90-44b4-9168-37d100452363">
+    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/b75dad9b-f4af-4caf-989b-f327603b2bf8">
+    <img alt="Anatomy of a formatted number" src="https://github.com/user-attachments/assets/a78ff9a4-eb90-44b4-9168-37d100452363">
   </picture>
 </p>
 
@@ -70,33 +70,33 @@ The function `num()` is the heart of *Zero*. It provides a wide range of number 
 
 ```typ
 #let num(
-  number:                 str | content | int | float | dictionary | array,
-  digits:                 auto | int = auto,
+  number:                 str | content | int | float | dictionary | array,
+  digits:                 auto | int = auto,
   fixed:                  none | int = none,
 
   decimal-separator:      str = ".",
   product:                content = sym.times,
-  tight:                  bool = false,
-  math:                   bool = true,
-  omit-unity-mantissa:    bool = true,
-  positive-sign:          bool = false,
-  positive-sign-exponent: bool = false,
+  tight:                  boolean = false,
+  math:                   boolean = true,
+  omit-unity-mantissa:    boolean = true,
+  positive-sign:          boolean = false,
+  positive-sign-exponent: boolean = false,
   base:                   int | content = 10,
   uncertainty-mode:       str = "separate",
   round:                  dictionary,
   group:                  dictionary,
 )
 ```
-- `number: str | content | int | float | array` : Number input; `str` is preferred. If the input is `content`, it may only contain text nodes. Numeric types `int` and `float` are supported but not encouraged because of information loss (e.g., the number of trailing "0" digits or the exponent). The remaining types `dictionary` and `array` are intended for advanced use, see [below](#zero-for-third-party-packages).
-- `digits: auto | int = auto` : Truncates the number at a given (positive) number of decimal places or pads the number with zeros if necessary. This is independent of [rounding](#rounding).
+- `number: str | content | int | float | array` : Number input; `str` is preferred. If the input is `content`, it may only contain text nodes. Numeric types `int` and `float` are supported but not encouraged because of information loss (e.g., the number of trailing "0" digits or the exponent). The remaining types `dictionary` and `array` are intended for advanced use, see [below](#zero-for-third-party-packages).
+- `digits: auto | int = auto` : Truncates the number at a given (positive) number of decimal places or pads the number with zeros if necessary. This is independent of [rounding](#rounding).
 - `fixed: none | int = none` : If not `none`, forces a fixed exponent. Additional exponents given in the number input are taken into account. 
 - `decimal-separator: str = "."` : Specifies the marker that is used for separating integer and decimal part.
 - `product: content = sym.times` : Specifies the multiplication symbol used for scientific notation. 
-- `tight: bool = false` : If true, tight spacing is applied between operands (applies to $\times$ and $\pm$). 
-- `math: bool = true` : If set to `false`, the parts of the number won't be wrapped in a `math.equation`. This makes it possible to use `num()` with non-math fonts. 
-- `omit-unity-mantissa: bool = false` : Determines whether a mantissa of 1 is omitted in scientific notation, e.g., $10^4$ instead of $1\cdot 10^4$. 
-- `positive-sign: bool = false` : If set to `true`, positive coefficients are shown with a $+$ sign. 
-- `positive-sign-exponent: bool = false` : If set to `true`, positive exponents are shown with a $+$ sign. 
+- `tight: boolean = false` : If true, tight spacing is applied between operands (applies to $\times$ and $\pm$). 
+- `math: boolean = true` : If set to `false`, the parts of the number won't be wrapped in a `math.equation` wherever feasible. This makes it possible to use `num()` with non-math fonts to some extent. Powers are always rendered in math mode. 
+- `omit-unity-mantissa: boolean = false` : Determines whether a mantissa of 1 is omitted in scientific notation, e.g., $10^4$ instead of $1\cdot 10^4$. 
+- `positive-sign: boolean = false` : If set to `true`, positive coefficients are shown with a $+$ sign. 
+- `positive-sign-exponent: boolean = false` : If set to `true`, positive exponents are shown with a $+$ sign. 
 - `base: int | content = 10` : The base used for scientific power notation. 
 - `uncertainty-mode: str = "separate"` : Selects one of the modes `"separate"`, `"compact"`, or `"compact-separator"` for displaying uncertainties. The different behaviors are shown below:
 
@@ -123,9 +123,9 @@ Digit grouping is important for keeping large figures readable. It is customary 
 
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: light)" srcset="docs/figures/grouping.svg">
-    <source media="(prefers-color-scheme: dark)" srcset="docs/figures/grouping-dark.svg">
-    <img alt="Digit grouping" src="docs/figures/grouping.svg">
+    <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/f900e134-b1d9-482f-b2c2-3100cad38793">
+    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/67e8516f-98d5-4678-8af0-b2a8786da507">
+    <img alt="Digit grouping" src="https://github.com/user-attachments/assets/f900e134-b1d9-482f-b2c2-3100cad38793">
   </picture>
 </p>
 
@@ -161,13 +161,13 @@ Rounding can be configured with the `set-round()` function.
 
 ```typ
 #let set-round(
-  mode:       none | str = none,
+  mode:       none | str = none,
   precision:  int = 2,
-  pad:        bool = true,
+  pad:        boolean = true,
   direction:  str = "nearest",
 )
 ```
-- `mode: none | str = none` : Sets the rounding mode. The possible options are
+- `mode: none | str = none` : Sets the rounding mode. The possible options are
   - `none` : Rounding is turned off. 
   - `"places"` : The number is rounded to the number of decimal places given by the `precision` parameter. 
   - `"figures"` : The number is rounded to a number of significant figures given by the `precision` parameter.
@@ -176,7 +176,7 @@ Rounding can be configured with the `set-round()` function.
     then the number is rounded to the same number of decimal places as the 
     uncertainty. 
 - `precision: int = 2` : The precision to round to. Also see parameter `mode`. 
-- `pad: bool = true` : Whether to pad the number with zeros if the 
+- `pad: boolean = true` : Whether to pad the number with zeros if the 
    number has fewer digits than the rounding precision. 
 - `direction: str = "nearest"` : Sets the rounding direction. 
   - `"nearest"`: Rounding takes place in the usual fashion, rounding to the nearer 
@@ -222,14 +222,14 @@ In scientific publication, presenting many numbers in a readable fashion can be 
 
 Non-number entries (e.g., in the header) are automatically recognized in some cases and will not be aligned. In ambiguous cases, adding a leading or trailing space tells _Zero_ not to apply alignment to this cell, e.g., `[Angle ]` instead of `[Angle]`. 
 
-
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: light)" srcset="docs/figures/table1.svg">
-    <source media="(prefers-color-scheme: dark)" srcset="docs/figures/table1-dark.svg">
-    <img alt="Number alignment in tables" src="docs/figures/table1.svg">
+    <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/f964e693-b65a-43c5-81ce-e37a3122bea8">
+    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/c73d5fb5-56b6-42d4-90a6-924f6f03abd1">
+    <img alt="Number alignment in tables" src="https://github.com/user-attachments/assets/f964e693-b65a-43c5-81ce-e37a3122bea8">
   </picture>
 </p>
+
 
 In addition, you can prefix or suffix a numeral with content wrapped by the function `nonum[]` to mark it as _not belonging to the number_. The remaining content may still be recognized as a number and formatted/aligned accordingly. 
 ```typ
@@ -242,9 +242,9 @@ In addition, you can prefix or suffix a numeral with content wrapped by the func
 
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: light)" srcset="docs/figures/nonum.svg">
-    <source media="(prefers-color-scheme: dark)" srcset="docs/figures/nonum-dark.svg">
-    <img alt="Number alignment in tables" src="docs/figures/nonum.svg">
+    <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/337054ef-c7e6-4feb-b5fd-f50e36eb043a">
+    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/8e169759-f0cc-4c7a-a3e7-1de0f17d2114">
+    <img alt="Avoid number recognition in tables" src="https://github.com/user-attachments/assets/337054ef-c7e6-4feb-b5fd-f50e36eb043a">
   </picture>
 </p>
 
@@ -264,9 +264,9 @@ Zero not only aligns numbers at the decimal point but also at the uncertainty an
 
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: light)" srcset="docs/figures/table2.svg">
-    <source media="(prefers-color-scheme: dark)" srcset="docs/figures/table2-dark.svg">
-    <img alt="Advanced number alignment in tables" src="docs/figures/table2.svg">
+    <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/0d707e0c-2231-4c0c-afd5-97f6bdf7fca0">
+    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/19ccb15c-c5ba-4b03-a4e1-054862543d75">
+    <img alt="Advanced number alignment in tables" src="https://github.com/user-attachments/assets/0d707e0c-2231-4c0c-afd5-97f6bdf7fca0">
   </picture>
 </p>
 
@@ -275,7 +275,7 @@ Zero not only aligns numbers at the decimal point but also at the uncertainty an
 
 Numbers are frequently displayed together with a (physical) unit forming a so-called _quantity_. Zero has built-in support for formatting quantities through the `si` module. 
 
-Zero takes a different approach to units than other packages: In order to avoid repetition ([DRY principle](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself)) and to avoid accidental errors, every unit is
+Zero takes a different approach to units than other packages: In order to avoid repetition ([DRY principle](https://de.wikipedia.org/wiki/Don%E2%80%99t_repeat_yourself)) and to avoid accidental errors, every unit is
 - first _declared_ (or already predefined)
 - and then used as a function to produce a quantity. 
 
@@ -292,9 +292,9 @@ Take a look at the example below:
 ```
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: light)" srcset="docs/figures/unit-demo.svg">
-    <source media="(prefers-color-scheme: dark)" srcset="docs/figures/unit-demo-dark.svg">
-    <img alt="Advanced number alignment in tables" src="docs/figures/unit-demo.svg">
+    <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/566500e3-7e4f-44eb-ae2e-b527084703bc">
+    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/3e8a6365-fddc-4876-baef-3b4dc6719dce">
+    <img alt="Units and quantities" src="https://github.com/user-attachments/assets/566500e3-7e4f-44eb-ae2e-b527084703bc">
   </picture>
 </p>
 
@@ -307,9 +307,9 @@ You can create a new unit through the `si.declare` function. The following namin
 
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: light)" srcset="docs/figures/unit-notation.svg">
-    <source media="(prefers-color-scheme: dark)" srcset="docs/figures/unit-notation-dark.svg">
-    <img alt="Advanced number alignment in tables" src="docs/figures/unit-notation.svg">
+    <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/c0c6b280-d53e-4b4f-a719-5f86001c326e">
+    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/9aa4a915-f8e3-4270-8f97-36a312340e75">
+    <img alt="Declaring new units" src="[https://github.com/user-attachments/assets/9aa4a915-f8e3-4270-8f97-36a312340e75](https://github.com/user-attachments/assets/c0c6b280-d53e-4b4f-a719-5f86001c326e)">
   </picture>
 </p>
 
@@ -330,35 +330,15 @@ This way, parsing the number can be avoided which makes especially sense for pac
 
 Furthermore, `num()` also allows `array` arguments for `number` which allows for more efficient batch-processing of numbers with the same setup. In this case, the caller of the function needs to provide `context`. 
 
-Lastly, the function `align-columns` can be used to format and align an array of numerals into a single column. The returned array of items can be used to fill a column of a `table` or `stack`. 
-Also here, the caller of the function needs to provide `context`. 
 
 ## Changelog
 
-### Version 0.3.3
-_Fix_
-- Fixes an issue with negative numbers in parentheses due to a change in Typst 0.13. 
-
-### Version 0.3.2
-_Fixes and more helpers for third-party package developers_
-- Adds `align-columns` for package developers. 
-- Fixes issues arising for Typst 0.13.
-
-### Version 0.3.1 
-_Improvements for tables and math-less mode_
-- Fixes `show` rules with `table.cell` for number-aligned cells. 
-- Improves `math: false` mode: Formatting can now be handled entirely without equations which makes it possible to use _Zero_ with fonts without math support. 
-- Improves number recognition in tables. A number now needs to start with one of `0123456789+-,.`. This gets rid of many false positives (mostly encountered in header cells). 
-
 ### Version 0.3.0
-_Support for non-numerical content in number cells_
 - Adds `nonum[]` function that can be used to mark content in cells as _not belonging to the number_. The remaining content may still be recognized as a number and formatted/aligned accordingly. The content wrapped by `nonum[]` is preserved. 
 - Fixes number alignment tables with new version Typst 0.12. 
 
-### Version 0.2.0 
-_Performance and math-less mode_
+### Version 0.2.0
 - Adds support for using non-math fonts for `num` via the option `math`. This can be activated by calling `#set-num(math: false)`. 
 - Performance improvements for both `num()` and `ztable(9)`
 
 ### Version 0.1.0
-_Initial release_
