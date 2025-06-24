@@ -18,8 +18,10 @@
 
 
 
-#let ztable(..children, format: none) = {
-  if format == none { return table(..children) }
+
+
+#let show-ztable(it, format: none) = {
+  if format == none or it.children.len() == 0 { return it }
   assert.eq(type(format), array, message: "The parameter `format` requires an array argument, got " + repr(format))
 
 
@@ -45,7 +47,7 @@
           if is-normal-cell(it, format) { it }
           else { call-num(it, format, state: state) }
         }    
-        table(..children)
+        it
       }
     }
   
@@ -69,7 +71,17 @@
         )
       }
     }
-    table(..children)
+    it
   }
   table + [#metadata(none)<__pillar-table__>] + place(hide(std.table()))
+}
+
+
+#let ztable(..children, format: none) = {
+  show-ztable(table(..children), format: format)
+}
+
+
+#let format-table(..format) = {
+  show-ztable.with(format: format.pos())
 }
