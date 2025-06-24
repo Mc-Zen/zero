@@ -8,4 +8,4 @@
 #si.arcsecond[23] \
 #si.kN[23] \
 
-#si.kN[] // later make them types maybe? Then we can just call #si.kN, that looks much better
+#si.kN() // later make them types maybe? Then we can just call #si.kN, that looks much better
