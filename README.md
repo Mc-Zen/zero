@@ -47,14 +47,13 @@ The anatomy of a formatted number is shown in the following figure.
 
 ## Quick Demo
 
-| Code | Output | Code | Output |
-|------|--------|------|--------|
-| `num("1.2e4")`        | $1.2\times 10^4$          | `num[1.2e4]`           | $1.2\times 10^4$       |
-| `num("-5e-4")`        | $-5\times 10^{-4}$        | `num(fixed: -2)[0.02]` | $2\times 10^{-2}$      |
-| `num("9.81+-.01")`    | $9.81\pm 0.01$            | `num("9.81+0.02-.01")` | $9.81^{+0.02}_{-0.01}$ |
-| `num("9.81+-.01e2")`  | $(9.81\pm0.01)\times 10^2$| `num(base: 2)[3e4]`    | $3\times 2^4$          |
-
-
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/925fb0ff-5af2-4373-a3e6-63f23523d60c">
+    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/655c57b0-b4d5-4ca4-b928-3b90104ed93c">
+    <img alt="Quick demo" src="https://github.com/user-attachments/assets/925fb0ff-5af2-4373-a3e6-63f23523d60c">
+  </picture>
+</p>
 
 
 ## Documentation
@@ -101,12 +100,13 @@ The function `num()` is the heart of *Zero*. It provides a wide range of number 
 - `base: int | content = 10` : The base used for scientific power notation. 
 - `uncertainty-mode: str = "separate"` : Selects one of the modes `"separate"`, `"compact"`, or `"compact-separator"` for displaying uncertainties. The different behaviors are shown below:
 
-| `"separate"` |  `"compact"` |  `"compact-separator"` |
-|---|---|---|
-| $1.7\pm0.2$ | $1.7(2)$  | $1.7(2)$   |
-| $6.2\pm2.1$ | $6.2(21)$ | $6.2(2.1)$ |
-| $1.7^{+0.2}_{-0.5}$ | $1.7^{+2}_{-5}$ | $1.7^{+2}_{-5}$ |
-| $1.7^{+2.0}_{-5.0}$ | $1.7^{+20}_{-50}$ | $1.7^{+2.0}_{-5.0}$ |
+  <p align="center">
+    <picture>
+      <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/b7f5b106-efd5-477a-8299-c8daacdbd6e4">
+      <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/f6bc45ff-74cb-499b-86a9-a03ba032bd33">
+      <img alt="Uncertainty modes" src="https://github.com/user-attachments/assets/b7f5b106-efd5-477a-8299-c8daacdbd6e4">
+    </picture>
+  </p>
 
 - `round: dictionary` : You can provide one or more rounding options in a dictionary. Also see [rounding](#rounding). 
 - `group: dictionary` : You can provide one or more grouping options in a dictionary. Also see [grouping](#grouping). 
