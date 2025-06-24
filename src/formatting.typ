@@ -237,6 +237,10 @@
     it.frac == "" and it.e != none and it.pm == none and it.digits == 0
   )
 
+  assert(
+    it.uncertainty-mode in ("separate", "compact", "compact-separator"), 
+    message: "The uncertainty-mode can be one of \"separate\", \"compact\", \"compact-separator\", got " + repr(it.uncertainty-mode)
+  )
   let concise-uncertainty = it.uncertainty-mode != "separate"
 
 
