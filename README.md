@@ -4,7 +4,7 @@
 
 _Advanced scientific number formatting._
 
-[![Typst Package](https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fraw.githubusercontent.com%2FMc-Zen%2Fzero%2Fv0.3.0%2Ftypst.toml&query=%24.package.version&prefix=v&logo=typst&label=package&color=239DAD)](https://typst.app/universe/package/zero)
+[![Typst Package](https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fraw.githubusercontent.com%2FMc-Zen%2Fzero%2Fv0.3.3%2Ftypst.toml&query=%24.package.version&prefix=v&logo=typst&label=package&color=239DAD)](https://typst.app/universe/package/zero)
 [![Test Status](https://github.com/Mc-Zen/zero/actions/workflows/run_tests.yml/badge.svg)](https://github.com/Mc-Zen/zero/actions/workflows/run_tests.yml)
 [![MIT License](https://img.shields.io/badge/license-MIT-blue)](https://github.com/Mc-Zen/zero/blob/main/LICENSE)
 
@@ -93,7 +93,7 @@ The function `num()` is the heart of *Zero*. It provides a wide range of number 
 - `decimal-separator: str = "."` : Specifies the marker that is used for separating integer and decimal part.
 - `product: content = sym.times` : Specifies the multiplication symbol used for scientific notation. 
 - `tight: bool = false` : If true, tight spacing is applied between operands (applies to $\times$ and $\pm$). 
-- `math: bool = true` : If set to `false`, the parts of the number won't be wrapped in a `math.equation` wherever feasible. This makes it possible to use `num()` with non-math fonts to some extent. Powers are always rendered in math mode. 
+- `math: bool = true` : If set to `false`, the parts of the number won't be wrapped in a `math.equation`. This makes it possible to use `num()` with non-math fonts.
 - `omit-unity-mantissa: bool = false` : Determines whether a mantissa of 1 is omitted in scientific notation, e.g., $10^4$ instead of $1\cdot 10^4$. 
 - `positive-sign: bool = false` : If set to `true`, positive coefficients are shown with a $+$ sign. 
 - `positive-sign-exponent: bool = false` : If set to `true`, positive exponents are shown with a $+$ sign. 
@@ -274,7 +274,7 @@ Zero not only aligns numbers at the decimal point but also at the uncertainty an
 
 ## Units and quantities
 
-Numbers are frequently displayed together with a (physical) unit forming a so-called _quantity_. Zero has built-in support for formatting quantities through the `si` module. 
+Numbers are frequently displayed together with a (physical) unit forming a so-called _quantity_. Zero has built-in support for formatting quantities through the `zi` module. 
 
 Zero takes a different approach to units than other packages: In order to avoid repetition ([DRY principle](https://de.wikipedia.org/wiki/Don%E2%80%99t_repeat_yourself)) and to avoid accidental errors, every unit is
 - first _declared_ (or already predefined)
@@ -302,7 +302,7 @@ Take a look at the example below:
 
 ### Declaring a new unit
 
-All common single units as well as a few frequent combinations have been predefined in the `si` module. 
+All common single units as well as a few frequent combinations have been predefined in the `zi` module. 
 
 You can create a new unit through the `zi.declare` function. We recommend the following naming convention to uniquely assign a variable name to the unit. 
 
@@ -331,15 +331,34 @@ This way, parsing the number can be avoided which makes especially sense for pac
 
 Furthermore, `num()` also allows `array` arguments for `number` which allows for more efficient batch-processing of numbers with the same setup. In this case, the caller of the function needs to provide `context`. 
 
+Lastly, the function `align-columns` can be used to format and align an array of numerals into a single column. The returned array of items can be used to fill a column of a `table` or `stack`. Also here, the caller of the function needs to provide `context`. 
 
-## Changelog
+
+
+### Version 0.3.3
+_Fix_
+- Fixes an issue with negative numbers in parentheses due to a change in Typst 0.13. 
+
+### Version 0.3.2
+_Fixes and more helpers for third-party package developers_
+- Adds `align-columns` for package developers. 
+- Fixes issues arising for Typst 0.13.
+
+### Version 0.3.1 
+_Improvements for tables and math-less mode_
+- Fixes `show` rules with `table.cell` for number-aligned cells. 
+- Improves `math: false` mode: Formatting can now be handled entirely without equations which makes it possible to use _Zero_ with fonts without math support. 
+- Improves number recognition in tables. A number now needs to start with one of `0123456789+-,.`. This gets rid of many false positives (mostly encountered in header cells). 
 
 ### Version 0.3.0
+_Support for non-numerical content in number cells_
 - Adds `nonum[]` function that can be used to mark content in cells as _not belonging to the number_. The remaining content may still be recognized as a number and formatted/aligned accordingly. The content wrapped by `nonum[]` is preserved. 
 - Fixes number alignment tables with new version Typst 0.12. 
 
-### Version 0.2.0
+### Version 0.2.0 
+_Performance and math-less mode_
 - Adds support for using non-math fonts for `num` via the option `math`. This can be activated by calling `#set-num(math: false)`. 
 - Performance improvements for both `num()` and `ztable(9)`
 
 ### Version 0.1.0
+_Initial release_
