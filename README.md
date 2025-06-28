@@ -65,7 +65,7 @@ A number in scientific notation consists of three parts: the _mantissa_, an opti
 Zero's core is the `num()` function, which provides flexible number formatting. Its defaults can be configured via `set-num()`. 
 
 ```typ
-#let num(
+#num(
   number:                 str | content | int | float | dictionary | array,
   digits:                 auto | int = auto,
   fixed:                  none | int = none,
@@ -131,7 +131,7 @@ Digit grouping can be configured with the `set-group()` function.
 
 
 ```typ
-#let set-group(
+#set-group(
   size:       int = 3, 
   separator:  content = sym.space.thin,
   threshold:  int | dictionary = 5
@@ -157,7 +157,7 @@ Set `threshold: calc.inf` to disable grouping.
 Rounding can be configured with the `set-round()` function. 
 
 ```typ
-#let set-round(
+#set-round(
   mode:       none | str = none,
   precision:  int = 2,
   pad:        bool = true,
@@ -341,6 +341,25 @@ You can create a new unit through the `zi.declare` function. We recommend the fo
     <img alt="Declaring new units" src="[https://github.com/user-attachments/assets/9aa4a915-f8e3-4270-8f97-36a312340e75](https://github.com/user-attachments/assets/c0c6b280-d53e-4b4f-a719-5f86001c326e)">
   </picture>
 </p>
+
+
+### Configuring units
+Units can be configured via `set-unit`:
+```typ
+#set-unit(
+  unit-separator:  content = sym.space.thin,
+  fraction:        str = "power",
+)
+```
+- `unit-separator: content` : Configures the separator between consecutive unit parts in a composite unit. 
+- `fraction: str` : Configures the appearance of fractions when there are units present in the denominator. Possible options are
+  - `"power"` : Units with negative exponents are shown as powers. 
+  - `"fraction"` : When units with negative exponents are present, a fraction is created and the concerned units are put in the denominator. 
+  - `"inline"` : An inline fraction is created. 
+
+These options are also available when instancing a quantity, e.g., `#zi.m(fraction: "inline")[2.5]`. 
+
+
 
 
 ## Zero for third-party packages
