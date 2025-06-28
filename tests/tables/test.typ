@@ -101,3 +101,18 @@
   zero.ztable(format: (auto,), [0,2])
 
 }
+#pagebreak()
+
+// Figure kind detection
+
+#figure(
+  caption: [],
+  zero.ztable(format: (auto,), [1])
+)
+
+#figure(
+  caption: [], {
+    show: zero.format-table(auto)
+    table[1]
+  }
+)

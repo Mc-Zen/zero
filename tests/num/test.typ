@@ -311,3 +311,11 @@
   ztable(format: (auto,), [1])
 )
 
+// #pagebreak()
+
+// #set-group(
+//   // threshold: (integer: 3, fractional: calc.inf)
+//   threshold: (fractional: 3, integer: calc.inf)
+// )
+
+// #num[23232.2323]
