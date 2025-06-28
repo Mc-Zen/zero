@@ -183,7 +183,7 @@ Rounding can be configured with the `set-round()` function.
 
 
 
-### Specifying uncertainties
+### Specifying Uncertainties
 
 There are two ways of specifying uncertainties:
 - Applying an uncertainty to the least significant digits using parentheses, e.g., `2.3(4)`,
@@ -201,7 +201,7 @@ In some cases, the uncertainty is asymmetric which can be expressed via `num("1.
 
 $$ 1.23^{+0.02}_{-0.01}. $$
 
-## Table alignment
+## Table Alignment
 
 In scientific publication, presenting many numbers in a readable fashion can be a difficult discipline. A good starting point is to align numbers in a table at the decimal separator. With Zero, this can be easily accomplished by simply applying a show-rule to `table`. 
 
@@ -253,7 +253,7 @@ Nevertheless, Zero also provides the function `ztable` that you can use as a dro
 )
 ```
 
-### Protect non-numerical content
+### Protect Non-Numerical Content
 
 Non-number entries (e.g., in the header) are automatically recognized in some cases and will not be aligned. In ambiguous cases, adding a leading or trailing space tells Zero not to apply alignment to this cell, e.g., `[Angle ]` instead of `[Angle]`. 
 
@@ -276,7 +276,7 @@ In addition, you can prefix or suffix a numeral with content wrapped by the func
 </p>
 
 
-### Advanced table options
+### Advanced Table Options
 
 Zero not only aligns numbers at the decimal point but also at the uncertainty and exponent part. Moreover, by passing a `dictionary` instead of `auto`, a set of `num()` arguments to apply to all numbers in a column can be specified. 
 
@@ -300,7 +300,7 @@ Zero not only aligns numbers at the decimal point but also at the uncertainty an
 </p>
 
 
-## Units and quantities
+## Units and Quantities
 
 Numbers are frequently displayed together with a (physical) unit forming a so-called _quantity_. Zero has built-in support for formatting quantities through the `zi` module. 
 
@@ -328,7 +328,7 @@ Take a look at the example below:
 </p>
 
 
-### Declaring a new unit
+### Declaring a New Unit
 
 All common single units as well as a few frequent combinations have been predefined in the `zi` module. 
 
@@ -343,8 +343,8 @@ You can create a new unit through the `zi.declare` function. We recommend the fo
 </p>
 
 
-### Configuring units
-Units can be configured via `set-unit`:
+### Configuring Units
+The appearance of units can be configured via `set-unit`:
 ```typ
 #set-unit(
   unit-separator:  content = sym.space.thin,
@@ -359,10 +359,12 @@ Units can be configured via `set-unit`:
 
 These options are also available when instancing a quantity, e.g., `#zi.m(fraction: "inline")[2.5]`. 
 
+Note that the configuration made through `set-num` also affects the numeral of a quantity. 
 
 
 
-## Zero for third-party packages
+
+## Zero for Third-party Packages
 
 This package provides some useful extras for third-party packages that generate formatted numbers (for example graphics libraries). 
 
