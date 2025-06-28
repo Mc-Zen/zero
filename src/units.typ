@@ -1,4 +1,6 @@
 #import "num.typ": num
+#import "state.typ": num-state, update-num-state
+#import "assertations.typ": assert-settable-args
 
 
 /// [internal function]
@@ -7,12 +9,12 @@
 ///   (Why is this necessary? in "kg m" the "kg" needs to be close 
 ///    but distinguishable from the "m")
 /// - Exponents are allowed as in "m^2"
-/// - A unit in the denominator can be specified either with a negative
+/// - A unit in the fraction can be specified either with a negative
 ///   exponent "s^-1" or by adding a slash before "/s"
 /// - Prefixes are allowed and should be preprended to the base unit without
 ///   a space in between. Example: `"/mm^2"`. Occurences of "mu" will be replaced
 ///   by the greek mu symbol. 
-/// Returns: a dictionary with the keys "numerator" and "denominator",
+/// Returns: a dictionary with the keys "numerator" and "fraction",
 /// both containing a list where each entry is a tuple with the unit symbol 
 /// as the first element and the exponent as the second element. The exponent
 /// is always positive. 
@@ -21,7 +23,7 @@
   str = str.replace("mu", "µ")
 
   let numerator = ()
-  let denominator = ()
+  let fraction = ()
   let unit = ""
   let per = false
 
@@ -51,7 +53,7 @@
       }
       exponent = [#exponent]
       if unit != "1" { // make calls like "1/s" possible in addition to "/s"
-        if per { denominator.push((symbol, exponent)) } 
+        if per { fraction.push((symbol, exponent)) } 
         else { numerator.push((symbol, exponent)) }
       }
       per = false
@@ -62,19 +64,18 @@
       unit += c
     }
   }
-  return (numerator: numerator, denominator: denominator)
+  return (numerator: numerator, fraction: fraction)
 }
 
 
-/// [internal function]
-/// Show a unit that has been parsed with @@parse-unit-str.
-/// - per-mode (string): Mode for displaying the units in the denominator.
+/// Show a unit that has been parsed with @parse-unit-str.
+/// - fraction (string): Mode for displaying the units in the fraction.
 ///         Options are "power", "fraction" and "symbol" like in siunitx
-/// - interunit (content): Symbol to use between base units. 
+/// - unit-separator (content): Symbol to use between base units. 
 #let show-unit(
   unit-spec,
-  per-mode: "power",
-  interunit: sym.space.thin
+  fraction: "power",
+  unit-separator: sym.space.thin
 ) = {
   let fold-units(arr, exp-multiplier) = {
     math.upright(arr.map(x => {
@@ -83,49 +84,79 @@
       else if exp-multiplier == -1 { exponent = sym.minus + exponent }
       if exponent in (1, [1]) { $#x.at(0)$ }
       else { $#x.at(0)^#exponent$ }
-    }).join(interunit))
+    }).join(unit-separator))
   }
 
   let numerator = fold-units(unit-spec.numerator, 1)
-  if unit-spec.denominator.len() == 0 { return numerator }
+  if unit-spec.fraction.len() == 0 { return numerator }
   
-  let denom-exp-multiplier = if per-mode == "power" { -1 } else { 1 }
-  let denominator = fold-units(unit-spec.denominator, denom-exp-multiplier)
+  let denom-exp-multiplier = if fraction == "power" { -1 } else { 1 }
+  let result = fold-units(unit-spec.fraction, denom-exp-multiplier)
   
-  if per-mode == "power" {
+  if fraction == "power" {
     // numerator may be empty!
-    if unit-spec.numerator.len() == 0 { return denominator }
-    return numerator + interunit + denominator
+    if unit-spec.numerator.len() == 0 { return result }
+    return numerator + unit-separator + result
   }
   // for the two fractional modes the numerator cannot be empty
   if unit-spec.numerator.len() == 0 { numerator = $1$ }
-  if per-mode == "fraction" {
-    return $#numerator / #denominator$
-  } else if per-mode == "symbol" {
-    if unit-spec.denominator.len() > 1 {
-      denominator = $(#denominator)$
+  if fraction == "fraction" {
+    return $#numerator / #result$
+  } else if fraction == "symbol" {
+    if unit-spec.fraction.len() > 1 {
+      result = $(#result)$
     }
-    return $#numerator#h(0pt)\/#h(0pt)#denominator$
+    return $#numerator#h(0pt)\/#h(0pt)#result$
   } else {
-    panic("Invalid per-mode: " + per-mode)
+    assert(false, message: "Invalid fraction: " + fraction + ". Expected \"power\", \"fraction\", or \"symbol\"")
   }
 }
 
-#let unit(unit) = {
-  show-unit(parse-unit-str(unit))
+#let unit(
+  unit,
+  ..args
+) = context {
+  
+  let num-state = update-num-state(num-state.get(), (unit: args.named()))
+
+  show-unit(
+    parse-unit-str(unit),
+    ..num-state.unit
+  )
 }
+
+
 
 
 #let qty(
   value, 
   unit,
-  breakable: true
-) = {
-  num(value) // force parens around numbers with uncertainty
+  ..args
+) = context {
+  
+  let num-state = update-num-state(num-state.get(), (unit: args.named()))
+
+  num(value, state: num-state) // force parens around numbers with uncertainty
   sym.space.thin
-  show-unit(parse-unit-str(unit))
+  show-unit(
+    parse-unit-str(unit), 
+    fraction: num-state.unit.fraction,
+    unit-separator: num-state.unit.unit-separator
+  )
 }
 
 
+#let set-unit(..args) = {
+  num-state.update(s => {
+    assert-settable-args(args, s.unit, name: "set-unit")
+    s.unit += args.named()
+    s
+  })
+}
 
-#qty("1232+-2", "m/s")
+
+#set-unit(fraction: "fraction", unit-separator: "~")
+
+#qty("1232+-2", "m/s", fraction: "symbol")
+$ qty("1232+-2", "m/s") $
+

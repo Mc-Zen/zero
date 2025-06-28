@@ -2,7 +2,7 @@
 
 #let declare(unit) = (
   // value => if value == [] { units.unit(unit)} else { units.qty(value, unit) }
-  (..value) => if value.pos().len() == 0 { units.unit(unit)} else { units.qty(value.pos().first(), unit) }
+  (..value) => if value.pos().len() == 0 { units.unit(unit, ..value) } else { units.qty(..value, unit) }
 )
 
 // SI base units ..

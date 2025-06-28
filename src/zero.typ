@@ -4,3 +4,4 @@
 #import "ztable.typ": ztable, format-table
 #import "align-column.typ": align-column
 #import "zi.typ"
+#import "units.typ": set-unit

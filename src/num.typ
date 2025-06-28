@@ -1,4 +1,4 @@
-#import "state.typ": num-state
+#import "state.typ": num-state, update-num-state
 #import "formatting.typ": *
 #import "rounding.typ": *
 #import "assertations.typ": *
@@ -124,11 +124,6 @@
   }
 }
 
-#let update-num-state(state, args) = {
-  if "round" in args { state.round += args.round; args.remove("round") }
-  if "group" in args { state.group += args.group; args.remove("group") }
-  return state + args
-}
 
 #let num(
   number, 

@@ -20,8 +20,20 @@
     precision: 2,
     pad: true,
     direction: "nearest",
+  ),
+  unit: (
+    unit-separator: sym.space.thin,
+    fraction: "power",
   )
 )
 #let num-state = state("num-state", default-state)
 
 
+
+
+#let update-num-state(state, args) = {
+  if "round" in args { state.round += args.round; args.remove("round") }
+  if "group" in args { state.group += args.group; args.remove("group") }
+  if "unit" in args { state.unit += args.unit; args.remove("unit") }
+  return state + args
+}
