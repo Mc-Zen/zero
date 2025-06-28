@@ -44,6 +44,17 @@
   size: 3,
   separator: sym.space.thin
 ) = {
+  if type(threshold) == dictionary {
+    assert(
+      threshold.keys().sorted() == ("fractional", "integer"),
+      message: "group.threshold expects either an int or a dictionary with the keys \"fractional\" and \"integer\""
+    )
+    if invert {
+      threshold = threshold.fractional
+    } else {
+      threshold = threshold.integer
+    }
+  }
   if x.len() < threshold { return x }
   
   if not invert { x = x.rev() }

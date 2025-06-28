@@ -299,23 +299,15 @@
   num("1", state: state)
   [ ]
   num("2", state: state)
-  // stack(..a)
 }
 
 #pagebreak()
 
-// Figure kind detection
-
-#figure(
-  caption: [],
-  ztable(format: (auto,), [1])
+#num(
+  group: (threshold: (fractional: 3, integer: calc.inf)),
+  [23232.2323]
+) \
+#num(
+  group: (threshold: (integer: 3, fractional: calc.inf)),
+  [23232.2323]
 )
-
-// #pagebreak()
-
-// #set-group(
-//   // threshold: (integer: 3, fractional: calc.inf)
-//   threshold: (fractional: 3, integer: calc.inf)
-// )
-
-// #num[23232.2323]

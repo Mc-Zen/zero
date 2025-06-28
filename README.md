@@ -134,12 +134,12 @@ Digit grouping can be configured with the `set-group()` function.
 #let set-group(
   size:       int = 3, 
   separator:  content = sym.space.thin,
-  threshold:  int = 5
+  threshold:  int | dictionary = 5
 )
 ```
 - `size: int = 3` : Determines the size of the groups. 
 - `separator: content = sym.space.thin` : Separator between groups. 
-- `threshold: int = 5` : Necessary number of digits needed for digit grouping to kick in. Four-digit numbers for example are usually not grouped at all since they can still be read easily. 
+- `threshold: int | dictionary = 5` : Necessary number of digits needed for digit grouping to kick in. Four-digit numbers for example are usually not grouped at all since they can still be read easily. This parameter also accepts dictionary arguments of the form `(integer: int, fractional: int)` to allow turning on grouping for only the integer or fractional part, for example `(integer: 5, fractional: calc.inf)`. 
 
 
 
