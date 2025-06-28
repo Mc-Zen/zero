@@ -34,10 +34,10 @@
   Vm-s(unit-separator: "·")[1.2],
   Vm-s(fraction: "fraction"),
   Vm-s(fraction: "fraction")[1.2],
-  Vm-s(fraction: "symbol"),
-  Vm-s(fraction: "symbol")[1.2],
-  Vm-s(fraction: "symbol", unit-separator: "·"),
-  Vm-s(fraction: "symbol", unit-separator: "·")[1.2],
+  Vm-s(fraction: "inline"),
+  Vm-s(fraction: "inline")[1.2],
+  Vm-s(fraction: "inline", unit-separator: "·"),
+  Vm-s(fraction: "inline", unit-separator: "·")[1.2],
 )
 
 
@@ -51,6 +51,6 @@
   kgm-s2[2],
   kgm-s2(fraction: "fraction"),
   kgm-s2(fraction: "fraction")[2],
-  kgm-s2(fraction: "symbol"),
-  kgm-s2(fraction: "symbol")[2]
+  kgm-s2(fraction: "inline"),
+  kgm-s2(fraction: "inline")[2]
 )

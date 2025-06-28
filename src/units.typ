@@ -70,7 +70,7 @@
 
 /// Show a unit that has been parsed with @parse-unit-str.
 /// - fraction (string): Mode for displaying the units in the fraction.
-///         Options are "power", "fraction" and "symbol" like in siunitx
+///         Options are "power", "fraction" and "inline" like in siunitx
 /// - unit-separator (content): Symbol to use between base units. 
 #let show-unit(
   unit-spec,
@@ -102,7 +102,7 @@
   if unit-spec.numerator.len() == 0 { numerator = $1$ }
   if fraction == "fraction" {
     return $#numerator / #result$
-  } else if fraction == "symbol" {
+  } else if fraction == "inline" {
     if unit-spec.fraction.len() > 1 {
       result = $(#result)$
     }
@@ -157,6 +157,6 @@
 
 #set-unit(fraction: "fraction", unit-separator: "~")
 
-#qty("1232+-2", "m/s", fraction: "symbol")
+#qty("1232+-2", "m/s", fraction: "inline")
 $ qty("1232+-2", "m/s") $
 
