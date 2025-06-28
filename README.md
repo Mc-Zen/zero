@@ -368,7 +368,8 @@ Lastly, the function `align-columns` can be used to format and align an array of
 ### Version 0.4.0
 _Units and quantities_
 - Adds the `zi` module for unit and quantity formatting. 
-- Added new way of applying table alignment via show-rules for seamless interoperability with other table packages. 
+- Adds new way of applying table alignment via show-rules for seamless interoperability with other table packages. 
+- Adds option to configure the group threshold individually for the integer and fractional part. 
 - Fixes numbers in RTL direction context. 
 - Fixes `figure.kind` detection of`ztable`. 
 - Fixes direct usage of `nonum` in `ztable`. 
