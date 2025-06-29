@@ -42,6 +42,8 @@ A number in scientific notation consists of three parts: the _mantissa_, an opti
 
 <!-- For generating formatted numbers, *Zero* provides the `num` type along with the types `coefficient`, `uncertainty`, and `power` that allow for fine-grained customization with `show` and `set` rules.  -->
 
+---
+
 ## Quick Demo
 
 <p align="center">
@@ -52,6 +54,7 @@ A number in scientific notation consists of three parts: the _mantissa_, an opti
   </picture>
 </p>
 
+---
 
 ## Number Formatting
 
@@ -201,6 +204,8 @@ In some cases, the uncertainty is asymmetric which can be expressed via `num("1.
 
 $$ 1.23^{+0.02}_{-0.01}. $$
 
+---
+
 ## Table Alignment
 
 In scientific publication, presenting many numbers in a readable fashion can be a difficult discipline. A good starting point is to align numbers in a table at the decimal separator. With Zero, this can be easily accomplished by simply applying a show-rule to `table`. 
@@ -299,6 +304,7 @@ Zero not only aligns numbers at the decimal point but also at the uncertainty an
   </picture>
 </p>
 
+---
 
 ## Units and Quantities
 
@@ -364,7 +370,7 @@ These options are also available when instancing a quantity, e.g., `#zi.m(fracti
 Note that the configuration made through `set-num` also affects the numeral of a quantity. 
 
 
-
+---
 
 ## Zero for Third-party Packages
 
@@ -396,6 +402,7 @@ _Units and quantities_
 - Fixes numbers in RTL direction context. 
 - Fixes `figure.kind` detection of`ztable`. 
 - Fixes direct usage of `nonum` in `ztable`. 
+- Fixes uncertainties in combination with a `fixed` exponent. 
 
 ### Version 0.3.3
 _Fix_
