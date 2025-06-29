@@ -64,3 +64,15 @@ Hello #zi.m-s(breakable: true)[2.2]
 
 A #kgm-s2()
 A #kgm-s2(breakable: true)
+
+
+#pagebreak()
+
+#set page(width: auto)
+#table(
+  zi.m-s("2+-2"),
+  zi.m-s("2+-2e3"),
+  zi.m-s(uncertainty-mode: "compact", "2+-1"),
+  zi.m-s(uncertainty-mode: "compact-separator", "2+-1"),
+  zi.m-s(fixed: 1, "2+-1.1"),
+)
