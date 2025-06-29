@@ -239,6 +239,8 @@
 #num("1.234", fixed: 1) \
 #num("1e4", fixed: 1) \
 #num("1e-4", fixed: -1) \
+#num("2+-1", fixed: 1) \
+#num("2+-1e1", fixed: 2) \
 
 
 

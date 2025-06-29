@@ -68,8 +68,18 @@
   /// Maybe shift exponent
   if it.fixed != none {
     let e = if info.e == none { 0 } else { int(info.e) }
+    let shift(int, frac) = utility.shift-decimal-left(int, frac, it.fixed - e)
+    (info.int, info.frac) = shift(info.int, info.frac)
+
+    if info.pm != none {
+      if type(info.pm.first()) != array { 
+        info.pm = shift(..info.pm)
+      } else {
+        info.pm = pm.map(x => shift(..x))
+      }
+    }
+
     info.e = str(it.fixed).replace("−", "-")
-    (info.int, info.frac) = utility.shift-decimal-left(info.int, info.frac, it.fixed - e)
   }
 
   /// Round number and uncertainty
@@ -92,7 +102,7 @@
   // Format number
   let components = show-num-impl(info + it)
   let collect = if it.math { make-equation } else { it => it.join() }
-  
+
   if it.align == none { 
     set text(dir: ltr)
     it.prefix + collect(components.join()) + it.suffix 
