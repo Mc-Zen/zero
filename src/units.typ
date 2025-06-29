@@ -139,10 +139,10 @@
   ..args
 ) = context {
   
-  let num-state = update-num-state(num-state.get(), (unit: args.named()))
+  let num-state = update-num-state(num-state.get(), (unit: args.named()) + args.named())
 
   let result = {
-    num(value, state: num-state) // force parens around numbers with uncertainty
+    num(value, state: num-state, force-parentheses-around-uncertainty: true) // force parens around numbers with uncertainty
     sym.space.thin
     show-unit(
       parse-unit-str(unit), 

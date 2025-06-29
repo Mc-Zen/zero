@@ -92,6 +92,7 @@
   // Format number
   let components = show-num-impl(info + it)
   let collect = if it.math { make-equation } else { it => it.join() }
+  
   if it.align == none { 
     set text(dir: ltr)
     it.prefix + collect(components.join()) + it.suffix 
@@ -131,36 +132,29 @@
   state: auto,
   prefix: none,
   suffix: none,
+  force-parentheses-around-uncertainty: false,
   ..args
 ) = {
+  let inline-args = (
+    align: align,
+    prefix: prefix,
+    suffix: suffix,
+    fpau: force-parentheses-around-uncertainty,
+  )
+
   if type(number) == array {
     let named = args.named()
     let num-state = if state == auto { num-state.get() } else { state }
-    let it = num-state + (
-      align: align,
-      prefix: prefix,
-      suffix: suffix,
-      ..args.named()
-    )
+    let it = num-state + inline-args + args.named()
     return number.map(n => show-num(it + (number: n)))
   }
   
   if state != auto {
-    let it = update-num-state(state, args.named()) + (
-      align: align,
-      number: number,
-      prefix: prefix,
-      suffix: suffix
-    )
+    let it = update-num-state(state, args.named()) + inline-args + (number: number)
     return show-num(it)
   }
   context {
-    let it = update-num-state(num-state.get(), args.named()) + (
-      align: align,
-      number: number,
-      prefix: prefix,
-      suffix: suffix
-    )
+    let it = update-num-state(num-state.get(), args.named()) + inline-args + (number: number)
     show-num(it)
   }
 }

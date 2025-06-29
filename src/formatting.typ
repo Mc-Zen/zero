@@ -303,7 +303,7 @@
   } 
   
   
-  if it.pm != none and it.e != none and not concise-uncertainty {
+  if it.pm != none and (it.e != none or it.fpau) and not concise-uncertainty {
     integer-part = ("(",) + integer-part
     uncertainty-part.push(")")
   }
