@@ -1,6 +1,6 @@
 [package]
 name = "zero"
-version = "0.3.3"
+version = "0.4.0"
 entrypoint = "src/zero.typ"
 authors = ["Mc-Zen <https://github.com/Mc-Zen>"]
 license = "MIT"
@@ -10,4 +10,4 @@ compiler = "0.11.0"
 repository = "https://github.com/Mc-Zen/zero"
 keywords = ["number", "table", "siunitx", "numeral", "alignment", "formatting", "num", "ztable"]
 categories = ["visualization", "layout"]
-exclude = ["/docs/*", "/tests/*"]
+disciplines = ["physics", "chemistry", "engineering", "mathematics", "economics", "computer-science"]

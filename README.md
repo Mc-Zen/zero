@@ -316,7 +316,7 @@ Zero takes a different approach to units than other packages: In order to avoid 
 
 Take a look at the example below:
 ```typ
-#import "@preview/zero:0.3.3": zi
+#import "@preview/zero:0.4.0": zi
 
 #let kgm-s2 = zi.declare("kg m/s^2")
 
