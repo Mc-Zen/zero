@@ -75,7 +75,8 @@
 #let show-unit(
   unit-spec,
   fraction: "power",
-  unit-separator: sym.space.thin
+  unit-separator: sym.space.thin,
+  ..args
 ) = {
   let fold-units(arr, exp-multiplier) = {
     math.upright(arr.map(x => {
@@ -119,10 +120,14 @@
   
   let num-state = update-num-state(num-state.get(), (unit: args.named()))
 
-  show-unit(
+  let result = show-unit(
     parse-unit-str(unit),
     ..num-state.unit
   )
+  if not num-state.unit.breakable {
+    result = box(result)
+  }
+  result
 }
 
 
@@ -136,13 +141,20 @@
   
   let num-state = update-num-state(num-state.get(), (unit: args.named()))
 
-  num(value, state: num-state) // force parens around numbers with uncertainty
-  sym.space.thin
-  show-unit(
-    parse-unit-str(unit), 
-    fraction: num-state.unit.fraction,
-    unit-separator: num-state.unit.unit-separator
-  )
+  let result = {
+    num(value, state: num-state) // force parens around numbers with uncertainty
+    sym.space.thin
+    show-unit(
+      parse-unit-str(unit), 
+      fraction: num-state.unit.fraction,
+      unit-separator: num-state.unit.unit-separator
+    )
+  }
+  
+  if not num-state.unit.breakable {
+    result = box(result)
+  }
+  result
 }
 
 

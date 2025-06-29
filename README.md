@@ -27,7 +27,7 @@ Proper number formatting is essential for clear and readable scientific document
 - Quick scientific notation, e.g., `"2e4"` becomes $2\times10^4$
 - Symmetric and asymmetric [**uncertainties**](#specifying-uncertainties)
 - [**Rounding**](#rounding) in various modes
-- [**Unit and quantity display**](#units-and-quantities)
+- [**Unit and quantity formatting**](#units-and-quantities)
 - Helpers for package authors
 
 A number in scientific notation consists of three parts: the _mantissa_, an optional _uncertainty_, and an optional _power_ (exponent). The following figure illustrates the anatomy of a formatted number:
@@ -349,6 +349,7 @@ The appearance of units can be configured via `set-unit`:
 #set-unit(
   unit-separator:  content = sym.space.thin,
   fraction:        str = "power",
+  breakable:       bool = false
 )
 ```
 - `unit-separator: content` : Configures the separator between consecutive unit parts in a composite unit. 
@@ -356,6 +357,7 @@ The appearance of units can be configured via `set-unit`:
   - `"power"` : Units with negative exponents are shown as powers. 
   - `"fraction"` : When units with negative exponents are present, a fraction is created and the concerned units are put in the denominator. 
   - `"inline"` : An inline fraction is created. 
+- `breakable: bool` : Whether units and quantities can be broken across paragraph lines. 
 
 These options are also available when instancing a quantity, e.g., `#zi.m(fraction: "inline")[2.5]`. 
 

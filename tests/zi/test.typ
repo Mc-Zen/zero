@@ -54,3 +54,13 @@
   kgm-s2(fraction: "inline"),
   kgm-s2(fraction: "inline")[2]
 )
+
+
+
+#set page(width: 2cm)
+Hello #zi.m-s[2.2]
+
+Hello #zi.m-s(breakable: true)[2.2]
+
+A #kgm-s2()
+A #kgm-s2(breakable: true)

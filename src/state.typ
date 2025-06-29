@@ -24,6 +24,7 @@
   unit: (
     unit-separator: sym.space.thin,
     fraction: "power",
+    breakable: false
   )
 )
 #let num-state = state("num-state", default-state)
