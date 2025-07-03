@@ -23,7 +23,7 @@
   str = str.replace("mu", "µ")
 
   let numerator = ()
-  let fraction = ()
+  let denominator = ()
   let unit = ""
   let per = false
 
@@ -53,7 +53,7 @@
       }
       exponent = [#exponent]
       if unit != "1" { // make calls like "1/s" possible in addition to "/s"
-        if per { fraction.push((symbol, exponent)) } 
+        if per { denominator.push((symbol, exponent)) } 
         else { numerator.push((symbol, exponent)) }
       }
       per = false
@@ -64,9 +64,46 @@
       unit += c
     }
   }
-  return (numerator: numerator, fraction: fraction)
+  return (numerator: numerator, denominator: denominator)
 }
 
+#let format-unit-power(unit, exponent, math: true) = {
+  if math {
+
+    if exponent in (1, [1]) { unit }
+    else { std.math.attach(unit, t: exponent) }
+
+  } else {
+    
+    if exponent in (1, [1]) { unit }
+    else { unit + super(typographic: false, exponent) }
+
+  }
+}
+
+#let fold-units(
+  ..units, 
+  exp-multiplier, 
+  math: true,
+  unit-separator: sym.space.thin
+) = {
+  let units = units.pos().map(((unit, exponent)) => {
+
+    if type(exponent) == int { 
+      exponent *= exp-multiplier
+    } else if exp-multiplier == -1 {
+      exponent = sym.minus + exponent
+    }
+    format-unit-power(unit, exponent, math: math)
+  })
+
+  let folded-units = units.join(unit-separator)
+  if math {
+    std.math.upright(folded-units)
+  } else {
+    folded-units
+  }
+}
 
 /// Show a unit that has been parsed with @parse-unit-str.
 /// - fraction (string): Mode for displaying the units in the fraction.
@@ -75,41 +112,53 @@
 #let show-unit(
   unit-spec,
   fraction: "power",
+  math: true,
   unit-separator: sym.space.thin,
   ..args
 ) = {
-  let fold-units(arr, exp-multiplier) = {
-    math.upright(arr.map(x => {
-      let exponent = x.at(1)//
-      if type(exponent) == int { exponent*= exp-multiplier }
-      else if exp-multiplier == -1 { exponent = sym.minus + exponent }
-      if exponent in (1, [1]) { $#x.at(0)$ }
-      else { $#x.at(0)^#exponent$ }
-    }).join(unit-separator))
-  }
+  let fold-units = fold-units.with(unit-separator: unit-separator, math: math)
 
-  let numerator = fold-units(unit-spec.numerator, 1)
-  if unit-spec.fraction.len() == 0 { return numerator }
+
+  let numerator = fold-units(..unit-spec.numerator, 1)
+  if unit-spec.denominator.len() == 0 { 
+    return if math { $numerator$ } else { numerator }
+  }
   
   let denom-exp-multiplier = if fraction == "power" { -1 } else { 1 }
-  let result = fold-units(unit-spec.fraction, denom-exp-multiplier)
+  let denominator = fold-units(..unit-spec.denominator, denom-exp-multiplier)
   
   if fraction == "power" {
     // numerator may be empty!
-    if unit-spec.numerator.len() == 0 { return result }
-    return numerator + unit-separator + result
-  }
-  // for the two fractional modes the numerator cannot be empty
-  if unit-spec.numerator.len() == 0 { numerator = $1$ }
-  if fraction == "fraction" {
-    return $#numerator / #result$
-  } else if fraction == "inline" {
-    if unit-spec.fraction.len() > 1 {
-      result = $(#result)$
+    let result = denominator
+    if unit-spec.numerator.len() != 0 { 
+      result = numerator + unit-separator + result
     }
-    return $#numerator#h(0pt)\/#h(0pt)#result$
+    return if math { $result$ } else { result }
+  }
+
+  // for the two fractional modes the numerator should not be empty
+  if unit-spec.numerator.len() == 0 { numerator = $1$ }
+
+  if fraction == "fraction" {
+    if not math {
+      assert(false, "`math: false` cannot be used together with `fraction: \"fraction\"`")
+    }
+    return $numerator/denominator$
+  } else if fraction == "inline" {
+    if unit-spec.denominator.len() > 1 {
+      denominator = "(" + denominator + ")"
+    }
+
+    if math {
+      $#numerator#h(0pt)\/#h(0pt)#denominator$
+    } else {
+      numerator + "/" + denominator
+    }
   } else {
-    assert(false, message: "Invalid fraction: " + fraction + ". Expected \"power\", \"fraction\", or \"symbol\"")
+    assert(
+      false, 
+      message: "Invalid fraction: " + fraction + ". Expected \"power\", \"fraction\", or \"symbol\""
+    )
   }
 }
 
@@ -122,7 +171,8 @@
 
   let result = show-unit(
     parse-unit-str(unit),
-    ..num-state.unit
+    ..num-state.unit,
+    math: num-state.math
   )
   if not num-state.unit.breakable {
     result = box(result)
@@ -147,7 +197,8 @@
     show-unit(
       parse-unit-str(unit), 
       fraction: num-state.unit.fraction,
-      unit-separator: num-state.unit.unit-separator
+      unit-separator: num-state.unit.unit-separator,
+      math: num-state.math
     )
   }
   
