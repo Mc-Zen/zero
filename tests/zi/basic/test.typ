@@ -12,13 +12,19 @@
 
 #zi.kN() // later make them types maybe? Then we can just call #zi.kN, that looks much better
 
+#zi.declare("1/s")(fraction: "fraction")
+#zi.declare("1/s")(fraction: "inline")
+
 
 #pagebreak()
 
+#set page(width: 4cm)
 
 // Unit declaration
 #let kgm-s2 = zi.declare("kg m/s^2")
+#let kgm-s2 = zi.declare("kg m")
 #kgm-s2() \
+$"kg" thin "m"$ \
 #kgm-s2[2] 
 
 
@@ -38,6 +44,8 @@
   Vm-s(fraction: "inline")[1.2],
   Vm-s(fraction: "inline", unit-separator: "·"),
   Vm-s(fraction: "inline", unit-separator: "·")[1.2],
+  Vm-s(fraction: "fraction", unit-separator: "·"),
+  Vm-s(fraction: "fraction", unit-separator: "·")[1.2],
 )
 
 
@@ -54,6 +62,7 @@
   kgm-s2(fraction: "inline"),
   kgm-s2(fraction: "inline")[2]
 )
+#set-unit(unit-separator: sym.space.thin, fraction: "power")
 
 
 
@@ -76,3 +85,17 @@ A #kgm-s2(breakable: true)
   zi.m-s(uncertainty-mode: "compact-separator", "2+-1"),
   zi.m-s(fixed: 1, "2+-1.1"),
 )
+
+// #pagebreak()
+
+// // Non-math mode
+
+// #let m-s-V = zi.declare("m/s/V^2")
+
+// #table(
+//   zi.m(fraction: "power", math: false)[2],
+//   zi.m-s(fraction: "power", math: false)[2],
+//   zi.m-s(fraction: "inline", math: false)[2],
+//   m-s-V(fraction: "power", math: false)[2],
+//   m-s-V(fraction: "inline", math: false)[2],
+// )
