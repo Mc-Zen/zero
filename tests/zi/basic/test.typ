@@ -86,16 +86,16 @@ A #kgm-s2(breakable: true)
   zi.m-s(fixed: 1, "2+-1.1"),
 )
 
-// #pagebreak()
+#pagebreak()
 
-// // Non-math mode
+// Non-math mode
 
-// #let m-s-V = zi.declare("m/s/V^2")
+#let m-s-V = zi.declare("m/s/V^2")
 
-// #table(
-//   zi.m(fraction: "power", math: false)[2],
-//   zi.m-s(fraction: "power", math: false)[2],
-//   zi.m-s(fraction: "inline", math: false)[2],
-//   m-s-V(fraction: "power", math: false)[2],
-//   m-s-V(fraction: "inline", math: false)[2],
-// )
+#table(
+  zi.m(fraction: "power", math: false)[2],
+  zi.m-s(fraction: "power", math: false)[2],
+  zi.m-s(fraction: "inline", math: false)[2],
+  m-s-V(fraction: "power", math: false)[2],
+  m-s-V(fraction: "inline", math: false)[2],
+)
