@@ -188,8 +188,8 @@
      (
       math.attach(
         none, 
-        t: "+" + pm.at(0), 
-        b: "−" + pm.at(1)
+        t: $+#pm.at(0)$, 
+        b: $-#pm.at(1)$
       ),
     )
   } else {
