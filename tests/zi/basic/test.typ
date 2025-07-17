@@ -99,3 +99,14 @@ A #kgm-s2(breakable: true)
   m-s-V(fraction: "power", math: false)[2],
   m-s-V(fraction: "inline", math: false)[2],
 )
+
+
+#pagebreak()
+
+#set-unit(use-sqrt: true, fraction: "inline")
+#zi.m-s()
+#table(
+  zi.declare("m^3 b^0.5/c^0.5")(fraction: "power"),
+  zi.declare("m^3 b^0.5/c^0.5")(fraction: "fraction"),
+  zi.declare("m^3 b^0.5/c^0.5")(fraction: "inline"),
+)

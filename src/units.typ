@@ -85,14 +85,15 @@
   ..units, 
   exp-multiplier, 
   math: true,
-  unit-separator: sym.space.thin
+  unit-separator: sym.space.thin,
+  use-sqrt: true
 ) = {
   let units = units.pos().map(((unit, exponent)) => {
-
-    if type(exponent) == int { 
-      exponent *= exp-multiplier
-    } else if exp-multiplier == -1 {
+    if exp-multiplier == -1 {
       exponent = sym.minus + exponent
+    }
+    if use-sqrt and exponent == [0.5] and math {
+      return std.math.sqrt(unit)
     }
     format-unit-power(unit, exponent, math: math)
   })
@@ -114,9 +115,14 @@
   fraction: "power",
   math: true,
   unit-separator: sym.space.thin,
+  use-sqrt: true,
   ..args
 ) = {
-  let fold-units = fold-units.with(unit-separator: unit-separator, math: math)
+  let fold-units = fold-units.with(
+    unit-separator: unit-separator, 
+    math: math, 
+    use-sqrt: use-sqrt
+  )
 
 
   let numerator = fold-units(..unit-spec.numerator, 1)
