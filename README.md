@@ -344,7 +344,7 @@ You can create a new unit through the `zi.declare` function. We recommend the fo
   <picture>
     <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/c0c6b280-d53e-4b4f-a719-5f86001c326e">
     <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/761fe5c4-ee2c-49e1-b438-f0589104b06c">
-    <img alt="Declaring new units" src="[https://github.com/user-attachments/assets/9aa4a915-f8e3-4270-8f97-36a312340e75](https://github.com/user-attachments/assets/c0c6b280-d53e-4b4f-a719-5f86001c326e)">
+    <img alt="Declaring new units" src="https://github.com/user-attachments/assets/c0c6b280-d53e-4b4f-a719-5f86001c326e">
   </picture>
 </p>
 
