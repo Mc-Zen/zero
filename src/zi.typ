@@ -1,9 +1,14 @@
 #import "units.typ"
 
-#let declare(unit) = (
-  // value => if value == [] { units.unit(unit)} else { units.qty(value, unit) }
-  (..value) => if value.pos().len() == 0 { units.unit(unit, ..value) } else { units.qty(..value, unit) }
-)
+#let declare(..unit) = {
+  assert(unit.named().len() == 0, )
+
+  (..value) => if value.pos().len() == 0 { 
+    units.unit(units.parse-unit(..unit.pos()), ..value)
+  } else { 
+    units.qty(..value, units.parse-unit(..unit.pos()))
+  }
+}
 
 // SI base units ..
 #let ampere = declare("A")

@@ -100,7 +100,6 @@ A #kgm-s2(breakable: true)
   m-s-V(fraction: "inline", math: false)[2],
 )
 
-
 #pagebreak()
 
 #set-unit(use-sqrt: true, fraction: "inline")
