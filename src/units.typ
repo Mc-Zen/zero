@@ -14,7 +14,7 @@
 /// - Prefixes are allowed and should be preprended to the base unit without
 ///   a space in between. Example: `"/mm^2"`. Occurences of "mu" will be replaced
 ///   by the greek mu symbol. 
-/// Returns: a dictionary with the keys "numerator" and "fraction",
+/// Returns: a dictionary with the keys "numerator" and "denominator",
 /// both containing a list where each entry is a tuple with the unit symbol 
 /// as the first element and the exponent as the second element. The exponent
 /// is always positive. 
@@ -64,12 +64,57 @@
       unit += c
     }
   }
-  return (numerator: numerator, denominator: denominator)
+  
+  (numerator: numerator, denominator: denominator)
+}
+
+#let parse-unit(..children) = {
+  children = children.pos()
+  if children.len() == 1 and type(children.first()) == str {
+    return parse-unit-str(children.first())
+  } 
+
+  let numerator = ()
+  let denominator = ()
+
+  for child in children {
+    if type(child) in (str, content, symbol) {
+      numerator.push((child, [1]))
+    } else if type(child) == array {
+      assert(
+        child.len() == 2, 
+        message: "Unit entries need to be a tuple of a unit and an exponent, got " + repr(child)
+      )
+      let (unit, exponent) = child
+      assert(
+        type(exponent) in (int, float, str),
+        message: "The exponent of a unit entry needs to be an int, float, or str, got " + repr(exponent)
+      )
+      if type(exponent) in (int, float) {
+        exponent = str(exponent).replace("−", "-")
+      }
+      if exponent.starts-with("-") {
+        exponent = exponent.slice(1)
+        denominator.push((unit, [#exponent]))
+      } else {
+        numerator.push((unit, [#exponent]))
+      }
+    } else {
+      assert(
+        false, 
+        message: "Expected str, content, symbol or a unit-exponent pair, got " + repr(child)
+      )
+    }
+  }
+  
+  (numerator: numerator, denominator: denominator)
 }
 
 #let format-unit-power(unit, exponent, math: true) = {
   if math {
-
+    if type(exponent) in (int, float) {
+      exponent = str(exponent)
+    }
     if exponent in (1, [1]) { unit }
     else { std.math.attach(unit, t: exponent) }
 
@@ -176,7 +221,7 @@
   let num-state = update-num-state(num-state.get(), (unit: args.named()))
 
   let result = show-unit(
-    parse-unit-str(unit),
+    unit,
     ..num-state.unit,
     math: num-state.math
   )
@@ -201,7 +246,7 @@
     num(value, state: num-state, force-parentheses-around-uncertainty: true) // force parens around numbers with uncertainty
     sym.space.thin
     show-unit(
-      parse-unit-str(unit), 
+      unit, 
       fraction: num-state.unit.fraction,
       unit-separator: num-state.unit.unit-separator,
       math: num-state.math
