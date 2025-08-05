@@ -11,8 +11,8 @@
 /// - Exponents are allowed as in "m^2"
 /// - A unit in the fraction can be specified either with a negative
 ///   exponent "s^-1" or by adding a slash before "/s"
-/// - Prefixes are allowed and should be preprended to the base unit without
-///   a space in between. Example: `"/mm^2"`. Occurences of "mu" will be replaced
+/// - Prefixes are allowed and should be prepended to the base unit without
+///   a space in between. Example: `"/mm^2"`. Occurrences of "mu" will be replaced
 ///   by the greek mu symbol. 
 /// Returns: a dictionary with the keys "numerator" and "denominator",
 /// both containing a list where each entry is a tuple with the unit symbol 
@@ -35,7 +35,7 @@
       assert(exponent.len() > 0, message: "Invalid unit: missing exponent after \"^\"")
       exponent = exponent.trim("(").trim(")")
       let symbol = str.slice(0, pow-index)
-      assert(symbol.len() != 0, message: "Invalid unit: an exponent needs to be preceeded by a unit")
+      assert(symbol.len() != 0, message: "Invalid unit: an exponent needs to be preceded by a unit")
       return (symbol, exponent)
   }
 
