@@ -80,7 +80,7 @@ There are two main ways of specifying uncertainties:
 - Applying an uncertainty to the last significant digits using parentheses, e.g., `2.3(4)`,
 - Denoting an absolute uncertainty, e.g., `2.3+-0.4` #sym.arrow #num[2.3+-0.4]. 
 
-Zero supports both and can convert between these two, so that you can pick the displayed style independantly from the input style. 
+Zero supports both and can convert between these two, so that you can pick the displayed style independently from the input style. 
 
 How do uncertainties interplay with exponents? The uncertainty needs to come first and the exponent applies to both the mantissa and the uncertainty, e.g., `num("1.23+-.04e2")` becomes
 
