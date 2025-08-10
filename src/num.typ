@@ -83,7 +83,7 @@
   }
 
   /// Round number and uncertainty
-  if it.round.mode != none {
+  if it.round.precision != none {
     (info.int, info.frac, info.pm) = contextual-round(info.int, info.frac, info.pm, it.round)
   }
   

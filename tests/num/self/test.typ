@@ -217,8 +217,9 @@
 #num("1.234(34)") \
 #num("8.8+-2") \
 
-#set-round(mode: none)
-#num("1.234")
+#set-round(mode: "places")
+#num(round: (precision: none), "1.234")
+#set-round(precision: none)
 
 
 

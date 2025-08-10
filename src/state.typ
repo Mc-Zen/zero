@@ -16,8 +16,8 @@
     threshold: 5
   ),
   round: (
-    mode: none,
-    precision: 2,
+    mode: "places",
+    precision: none,
     pad: true,
     direction: "nearest",
   ),
