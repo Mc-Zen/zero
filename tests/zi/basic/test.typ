@@ -15,6 +15,9 @@
 #zi.declare("1/s")(fraction: "fraction")
 #zi.declare("1/s")(fraction: "inline")
 
+#let um = zi.declare("mum")
+#um[12]
+
 
 #pagebreak()
 
