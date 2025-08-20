@@ -2,7 +2,7 @@
 
 _Advanced scientific number formatting for Typst._
 
-[![Typst Package](https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fraw.githubusercontent.com%2FMc-Zen%2Fzero%2Fv0.4.0%2Ftypst.toml&query=%24.package.version&prefix=v&logo=typst&label=package&color=239DAD)](https://typst.app/universe/package/zero)
+[![Typst Package](https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fraw.githubusercontent.com%2FMc-Zen%2Fzero%2Fv0.5.0%2Ftypst.toml&query=%24.package.version&prefix=v&logo=typst&label=package&color=239DAD)](https://typst.app/universe/package/zero)
 [![Test Status](https://github.com/Mc-Zen/zero/actions/workflows/run_tests.yml/badge.svg)](https://github.com/Mc-Zen/zero/actions/workflows/run_tests.yml)
 [![MIT License](https://img.shields.io/badge/license-MIT-blue)](https://github.com/Mc-Zen/zero/blob/main/LICENSE)
 
@@ -44,7 +44,25 @@ A number in scientific notation consists of three parts: the _mantissa_, an opti
 
 ---
 
-## Quick Demo
+## Demo
+
+```typ
+#import "@preview/zero:0.5.0": num, format-table, zi
+
+Physicists estimate a number of #num[1e80] particles in the observable universe. 
+
+#figure({
+  show: format-table(none, auto)
+  table(
+    [1], [1.2], 
+    [2], [2], 
+    [3], [300]
+  )
+})
+
+#let Js = zi.declare("J s")
+Plancks constant is roughly #Js[6.626e-34]. 
+```
 
 <p align="center">
   <picture>
@@ -161,13 +179,13 @@ Rounding can be configured with the `set-round()` function.
 
 ```typ
 #set-round(
-  mode:       none | str = none,
-  precision:  int = 2,
+  mode:       str = "places",
+  precision:  int | none = 2,
   pad:        bool = true,
   direction:  str = "nearest",
 )
 ```
-- `mode: none | str = none` : Sets the rounding mode. The possible options are
+- `mode: str = "places"` : Sets the rounding mode. The possible options are
   - `none` : Rounding is turned off. 
   - `"places"` : The number is rounded to the number of decimal places given by the `precision` parameter. 
   - `"figures"` : The number is rounded to a number of significant figures given by the `precision` parameter.
@@ -175,7 +193,7 @@ Rounding can be configured with the `set-round()` function.
      rounded to significant figures according to the `precision` argument and 
     then the number is rounded to the same number of decimal places as the 
     uncertainty. 
-- `precision: int = 2` : The precision to round to. Also see parameter `mode`. 
+- `precision: int | none = 2` : The precision to round to. Also see parameter `mode`. When set to `none`, no rounding is applied. 
 - `pad: bool = true` : Whether to pad the number with zeros if the 
    number has fewer digits than the rounding precision. 
 - `direction: str = "nearest"` : Sets the rounding direction. 
@@ -316,7 +334,7 @@ Zero takes a different approach to units than other packages: In order to avoid 
 
 Take a look at the example below:
 ```typ
-#import "@preview/zero:0.4.0": zi
+#import "@preview/zero:0.5.0": zi
 
 #let kgm-s2 = zi.declare("kg m/s^2")
 
@@ -347,6 +365,13 @@ You can create a new unit through the `zi.declare` function. We recommend the fo
     <img alt="Declaring new units" src="https://github.com/user-attachments/assets/c0c6b280-d53e-4b4f-a719-5f86001c326e">
   </picture>
 </p>
+
+For most units, it will suffice to use the string unit syntax shown above because mostly latin letters are used. For the µ symbol, you can write "mu", as in `zi.declare("mus")` for microseconds. 
+
+If you need to build more complex units, consisting of symbols, math, or other content, you can use the alternative construction method. Here, each base unit is passed as a positional argument to `zi.declare`: either just the content if (the exponent is 1) or a pair of content and exponent. 
+```typ
+#zi.declare($M_dot.circle$, ("s", -2))
+```
 
 
 ### Configuring Units
@@ -392,6 +417,10 @@ Lastly, the function `align-columns` can be used to format and align an array of
 
 
 ## Changelog
+
+### Version 0.5.0
+- Adds a new unit construction method that allows for more complex units involving math, symbols or basically anything. 
+- ⚠️ Breaking Change: The rounding setup has been streamlined. The `mode` can no longer be `none`, instead it defaults to `"places"` while the default precision is `none` meaning that no rounding is applied. This is more convenient when rounding single numbers (e.g., `num(round: (precision: 2))[9.80665]`) because the mode does not have to be set repeatedly. 
 
 
 ### Version 0.4.0

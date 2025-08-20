@@ -4,6 +4,9 @@ typst c docs/figures/anatomy.typ docs/figures/anatomy-dark.svg --root . --input 
 typst c docs/figures/quick-demo.typ --format svg --root .
 typst c docs/figures/quick-demo.typ docs/figures/quick-demo-dark.svg --root . --input dark=true
 
+typst c docs/figures/demo.typ --format svg --root .
+typst c docs/figures/demo.typ docs/figures/demo-dark.svg --root . --input dark=true
+
 typst c docs/figures/uncertainty-modes.typ --format svg --root .
 typst c docs/figures/uncertainty-modes.typ docs/figures/uncertainty-modes-dark.svg --root . --input dark=true
 
