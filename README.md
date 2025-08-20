@@ -54,6 +54,7 @@ Physicists estimate a number of #num[1e80] particles in the observable universe.
 #figure({
   show: format-table(none, auto)
   table(
+    columns: 2,
     [1], [1.2], 
     [2], [2], 
     [3], [300]
@@ -66,12 +67,21 @@ Plancks constant is roughly #Js[6.626e-34].
 
 <p align="center">
   <picture>
+    <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/43d6e3e2-339c-44ba-bc5a-3985be6488a5">
+    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/e9668164-d476-4f9d-ac1d-5ed5bd2c85fe">
+    <img alt="Quick demo" src="https://github.com/user-attachments/assets/43d6e3e2-339c-44ba-bc5a-3985be6488a5">
+  </picture>
+</p>
+
+See below for a few examples of the syntax that can be used with `num`. 
+
+<p align="center">
+  <picture>
     <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/925fb0ff-5af2-4373-a3e6-63f23523d60c">
     <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/3cd8948a-d0cb-4b77-bd12-9b582abed46d">
     <img alt="Quick demo" src="https://github.com/user-attachments/assets/925fb0ff-5af2-4373-a3e6-63f23523d60c">
   </picture>
 </p>
-
 ---
 
 ## Number Formatting
