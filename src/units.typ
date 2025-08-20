@@ -268,9 +268,3 @@
   })
 }
 
-
-#set-unit(fraction: "fraction", unit-separator: "~")
-
-#qty("1232+-2", "m/s", fraction: "inline")
-$ qty("1232+-2", "m/s") $
-
