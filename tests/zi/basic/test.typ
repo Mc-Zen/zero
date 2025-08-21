@@ -5,6 +5,7 @@
 
 #zi.N[12] \
 #zi.m-s[12] \
+// $12 #sym.space.thin "m" #sym.space.thin "s"^(-1)$ \
 #zi.kg[12] \
 #zi.candela[23] \
 #zi.arcsecond[23] \
@@ -21,7 +22,7 @@
 
 #pagebreak()
 
-#set page(width: 4cm)
+// #set page(width: 4cm)
 
 // Unit declaration
 #let kgm-s2 = zi.declare("kg m/s^2")

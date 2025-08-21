@@ -227,9 +227,9 @@
   )
   if not num-state.unit.breakable {
     if num-state.math {
-      result = box(result)
-    } else {
       result = $result$
+    } else {
+      result = box(result)
     }
   }
   result
@@ -263,7 +263,12 @@
   }
   
   if not num-state.unit.breakable {
-    result = box(result)
+    if num-state.math {
+      result = $result$
+    } else {
+      result = box(result)
+    }
+      // result = box(result, fill: red)
   }
   result
 }
