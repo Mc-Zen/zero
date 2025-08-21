@@ -246,9 +246,14 @@
   
   let num-state = update-num-state(num-state.get(), (unit: args.named()) + args.named())
 
+  let separator = sym.space.thin
+  if num-state.math {
+    separator = $separator$
+  }
+
   let result = {
     num(value, state: num-state, force-parentheses-around-uncertainty: true) // force parens around numbers with uncertainty
-    sym.space.thin
+    separator
     show-unit(
       unit, 
       fraction: num-state.unit.fraction,
