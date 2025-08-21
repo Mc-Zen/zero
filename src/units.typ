@@ -226,7 +226,11 @@
     math: num-state.math
   )
   if not num-state.unit.breakable {
-    result = box(result)
+    if num-state.math {
+      result = box(result)
+    } else {
+      result = $result$
+    }
   }
   result
 }
