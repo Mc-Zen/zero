@@ -268,7 +268,6 @@
     } else {
       result = box(result)
     }
-      // result = box(result, fill: red)
   }
   result
 }
