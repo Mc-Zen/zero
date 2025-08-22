@@ -97,8 +97,8 @@ Zero's core is the `num()` function, which provides flexible number formatting. 
 
 ```typ
 #num(
-  number:                 str | content | int | float | dictionary | array,
-  digits:                 auto | int = auto,
+  number:                 str | content | int | float | dictionary | array,
+  digits:                 auto | int = auto,
   fixed:                  none | int = none,
 
   decimal-separator:      str = ".",
@@ -114,8 +114,8 @@ Zero's core is the `num()` function, which provides flexible number formatting. 
   group:                  dictionary,
 )
 ```
-- `number: str | content | int | float | array` : Number input; `str` is preferred. If the input is `content`, it may only contain text nodes. Numeric types `int` and `float` are supported but not encouraged because of information loss (e.g., the number of trailing "0" digits or the exponent). The remaining types `dictionary` and `array` are intended for advanced use, see [below](#zero-for-third-party-packages).
-- `digits: auto | int = auto` : Truncates the number at a given (positive) number of decimal places or pads the number with zeros if necessary. This is independent of [rounding](#rounding).
+- `number: str | content | int | float | array` : Number input; `str` is preferred. If the input is `content`, it may only contain text nodes. Numeric types `int` and `float` are supported but not encouraged because of information loss (e.g., the number of trailing "0" digits or the exponent). The remaining types `dictionary` and `array` are intended for advanced use, see [below](#zero-for-third-party-packages).
+- `digits: auto | int = auto` : Truncates the number at a given (positive) number of decimal places or pads the number with zeros if necessary. This is independent of [rounding](#rounding).
 - `fixed: none | int = none` : If not `none`, forces a fixed exponent. Additional exponents given in the number input are taken into account. 
 - `decimal-separator: str = "."` : Specifies the marker that is used for separating integer and decimal part.
 - `product: content = sym.times` : Specifies the multiplication symbol used for scientific notation. 
@@ -153,7 +153,7 @@ Digit grouping is important for keeping large figures readable. It is customary 
   <picture>
     <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/f900e134-b1d9-482f-b2c2-3100cad38793">
     <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/67e8516f-98d5-4678-8af0-b2a8786da507">
-    <img alt="Digit grouping" src="https://github.com/user-attachments/assets/adb6376d-8c42-4f15-818e-b67ca2f7d530">
+    <img alt="Digit grouping" src="https://github.com/user-attachments/assets/f900e134-b1d9-482f-b2c2-3100cad38793">
   </picture>
 </p>
 
@@ -431,7 +431,7 @@ Lastly, the function `align-columns` can be used to format and align an array of
 ### Version 0.5.0
 - Adds a new unit construction method that allows for more complex units involving math, symbols or basically anything. 
 - ⚠️ Breaking Change: The rounding setup has been streamlined. The `mode` can no longer be `none`, instead it defaults to `"places"` while the default precision is `none` meaning that no rounding is applied. This is more convenient when rounding single numbers (e.g., `num(round: (precision: 2))[9.80665]`) because the mode does not have to be set repeatedly. 
-
+- Fixes an issue with non-breakable units and quantities.
 
 ### Version 0.4.0
 _Units and quantities_
