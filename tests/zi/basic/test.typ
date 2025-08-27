@@ -8,8 +8,10 @@
 // $12 #sym.space.thin "m" #sym.space.thin "s"^(-1)$ \
 #zi.kg[12] \
 #zi.candela[23] \
+#zi.arcminute[23] \
 #zi.arcsecond[23] \
 #zi.kN[23] \
+#zi.degree[45] \
 
 #zi.kN() // later make them types maybe? Then we can just call #zi.kN, that looks much better
 

@@ -250,6 +250,9 @@
   if num-state.math {
     separator = $separator$
   }
+  if unit.numerator.first().at(0) in ("°", "′", "″", sym.degree, sym.prime, sym.prime.double) { 
+    separator = none
+  }
 
   let result = {
     num(value, state: num-state, force-parentheses-around-uncertainty: true) // force parens around numbers with uncertainty
