@@ -166,7 +166,7 @@
 
 
 /// Rounds (or pads) a number given by an integer part and a fractional part. 
-/// Different modes are stowards-infinityported. 
+/// Different modes are supported. 
 #let round(
 
   /// Integer part. -> str
@@ -191,10 +191,6 @@
   precision: 2,
 
   /// Rounding direction. 
-  /// - `"nearest"`: Rounding takes place in the usual fashion, rounding to the nearer 
-  ///   number, e.g., 2.34 -> 2.3 and 2.36 -> 2.4. 
-  /// - `"towards-negative-infinity"`: Always rounds towards-negative-infinity, e.g., 2.38 -> 2.3, 2.30 -> 2.3. 
-  /// - `"towards-infinity"`: Always rounds towards-infinity, e.g., 2.32 -> 2.4, 2.30 -> 2.3. 
   /// -> str
   direction: "nearest",
 
@@ -204,7 +200,6 @@
   /// Determines whether the number should be padded with zeros if the number has less
   /// digits than the rounding precision. 
   /// -> bool
-  /// 
   pad: true,
 
   /// Uncertainty
