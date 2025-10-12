@@ -6,7 +6,7 @@
 
 
 /// Rounds an integer given as a string of digits to a given digit place. 
-/// The rounding direction may be `"nearest"`, `"up"`, or `"down"`. 
+/// The rounding direction may be `"nearest"`, `"towards-infinity"`, or `"towards-negative-infinity"`. 
 #let round-integer(
   num-string, 
   digit, 
@@ -15,9 +15,18 @@
   sign: "+" // or "-"
 ) = {
   if digit == 0 { return "" }
-  if dir == "down" {
+  if dir == "towards-infinity" {
+    if sign == "+" { dir = "away-from-zero" }
+    else { dir = "towards-zero" }
+  }
+  if dir == "towards-negative-infinity" {
+    if sign == "-" { dir = "away-from-zero" }
+    else { dir = "towards-zero" }
+  }
+
+  if dir == "towards-zero" {
     return num-string.slice(0, digit)
-  } else if dir == "up" {
+  } else if dir == "away-from-zero" {
     let x = float(num-string.slice(0, digit) + "." + num-string.slice(digit))
     num-string = str(int(calc.ceil(x)))
   } else if dir == "nearest" {
@@ -87,15 +96,32 @@
 
 
 
-#assert.eq(round-integer("123", 2, dir: "down"), "12")
-#assert.eq(round-integer("123", 1, dir: "down"), "1")
-#assert.eq(round-integer("9989823", 7, dir: "down"), "9989823")
-#assert.eq(round-integer("123", 0, dir: "down"), "")
+#assert.eq(round-integer("123", 2, dir: "towards-zero"), "12")
+#assert.eq(round-integer("123", 1, dir: "towards-zero"), "1")
+#assert.eq(round-integer("9989823", 7, dir: "towards-zero"), "9989823")
+#assert.eq(round-integer("123", 0, dir: "towards-zero"), "")
+#assert.eq(round-integer("12", 1, dir: "towards-zero", sign: "-"), "1")
 
-#assert.eq(round-integer("120", 2, dir: "up"), "12")
-#assert.eq(round-integer("123", 2, dir: "up"), "13")
-#assert.eq(round-integer("1200000000002", 2, dir: "up"), "13")
-#assert.eq(round-integer("999000003", 3, dir: "up"), "1000")
+#assert.eq(round-integer("120", 2, dir: "away-from-zero"), "12")
+#assert.eq(round-integer("123", 2, dir: "away-from-zero"), "13")
+#assert.eq(round-integer("1200000000002", 2, dir: "away-from-zero"), "13")
+#assert.eq(round-integer("999000003", 3, dir: "away-from-zero"), "1000")
+#assert.eq(round-integer("12", 1, dir: "away-from-zero", sign: "-"), "2")
+
+
+#assert.eq(round-integer("123", 2, dir: "towards-negative-infinity"), "12")
+#assert.eq(round-integer("123", 1, dir: "towards-negative-infinity"), "1")
+#assert.eq(round-integer("9989823", 7, dir: "towards-negative-infinity"), "9989823")
+#assert.eq(round-integer("123", 0, dir: "towards-negative-infinity"), "")
+#assert.eq(round-integer("12", 1, dir: "towards-negative-infinity", sign: "-"), "2")
+
+
+#assert.eq(round-integer("120", 2, dir: "towards-infinity"), "12")
+#assert.eq(round-integer("123", 2, dir: "towards-infinity"), "13")
+#assert.eq(round-integer("1200000000002", 2, dir: "towards-infinity"), "13")
+#assert.eq(round-integer("999000003", 3, dir: "towards-infinity"), "1000")
+#assert.eq(round-integer("12", 1, dir: "towards-infinity", sign: "-"), "1")
+
 
 #assert.eq(round-integer("2234", 1, dir: "nearest"), "2")
 #assert.eq(round-integer("2234", 0, dir: "nearest"), "")
@@ -107,7 +133,7 @@
 
 /// Rounds or pads a number given by an integer part and a fractional part
 /// to a given number of total digits (including the integer digits). The 
-/// rounding direction may be `"nearest"`, `"up"`, or `"down"`. 
+/// rounding direction may be `"nearest"`, `"towards-infinity"`, or `"towards-negative-infinity"`. 
 /// The number `total-digits` cannot be negative. If it exceeds the number
 /// of available digits and `pad` is set to `true`, the number is padded
 /// with zeros. 
@@ -140,7 +166,7 @@
 
 
 /// Rounds (or pads) a number given by an integer part and a fractional part. 
-/// Different modes are supported. 
+/// Different modes are stowards-infinityported. 
 #let round(
 
   /// Integer part. -> str
@@ -167,8 +193,8 @@
   /// Rounding direction. 
   /// - `"nearest"`: Rounding takes place in the usual fashion, rounding to the nearer 
   ///   number, e.g., 2.34 -> 2.3 and 2.36 -> 2.4. 
-  /// - `"down"`: Always rounds down, e.g., 2.38 -> 2.3, 2.30 -> 2.3. 
-  /// - `"up"`: Always rounds up, e.g., 2.32 -> 2.4, 2.30 -> 2.3. 
+  /// - `"towards-negative-infinity"`: Always rounds towards-negative-infinity, e.g., 2.38 -> 2.3, 2.30 -> 2.3. 
+  /// - `"towards-infinity"`: Always rounds towards-infinity, e.g., 2.32 -> 2.4, 2.30 -> 2.3. 
   /// -> str
   direction: "nearest",
 
@@ -191,7 +217,7 @@
   
 
   assert-option(mode, "round-mode", ("places", "figures", "uncertainty"))
-  assert-option(direction, "round-direction", ("nearest", "up", "down"))
+  assert-option(direction, "round-direction", ("nearest", "towards-infinity", "towards-negative-infinity"))
   
   let round-digit = precision
   if mode == "places" {
