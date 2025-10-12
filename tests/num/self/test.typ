@@ -220,6 +220,8 @@
 #num(round: (precision: none), "1.234")
 #set-round(precision: none)
 
+#num(round: (precision: 0, ties: "to-odd"))[.5]
+
 
 
 #pagebreak()

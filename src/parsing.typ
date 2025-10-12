@@ -207,6 +207,7 @@
       pm = utility.shift-decimal-left(..pm, fractional.len())
     }
   }
+  if integer == "" { integer = "0" }
   return (int: integer, frac: fractional, sign: sign, pm: pm, e: e)
 }
 
@@ -221,23 +222,23 @@
 )
 #assert.eq(
   decompose-normalized-number-string("+.4+0.1-0.2e-10"), 
-  (sign: "+", int: "", frac: "4", pm: (("0", "1"), ("0", "2")), e: "-10")
+  (sign: "+", int: "0", frac: "4", pm: (("0", "1"), ("0", "2")), e: "-10")
 )
 #assert.eq(
   decompose-normalized-number-string(".4(2)"), 
-  (sign: "+", int: "", frac: "4", pm: ("", "2"), e: none)
+  (sign: "+", int: "0", frac: "4", pm: ("", "2"), e: none)
 )
 #assert.eq(
   decompose-normalized-number-string(".4333(2)"), 
-  (sign: "+", int: "", frac: "4333", pm: ("", "0002"), e: none)
+  (sign: "+", int: "0", frac: "4333", pm: ("", "0002"), e: none)
 )
 #assert.eq(
   decompose-normalized-number-string(".4333(200)"), 
-  (sign: "+", int: "", frac: "4333", pm: ("", "0200"), e: none)
+  (sign: "+", int: "0", frac: "4333", pm: ("", "0200"), e: none)
 )
 #assert.eq(
   decompose-normalized-number-string(".43(200)"), 
-  (sign: "+", int: "", frac: "43", pm: ("2", "00"), e: none)
+  (sign: "+", int: "0", frac: "43", pm: ("2", "00"), e: none)
 )
 #assert.eq(
   decompose-normalized-number-string("2(2)"), 
