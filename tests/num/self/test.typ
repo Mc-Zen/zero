@@ -1,7 +1,6 @@
 #import "/src/zero.typ": *
 #set page(width: auto, height: auto, margin: .5em)
 
-
 #table(
   columns: 6,
   [`num`], num[12.0], num[-2e3], num[0,222], num("2.2+-0.2"), num("2.2+-0.2e1"),
@@ -200,9 +199,9 @@
 #num("1.1") \
 #set-round(pad: true)
 #num("1.1") \
-#set-round(direction: "down")
+#set-round(direction: "towards-negative-infinity")
 #num("1.199") \
-#set-round(direction: "up")
+#set-round(direction: "towards-infinity")
 #num("1.192") \
 #num("1.190") \
 #set-round(direction: "nearest")
