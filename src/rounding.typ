@@ -7,7 +7,13 @@
 
 /// Rounds an integer given as a string of digits to a given digit place. 
 /// The rounding direction may be `"nearest"`, `"up"`, or `"down"`. 
-#let round-integer(num-string, digit, dir: "nearest") = {
+#let round-integer(
+  num-string, 
+  digit, 
+  dir: "nearest",
+  ties: "away-from-zero", 
+  sign: "+" // or "-"
+) = {
   if digit == 0 { return "" }
   if dir == "down" {
     return num-string.slice(0, digit)
@@ -15,7 +21,34 @@
     let x = float(num-string.slice(0, digit) + "." + num-string.slice(digit))
     num-string = str(int(calc.ceil(x)))
   } else if dir == "nearest" {
-    let x = float(num-string.slice(0, digit) + "." + num-string.slice(digit))
+    let fractional = num-string.slice(digit)
+    if fractional.trim("0", at: end) == "5" {
+      if ties == "away-from-zero" {
+      } else if ties == "towards-zero" {
+        fractional = "4"
+      } else if ties == "to-even" {
+        let ls-integer-digit = num-string.slice(digit - 1, digit)
+        if calc.even(int(ls-integer-digit)) {
+          fractional = "4"
+        }
+      } else if ties == "to-odd" {
+        let ls-integer-digit = num-string.slice(digit - 1, digit)
+        if calc.odd(int(ls-integer-digit)) {
+          fractional = "4"
+        }
+      } else if ties == "towards-infinity" {
+        let ls-integer-digit = num-string.slice(digit - 1, digit)
+        if sign == "-" {
+          fractional = "4"
+        }
+      } else if ties == "towards-negative-infinity" {
+        let ls-integer-digit = num-string.slice(digit - 1, digit)
+        if sign == "+" {
+          fractional = "4"
+        }
+      }
+    }
+    let x = float(num-string.slice(0, digit) + "." + fractional)
     num-string = str(int(calc.round(x)))
   }
   if digit > num-string.len() {
@@ -23,6 +56,36 @@
   }
   return num-string
 }
+
+#assert.eq(round-integer("15", 1, dir: "nearest", ties: "away-from-zero"), "2")
+#assert.eq(round-integer("25", 1, dir: "nearest", ties: "away-from-zero"), "3")
+#assert.eq(round-integer("15", 1, dir: "nearest", ties: "away-from-zero", sign: "-"), "2")
+#assert.eq(round-integer("25", 1, dir: "nearest", ties: "away-from-zero", sign: "-"), "3")
+
+#assert.eq(round-integer("15", 1, dir: "nearest", ties: "towards-zero"), "1")
+#assert.eq(round-integer("1235", 3, dir: "nearest", ties: "towards-zero"), "123")
+#assert.eq(round-integer("1235", 3, dir: "nearest", ties: "towards-zero", sign: "-"), "123")
+
+#assert.eq(round-integer("1135", 3, dir: "nearest", ties: "to-even"), "114")
+#assert.eq(round-integer("1145", 3, dir: "nearest", ties: "to-even"), "114")
+#assert.eq(round-integer("1135", 3, dir: "nearest", ties: "to-even", sign: "-"), "114")
+#assert.eq(round-integer("1145", 3, dir: "nearest", ties: "to-even", sign: "-"), "114")
+
+#assert.eq(round-integer("1135", 3, dir: "nearest", ties: "to-odd"), "113")
+#assert.eq(round-integer("1145", 3, dir: "nearest", ties: "to-odd"), "115")
+#assert.eq(round-integer("1135", 3, dir: "nearest", ties: "to-odd", sign: "-"), "113")
+#assert.eq(round-integer("1145", 3, dir: "nearest", ties: "to-odd", sign: "-"), "115")
+
+
+#assert.eq(round-integer("1145", 3, dir: "nearest", ties: "towards-infinity"), "115")
+#assert.eq(round-integer("1145", 3, dir: "nearest", ties: "towards-infinity", sign: "-"), "114")
+
+#assert.eq(round-integer("1145", 3, dir: "nearest", ties: "towards-negative-infinity"), "114")
+#assert.eq(round-integer("1145", 3, dir: "nearest", ties: "towards-negative-infinity", sign: "-"), "115")
+
+
+
+
 
 #assert.eq(round-integer("123", 2, dir: "down"), "12")
 #assert.eq(round-integer("123", 1, dir: "down"), "1")
@@ -48,11 +111,19 @@
 /// The number `total-digits` cannot be negative. If it exceeds the number
 /// of available digits and `pad` is set to `true`, the number is padded
 /// with zeros. 
-#let round-or-pad(int, frac, total-digits, dir: "nearest", pad: true) = {
+#let round-or-pad(
+  int, 
+  frac, 
+  total-digits, 
+  sign: "+",
+  dir: "nearest", 
+  ties: "away-from-zero",
+  pad: true
+) = {
   total-digits = calc.max(0, total-digits)
   let number = int + frac
   if total-digits < number.len() {
-    number = round-integer(number, total-digits, dir: dir)
+    number = round-integer(number, total-digits, dir: dir, ties: ties, sign: sign)
     let new-int-digits = int.len() + number.len() - total-digits
     if total-digits < int.len() {
       number += "0" * (int.len() - total-digits)
@@ -71,10 +142,15 @@
 /// Rounds (or pads) a number given by an integer part and a fractional part. 
 /// Different modes are supported. 
 #let round(
+
   /// Integer part. -> str
   int, 
+
   /// Fractional part. -> str
   frac,
+
+  sign: "+",
+
   /// Rounding mode.
   /// - `"places"`: The number is rounded to the number of places after the 
   ///   decimal point given by the `precision` parameter. 
@@ -83,8 +159,11 @@
   ///   to significant figures given by the `precision` argument and then the number
   ///   is rounded to the same number of places as the uncertainty. 
   mode: none,
-  /// The precision to round to. See parameter `mode` for the different modes. -> int
+
+  /// The precision to round to. See parameter `mode` for the different modes. 
+  /// -> int
   precision: 2,
+
   /// Rounding direction. 
   /// - `"nearest"`: Rounding takes place in the usual fashion, rounding to the nearer 
   ///   number, e.g., 2.34 -> 2.3 and 2.36 -> 2.4. 
@@ -92,12 +171,19 @@
   /// - `"up"`: Always rounds up, e.g., 2.32 -> 2.4, 2.30 -> 2.3. 
   /// -> str
   direction: "nearest",
+
+
+  ties: "away-from-zero",
+
   /// Determines whether the number should be padded with zeros if the number has less
   /// digits than the rounding precision. 
   /// -> bool
+  /// 
   pad: true,
+
   /// Uncertainty
   pm: none
+
 ) = {
   if mode == none { return (int, frac, pm) }
   if mode == "uncertainty" and pm == none { return (int, frac, pm) }
@@ -132,7 +218,7 @@
     }
   }
 
-  return (..round-or-pad(int, frac, round-digit, dir: direction, pad: pad), pm)
+  return (..round-or-pad(int, frac, round-digit, dir: direction, pad: pad, sign: sign, ties: ties), pm)
 }
 
 
