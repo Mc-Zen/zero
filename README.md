@@ -193,6 +193,7 @@ Rounding can be configured with the `set-round()` function.
   precision:  int | none = 2,
   pad:        bool = true,
   direction:  str = "nearest",
+  ties:       str = "away-from-zero"
 )
 ```
 - `mode: str = "places"` : Sets the rounding mode. The possible options are
@@ -211,7 +212,13 @@ Rounding can be configured with the `set-round()` function.
     number, e.g., 2.34 → 2.3 and 2.36 → 2.4. 
   - `"down"`: Always rounds down, e.g., 2.38 → 2.3 and 2.30 → 2.3. 
   - `"up"`: Always rounds up, e.g., 2.32 → 2.4 and 2.30 → 2.3. 
-
+- `ties: str = "away-from-zero"` : How to round ties, i.e., when the digit at the rounding position is 5. 
+  - `"away-from-zero"`: Always round ties away from zero. This is also the behaviour of `calc.round`. 
+  - `"towards-zero"`: The opposite of `"away-from-zero"`, always round ties towards zero. 
+  - `"towards-infinity"`: Always round ties up, towards infinity, e.g., 12.5 → 13 and −12.5 → −12. 
+  - `"towards-negative-infinity"`: Always round ties down, towards negative infinity, e.g., 12.5 → 12 and −12.5 → −13. 
+  - `"to-even"`: Rounds to the nearest even number, e.g., 12.5 → 12 and 13.5 → 14. This is the default rounding mode used in IEEE 754 floating point operations. 
+  - `"to-odd"`: Rounds to the nearest odd number, e.g., 12.5 → 13 and 13.5 → 13. 
 
 
 ### Specifying Uncertainties

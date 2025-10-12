@@ -37,6 +37,7 @@
     mode: round-state.mode,
     precision: round-state.precision,
     direction: round-state.direction,
+    ties: round-state.ties,
     pad: round-state.pad,
     pm: pm
   )

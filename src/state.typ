@@ -20,6 +20,7 @@
     precision: none,
     pad: true,
     direction: "nearest",
+    ties: "away-from-zero"
   ),
   unit: (
     unit-separator: sym.space.thin,
