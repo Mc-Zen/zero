@@ -19,13 +19,16 @@
     fractional = "0" * (digits - available-digits) + fractional
     integer = integer.slice(0, integer.len() - available-digits)
   }
+  if integer == "" {
+    integer = "0"
+  }
   return (integer, fractional)
 }
 
 #assert.eq(shift-decimal-left("123", "456", 0), ("123", "456"))
 #assert.eq(shift-decimal-left("123", "456", 2), ("1", "23456"))
-#assert.eq(shift-decimal-left("123", "456", 5), ("", "00123456"))
+#assert.eq(shift-decimal-left("123", "456", 5), ("0", "00123456"))
 #assert.eq(shift-decimal-left("123", "456", -2), ("12345", "6"))
 #assert.eq(shift-decimal-left("123", "456", -5), ("12345600", ""))
 #assert.eq(shift-decimal-left("0", "0012", -4), ("12", ""))
-#assert.eq(shift-decimal-left("0", "0012", -2), ("", "12"))
+#assert.eq(shift-decimal-left("0", "0012", -2), ("0", "12"))

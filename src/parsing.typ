@@ -226,15 +226,15 @@
 )
 #assert.eq(
   decompose-normalized-number-string(".4(2)"), 
-  (sign: "+", int: "0", frac: "4", pm: ("", "2"), e: none)
+  (sign: "+", int: "0", frac: "4", pm: ("0", "2"), e: none)
 )
 #assert.eq(
   decompose-normalized-number-string(".4333(2)"), 
-  (sign: "+", int: "0", frac: "4333", pm: ("", "0002"), e: none)
+  (sign: "+", int: "0", frac: "4333", pm: ("0", "0002"), e: none)
 )
 #assert.eq(
   decompose-normalized-number-string(".4333(200)"), 
-  (sign: "+", int: "0", frac: "4333", pm: ("", "0200"), e: none)
+  (sign: "+", int: "0", frac: "4333", pm: ("0", "0200"), e: none)
 )
 #assert.eq(
   decompose-normalized-number-string(".43(200)"), 
@@ -246,5 +246,28 @@
 )
 #assert.eq(
   decompose-normalized-number-string("2.3(2.9)"), 
-  (sign: "+", int: "2", frac: "3", pm: ("", "29"), e: none)
+  (sign: "+", int: "2", frac: "3", pm: ("0", "29"), e: none)
 )
+
+
+#let parse-numeral(input) = {
+  
+  let num-str = number-to-string(input)
+  if num-str == none {
+    assert(false, message: "Cannot parse the number `" + repr(it.number) + "`")
+  }
+  decompose-normalized-number-string(num-str)
+}
+
+#let compute-eng(num-info) = {
+  let integer = num-info.int
+  let fractional = num-info.frac
+
+  if integer.len() > 3 {
+    calc.quo(integer.len() - 1, 3) * 3
+  } else if integer == "0" {
+    let leading-zeros = fractional.len() - fractional.trim("0", at: start).len()
+
+    -calc.ceil((leading-zeros + 1) / 3) * 3
+  } else { 0 }
+}
