@@ -59,11 +59,18 @@
     }
     if "sign" not in info {info.sign = "" }
   } else {
-    let num-str = number-to-string(it.number)
-    if num-str == none {
-      assert(false, message: "Cannot parse the number `" + repr(it.number) + "`")
+    info = parse-numeral(it.number)
+  }
+
+  if it.unit.eng {
+    let e = if info.e == none { 0 } else { int(info.e) }
+    let significant-figures = (info.int + info.frac).trim("0").len()
+    (info.int, info.frac) = utility.shift-decimal-left(info.int, info.frac, -e)
+    info.e = none
+    (info.int, info.frac) = utility.shift-decimal-left(info.int, info.frac, parsing.compute-eng(info))
+    if info.int != "0" {
+      info.frac = info.frac.slice(0, calc.max(0, significant-figures - info.int.len()))
     }
-    info = decompose-normalized-number-string(num-str)
   }
 
   /// Maybe shift exponent

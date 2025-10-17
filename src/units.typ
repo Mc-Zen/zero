@@ -1,7 +1,8 @@
 #import "num.typ": num
 #import "state.typ": num-state, update-num-state
 #import "assertations.typ": assert-settable-args
-
+#import "parsing.typ": parse-numeral, compute-eng
+#import "utility.typ"
 
 /// [internal function]
 /// Parse a text-based unit specification. 
@@ -243,7 +244,8 @@
   unit,
   ..args
 ) = context {
-  
+  let unit = unit
+
   let num-state = update-num-state(num-state.get(), (unit: args.named()) + args.named())
 
   let separator = sym.space.thin
@@ -252,6 +254,35 @@
   }
   if unit.numerator.first().at(0) in ("°", "′", "″", sym.degree, sym.prime, sym.prime.double) { 
     separator = none
+  }
+
+  if num-state.unit.eng {
+    let info = parse-numeral(value)
+    let e = if info.e == none { 0 } else { int(info.e) }
+    (info.int, info.frac) = utility.shift-decimal-left(info.int, info.frac, -e)
+    let eng = compute-eng(info)
+
+    if eng != 0 {
+      let prefixes = (
+        "3": [k],
+        "6": [M],
+        "9": [G],
+        "12": [T],
+        "15": [P],
+        "18": [E],
+        "−3": [m],
+        "−6": [#sym.mu],
+        "−9": [n],
+        "−12": [p],
+        "−15": [f],
+        "−18": [a],
+      )
+      
+
+      let prefix = prefixes.at(str(eng))
+      assert(unit.numerator.len() != 0)
+      unit.numerator.first().first() = prefix + unit.numerator.first().first()
+    }
   }
 
   let result = {
