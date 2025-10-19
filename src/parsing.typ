@@ -204,7 +204,7 @@
     }
     
     if normalize-pm {
-      pm = utility.shift-decimal-left(..pm, fractional.len())
+      pm = utility.shift-decimal-left(..pm, digits: fractional.len())
     }
   }
   if integer == "" { integer = "0" }
@@ -259,15 +259,23 @@
   decompose-normalized-number-string(num-str)
 }
 
-#let compute-eng(num-info) = {
+
+#let compute-sci-digits(num-info) = {
   let integer = num-info.int
   let fractional = num-info.frac
+  let e = if num-info.e == none { 0 } else { int(num-info.e) }
 
-  if integer.len() > 3 {
-    calc.quo(integer.len() - 1, 3) * 3
-  } else if integer == "0" {
+  let exponent = 0
+  if integer == "0" {
     let leading-zeros = fractional.len() - fractional.trim("0", at: start).len()
 
-    -calc.ceil((leading-zeros + 1) / 3) * 3
-  } else { 0 }
+    exponent = -leading-zeros - 1
+  } else {
+    exponent = integer.len() - 1
+  } 
+  exponent + e
+}
+
+#let compute-eng-digits(num-info) = {
+  calc.floor(compute-sci-digits(num-info) / 3) * 3
 }

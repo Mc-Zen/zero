@@ -163,7 +163,7 @@
     )
       
     if compact-pm {
-      pm = pm.map(x => utility.shift-decimal-left(..x, -it.digits))
+      pm = pm.map(x => utility.shift-decimal-left(..x, digits: -it.digits))
       it.digits = auto
     }
   }
@@ -215,7 +215,7 @@
   
   let (sign, integer, fractional) = decompose-signed-float-string(it.exponent)
   let exponent = format-comma-number((sign: sign, int: integer, frac: fractional, digits: auto, group: false, positive-sign: it.positive-sign-exponent, decimal-separator: it.decimal-separator))
-
+  
   if it.math {
     let power = math.attach([#it.base], t: [#exponent])
     if it.product == none { (power,) }

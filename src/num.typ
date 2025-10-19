@@ -5,6 +5,7 @@
 #import "parsing.typ" as parsing: nonum
 
 #let update-state(state, args, name: none) = {
+  assert-no-fixed(args)
   state.update(s => {
     assert-settable-args(args, s, name: name)
     s + args.named()
@@ -62,21 +63,26 @@
     info = parse-numeral(it.number)
   }
 
-  if it.unit.eng {
-    let e = if info.e == none { 0 } else { int(info.e) }
-    let significant-figures = (info.int + info.frac).trim("0").len()
-    (info.int, info.frac) = utility.shift-decimal-left(info.int, info.frac, -e)
-    info.e = none
-    (info.int, info.frac) = utility.shift-decimal-left(info.int, info.frac, parsing.compute-eng(info))
-    if info.int != "0" {
-      info.frac = info.frac.slice(0, calc.max(0, significant-figures - info.int.len()))
-    }
-  }
+  if it.exponent != auto {
+    let new-exponent = if type(it.exponent) == dictionary {
+      assert(
+        "fixed" in it.exponent,
+        message: "Expected key \"shift\", got " + repr(it.exponent)
+      )
 
-  /// Maybe shift exponent
-  if it.fixed != none {
+      it.exponent.fixed
+    } else if it.exponent == "eng" {
+      parsing.compute-eng-digits(info)
+    } else if it.exponent == "sci" {
+      parsing.compute-sci-digits(info)
+    }
+
     let e = if info.e == none { 0 } else { int(info.e) }
-    let shift(int, frac) = utility.shift-decimal-left(int, frac, it.fixed - e)
+    // let significant-figures = (info.int + info.frac).trim("0").len()
+
+    let shift = utility.shift-decimal-left.with(digits: new-exponent - e)
+
+    info.e = str(new-exponent).replace("−", "-")
     (info.int, info.frac) = shift(info.int, info.frac)
 
     if info.pm != none {
@@ -86,8 +92,9 @@
         info.pm = pm.map(x => shift(..x))
       }
     }
-
-    info.e = str(it.fixed).replace("−", "-")
+    // if info.int != "0" {
+    //   info.frac = info.frac.slice(0, calc.max(0, significant-figures - info.int.len()))
+    // }
   }
 
   /// Round number and uncertainty
@@ -153,6 +160,8 @@
   force-parentheses-around-uncertainty: false,
   ..args
 ) = {
+  assert-no-fixed(args)
+  
   let inline-args = (
     align: align,
     prefix: prefix,

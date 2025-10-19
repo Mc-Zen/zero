@@ -237,12 +237,12 @@
 
 // fixed exponent
 
-#num("1.234", fixed: -2) \
-#num("1.234", fixed: 1) \
-#num("1e4", fixed: 1) \
-#num("1e-4", fixed: -1) \
-#num("2+-1", fixed: 1) \
-#num("2+-1e1", fixed: 2) \
+#num("1.234", exponent: (fixed: -2)) \
+#num("1.234", exponent: (fixed: 1)) \
+#num("1e4", exponent: (fixed: 1)) \
+#num("1e-4", exponent: (fixed: -1)) \
+#num("2+-1", exponent: (fixed: 1)) \
+#num("2+-1e1", exponent: (fixed: 2)) \
 
 
 

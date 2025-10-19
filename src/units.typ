@@ -1,7 +1,7 @@
 #import "num.typ": num
 #import "state.typ": num-state, update-num-state
 #import "assertations.typ": assert-settable-args
-#import "parsing.typ": parse-numeral, compute-eng
+#import "parsing.typ": parse-numeral, compute-eng-digits
 #import "utility.typ"
 
 /// [internal function]
@@ -259,8 +259,7 @@
   if num-state.unit.eng {
     let info = parse-numeral(value)
     let e = if info.e == none { 0 } else { int(info.e) }
-    (info.int, info.frac) = utility.shift-decimal-left(info.int, info.frac, -e)
-    let eng = compute-eng(info)
+    let eng = compute-eng-digits(info)
 
     if eng != 0 {
       let prefixes = (

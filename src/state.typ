@@ -1,15 +1,20 @@
 #let default-state = (
+  // Mantissa and uncertainty
   digits: auto,
-  fixed: none,
-  product: sym.times,
   decimal-separator: ".",
-  tight: false,
   omit-unity-mantissa: false,
+  uncertainty-mode: "separate",
   positive-sign: false,
+  tight: false,
+  math: true,
+
+  // Power
+  product: sym.times,
   positive-sign-exponent: false,
   base: 10,
-  uncertainty-mode: "separate",
-  math: true,
+  fixed: none,
+  exponent: auto,
+
   group: (
     size: 3, 
     separator: sym.space.thin,
