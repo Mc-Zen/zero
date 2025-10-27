@@ -45,6 +45,55 @@
 }
 
 
+#let process-exponent(info, exponent) = {
+  let new-exponent = if type(exponent) == dictionary {
+    assert(
+      "fixed" in exponent or "sci" in exponent,
+      message: "Expected key \"fixed\" or \"sci\", got " + repr(exponent)
+    )
+
+    if "fixed" in exponent { 
+      exponent.fixed
+    } else {
+      let threshold = exponent.sci
+      if type(threshold) == int { 
+        threshold = (-threshold, threshold)
+      }
+      let e = parsing.compute-sci-digits(info)
+      if e > threshold.at(0) and e < threshold.at(1) {
+        return info
+      }
+      e
+    }
+  } else if exponent == "eng" {
+    parsing.compute-eng-digits(info)
+  } else if exponent == "sci" {
+    parsing.compute-sci-digits(info)
+  }
+
+  let e = if info.e == none { 0 } else { int(info.e) }
+  // let significant-figures = (info.int + info.frac).trim("0").len()
+
+  let shift = utility.shift-decimal-left.with(digits: new-exponent - e)
+
+  info.e = str(new-exponent).replace("−", "-")
+  (info.int, info.frac) = shift(info.int, info.frac)
+
+  if info.pm != none {
+    if type(info.pm.first()) != array { 
+      info.pm = shift(..info.pm)
+    } else {
+      info.pm = pm.map(x => shift(..x))
+    }
+  }
+  // if info.int != "0" {
+  //   info.frac = info.frac.slice(0, calc.max(0, significant-figures - info.int.len()))
+  // }
+
+  info
+}
+
+
 
 #let show-num = it => {
   
@@ -64,37 +113,7 @@
   }
 
   if it.exponent != auto {
-    let new-exponent = if type(it.exponent) == dictionary {
-      assert(
-        "fixed" in it.exponent,
-        message: "Expected key \"shift\", got " + repr(it.exponent)
-      )
-
-      it.exponent.fixed
-    } else if it.exponent == "eng" {
-      parsing.compute-eng-digits(info)
-    } else if it.exponent == "sci" {
-      parsing.compute-sci-digits(info)
-    }
-
-    let e = if info.e == none { 0 } else { int(info.e) }
-    // let significant-figures = (info.int + info.frac).trim("0").len()
-
-    let shift = utility.shift-decimal-left.with(digits: new-exponent - e)
-
-    info.e = str(new-exponent).replace("−", "-")
-    (info.int, info.frac) = shift(info.int, info.frac)
-
-    if info.pm != none {
-      if type(info.pm.first()) != array { 
-        info.pm = shift(..info.pm)
-      } else {
-        info.pm = pm.map(x => shift(..x))
-      }
-    }
-    // if info.int != "0" {
-    //   info.frac = info.frac.slice(0, calc.max(0, significant-figures - info.int.len()))
-    // }
+    info = process-exponent(info, it.exponent)
   }
 
   /// Round number and uncertainty
