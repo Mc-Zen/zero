@@ -140,7 +140,11 @@
   // sign, int, frac, digits, group, positive-sign
   let frac = format-fractional((frac: it.frac, group: it.group, digits: it.digits, decimal-separator: it.decimal-separator))
   
-  return format-sign(it.sign, positive-sign: it.positive-sign) + format-integer((int: it.int, group: it.group)) + frac
+  return sequence-constructor((
+    format-sign(it.sign, positive-sign: it.positive-sign),
+    format-integer((int: it.int, group: it.group)),
+    frac
+  ))
 }
 
 
