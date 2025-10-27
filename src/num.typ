@@ -114,6 +114,10 @@
 
   if it.exponent != auto {
     info = process-exponent(info, it.exponent)
+    
+  }
+  if it.unit.eng and it.exponent == "eng" {
+    info.e = none
   }
 
   /// Round number and uncertainty

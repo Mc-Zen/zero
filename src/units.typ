@@ -257,6 +257,12 @@
   }
 
   if num-state.unit.eng {
+    
+    assert(
+      num-state.exponent == "eng",
+      message: "In order to use automatic SI prefixes for engineering notation, `num.exponent` needs to be set to \"eng\" as well"
+    )
+
     let info = parse-numeral(value)
     let e = if info.e == none { 0 } else { int(info.e) }
     let eng = compute-eng-digits(info)
