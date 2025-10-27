@@ -19,14 +19,14 @@
 /// if `positive-sign` is set to true. In all other cases, the result is
 /// `none`. 
 #let format-sign(sign, positive-sign: false) = {
-  if sign == "-" { return "−" }
-  else if sign == "+" and positive-sign { return "+" }
+  if sign == "-" { return sym.minus }
+  else if sign == "+" and positive-sign { return sym.plus }
 }
 
-#assert.eq(format-sign("-", positive-sign: false), "−")
+#assert.eq(format-sign("-", positive-sign: false), sym.minus)
 #assert.eq(format-sign("+", positive-sign: false), none)
-#assert.eq(format-sign("-", positive-sign: true), "−")
-#assert.eq(format-sign("+", positive-sign: true), "+")
+#assert.eq(format-sign("-", positive-sign: true), sym.minus)
+#assert.eq(format-sign("+", positive-sign: true), sym.plus)
 #assert.eq(format-sign(none, positive-sign: true), none)
 
 
