@@ -389,7 +389,7 @@ For most units, it will suffice to use the string unit syntax shown above becaus
 
 If you need to build more complex units, consisting of symbols, math, or other content, you can use the alternative construction method. Here, each base unit is passed as a positional argument to `zi.declare`: either just the content if (the exponent is 1) or a pair of content and exponent. 
 ```typ
-#zi.declare($M_dot.circle$, ("s", -2))
+#zi.declare($M_dot.o$, ("s", -2))
 ```
 
 
