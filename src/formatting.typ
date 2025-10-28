@@ -19,15 +19,11 @@
 /// if `positive-sign` is set to true. In all other cases, the result is
 /// `none`. 
 #let format-sign(sign, positive-sign: false) = {
-  if sign == "-" { return "−" }
-  else if sign == "+" and positive-sign { return "+" }
+  if sign == "-" { return math.class("unary", sym.minus) }
+  else if sign == "+" and positive-sign { return math.class("unary", sym.plus) }
 }
 
-#assert.eq(format-sign("-", positive-sign: false), "−")
-#assert.eq(format-sign("+", positive-sign: false), none)
-#assert.eq(format-sign("-", positive-sign: true), "−")
-#assert.eq(format-sign("+", positive-sign: true), "+")
-#assert.eq(format-sign(none, positive-sign: true), none)
+
 
 
 
@@ -163,7 +159,7 @@
     )
       
     if compact-pm {
-      pm = pm.map(x => utility.shift-decimal-left(..x, -it.digits))
+      pm = pm.map(x => utility.shift-decimal-left(..x, digits: -it.digits))
       it.digits = auto
     }
   }
@@ -215,7 +211,7 @@
   
   let (sign, integer, fractional) = decompose-signed-float-string(it.exponent)
   let exponent = format-comma-number((sign: sign, int: integer, frac: fractional, digits: auto, group: false, positive-sign: it.positive-sign-exponent, decimal-separator: it.decimal-separator))
-
+  
   if it.math {
     let power = math.attach([#it.base], t: [#exponent])
     if it.product == none { (power,) }

@@ -44,3 +44,15 @@
     assert(false, message: message)
   }
 }
+
+
+#let assert-no-fixed(args) = {
+  return
+  if "fixed" in args.named() {
+    let value = str(args.at("fixed"))
+    assert(
+      false, 
+      message: "The parameter `fixed` has been removed. Instead use `exponent (fixed: " + value + "`) instead of `fixed: " + value + "`"
+    )
+  }
+}

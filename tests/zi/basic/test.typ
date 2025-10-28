@@ -89,7 +89,7 @@ A #kgm-s2(breakable: true)
   zi.m-s("2+-2e3"),
   zi.m-s(uncertainty-mode: "compact", "2+-1"),
   zi.m-s(uncertainty-mode: "compact-separator", "2+-1"),
-  zi.m-s(fixed: 1, "2+-1.1"),
+  zi.m-s(exponent: (fixed: 1), "2+-1.1"),
 )
 
 #pagebreak()

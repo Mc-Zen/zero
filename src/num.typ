@@ -5,6 +5,7 @@
 #import "parsing.typ" as parsing: nonum
 
 #let update-state(state, args, name: none) = {
+  assert-no-fixed(args)
   state.update(s => {
     assert-settable-args(args, s, name: name)
     s + args.named()
@@ -44,6 +45,55 @@
 }
 
 
+#let process-exponent(info, exponent) = {
+  let new-exponent = if type(exponent) == dictionary {
+    assert(
+      "fixed" in exponent or "sci" in exponent,
+      message: "Expected key \"fixed\" or \"sci\", got " + repr(exponent)
+    )
+
+    if "fixed" in exponent { 
+      exponent.fixed
+    } else {
+      let threshold = exponent.sci
+      if type(threshold) == int { 
+        threshold = (-threshold, threshold)
+      }
+      let e = parsing.compute-sci-digits(info)
+      if e > threshold.at(0) and e < threshold.at(1) {
+        return info
+      }
+      e
+    }
+  } else if exponent == "eng" {
+    parsing.compute-eng-digits(info)
+  } else if exponent == "sci" {
+    parsing.compute-sci-digits(info)
+  }
+
+  let e = if info.e == none { 0 } else { int(info.e) }
+  // let significant-figures = (info.int + info.frac).trim("0").len()
+
+  let shift = utility.shift-decimal-left.with(digits: new-exponent - e)
+
+  info.e = str(new-exponent).replace("−", "-")
+  (info.int, info.frac) = shift(info.int, info.frac)
+
+  if info.pm != none {
+    if type(info.pm.first()) != array { 
+      info.pm = shift(..info.pm)
+    } else {
+      info.pm = pm.map(x => shift(..x))
+    }
+  }
+  // if info.int != "0" {
+  //   info.frac = info.frac.slice(0, calc.max(0, significant-figures - info.int.len()))
+  // }
+
+  info
+}
+
+
 
 #let show-num = it => {
   
@@ -59,28 +109,14 @@
     }
     if "sign" not in info {info.sign = "" }
   } else {
-    let num-str = number-to-string(it.number)
-    if num-str == none {
-      assert(false, message: "Cannot parse the number `" + repr(it.number) + "`")
-    }
-    info = decompose-normalized-number-string(num-str)
+    info = parse-numeral(it.number)
   }
 
-  /// Maybe shift exponent
-  if it.fixed != none {
-    let e = if info.e == none { 0 } else { int(info.e) }
-    let shift(int, frac) = utility.shift-decimal-left(int, frac, it.fixed - e)
-    (info.int, info.frac) = shift(info.int, info.frac)
-
-    if info.pm != none {
-      if type(info.pm.first()) != array { 
-        info.pm = shift(..info.pm)
-      } else {
-        info.pm = pm.map(x => shift(..x))
-      }
+  if it.exponent != auto {
+    info = process-exponent(info, it.exponent)
+    if "prefixed-eng" in it {
+      info.e = none
     }
-
-    info.e = str(it.fixed).replace("−", "-")
   }
 
   /// Round number and uncertainty
@@ -146,6 +182,8 @@
   force-parentheses-around-uncertainty: false,
   ..args
 ) = {
+  assert-no-fixed(args)
+  
   let inline-args = (
     align: align,
     prefix: prefix,

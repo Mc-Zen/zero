@@ -35,7 +35,7 @@
 
 #zero.ztable(
   columns: 2,
-  format: (auto, (decimal-separator: ",", fixed: 2)),
+  format: (auto, (decimal-separator: ",", exponent: (fixed: 2))),
   "2.3", "3422",
   "10", "101",
 )
@@ -50,7 +50,7 @@
     
   zero.ztable(
     columns: 2,
-    format: (auto, (decimal-separator: ",", fixed: 2)),
+    format: (auto, (decimal-separator: ",", exponent: (fixed: 2))),
     [Long title], [Defg],
     table.hline(),
     "2.3", "3422",
