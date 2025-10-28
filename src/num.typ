@@ -114,10 +114,9 @@
 
   if it.exponent != auto {
     info = process-exponent(info, it.exponent)
-    
-  }
-  if it.unit.eng and it.exponent == "eng" {
-    info.e = none
+    if "prefixed-eng" in it {
+      info.e = none
+    }
   }
 
   /// Round number and uncertainty

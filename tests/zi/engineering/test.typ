@@ -2,7 +2,6 @@
 #import "/src/zero.typ": zi, set-unit, set-num
 
 
-#set-unit(eng: true)
 #set-num(exponent: "eng")
 
 #zi.m[2] \

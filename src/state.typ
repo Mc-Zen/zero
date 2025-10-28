@@ -32,7 +32,7 @@
     fraction: "power",
     breakable: false,
     use-sqrt: true,
-    eng: false
+    prefix: auto
   )
 )
 #let num-state = state("num-state", default-state)
