@@ -12,6 +12,7 @@
 #zi.arcsecond[23] \
 #zi.kN[23] \
 #zi.degree[45] \
+#zi.declare("1/s")([2]) \
 
 #zi.kN() // later make them types maybe? Then we can just call #zi.kN, that looks much better
 

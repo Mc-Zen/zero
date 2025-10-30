@@ -252,7 +252,9 @@
   if num-state.math {
     separator = $separator$
   }
-  if unit.numerator.first().at(0) in ("°", "′", "″", sym.degree, sym.prime, sym.prime.double) { 
+  
+  let angles = ("°", "′", "″", sym.degree, sym.prime, sym.prime.double)
+  if unit.numerator.len() > 0 and unit.numerator.at(0).at(0) in angles { 
     separator = none
   }
 
