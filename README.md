@@ -105,7 +105,7 @@ Zero's core is the `num()` function, which provides flexible number formatting. 
   product:                content = sym.times,
   tight:                  bool = false,
   math:                   bool = true,
-  omit-unity-mantissa:    bool = true,
+  omit-unity-mantissa:    bool = false,
   positive-sign:          bool = false,
   positive-sign-exponent: bool = false,
   base:                   int | content = 10,
