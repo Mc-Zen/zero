@@ -3,11 +3,17 @@
 /// Converts a content value into a string if it contains only text nodes. 
 /// Otherwise, `none` is returned. 
 #let content-to-string(x) = {
-  if x.has("text") { return x.text }
-  if x.has("children") and x.children.len() != 0 and x.children.all(x => x.has("text")) {
-    return x.children.map(x => x.text).join()
+  if x.has("text") {
+    return x.text
   }
-  return none
+
+  if (
+    x.has("children") 
+      and x.children.len() != 0 
+      and x.children.all(x => x.has("text"))
+  ) {
+    x.children.map(x => x.text).join()
+  }
 }
 
 #assert.eq(content-to-string([123]), "123")
@@ -16,17 +22,22 @@
 #assert.eq(content-to-string([a $a$]), none)
 
 
-/// Converts a content value into a string if it contains only text nodes. 
-/// Otherwise, `none` is returned. 
+/// Same as @content-to-string but also extract special prefix and suffix elements. 
+/// Returns `none`, if the content does not only contain text nodes and a tuple
+/// `(text: str, prefix: content, suffix: content)` otherwise
 #let content-to-string-table(x) = {
-  let prefix = none
-  let suffix = none
-  if x.has("text") and x.text.len() > 0 { return (x.text, prefix, suffix) }
+  if x.has("text") { 
+    return (x.text, none, none)
+  }
+
   if x.has("children") and x.children.len() != 0 {
     if x.children.all(x => x.has("text")){
-      return (x.children.map(x => x.text).join(), prefix, suffix)
+      return (x.children.map(x => x.text).join(), none, none)
     }
+
     let main = none
+    let prefix = none
+    let suffix = none
     for child in x.children {
       if child.has("text") { main += child.text }
       else if child.func() == highlight {
@@ -37,17 +48,17 @@
     }
     return (main, prefix, suffix)
   }
-  return none
 }
 
 #let nonum = highlight
+
 #assert.eq(content-to-string-table[], none)
-#assert.eq(content-to-string-table[#""], none)
 #assert.eq(content-to-string-table[alpha ], none)
 #assert.eq(content-to-string-table[#nonum[€]12], ("12", [€], none))
 #assert.eq(content-to-string-table[#nonum[€]12.43#nonum[#footnote[1]]], ("12.43", [€], footnote[1]))
 
-/// Converts a number into a string if the input is either
+
+/// Converts the input into a string if the input is either
 /// - an integer or a float,
 /// - a string,
 /// - or a content value that contains only text nodes but does not start 
@@ -63,9 +74,9 @@
     str(number)
   } else if type(number) == content  { 
     content-to-string(number) 
-  } 
+  }
   
-  if result == none { return none }
+  if result in (none, "") { return none }
   
   result.replace(",", ".").replace("−", "-")
 }
@@ -83,6 +94,8 @@
   if type(result) != array { 
     result = (result, none, none)
   }
+
+  if result.at(0) == "" { return none }
 
   result.at(0) = result.at(0).replace(",", ".").replace("−", "-")
 
@@ -115,6 +128,7 @@
 #assert.eq(str(sym.plus), "+")
 
 
+#assert.eq(number-to-string([#""]), none)
 #assert.eq(number-to-string-table([#""]), none)
 
 
@@ -127,8 +141,11 @@
 /// #example(`decompose-unsigned-float-string("9.81")`
 #let decompose-unsigned-float-string(x) = {
   let components = x.split(".")
-  if components.len() == 1 { components.push("") }
-  else if components.len() > 2 {assert(false, message: "weird number `" + x + "`")}
+  if components.len() == 1 { 
+    components.push("") 
+  } else if components.len() > 2 {
+    assert(false, message: "unparsable number `" + x + "`")
+  }
   components
 }
 
@@ -152,8 +169,11 @@
   if x.starts-with("-") {
     sign = "-"
     x = x.slice(1)
-  } else if x.starts-with("+") { x = x.slice(1) }
-  return (sign, ) + decompose-unsigned-float-string(x)
+  } else if x.starts-with("+") { 
+    x = x.slice(1)
+  }
+  
+  (sign, ) + decompose-unsigned-float-string(x)
 }
 
 #assert.eq(decompose-signed-float-string("23.2"), ("+", "23", "2"))
@@ -225,8 +245,11 @@
       pm = utility.shift-decimal-left(..pm, digits: fractional.len())
     }
   }
-  if integer == "" { integer = "0" }
-  return (int: integer, frac: fractional, sign: sign, pm: pm, e: e)
+  if integer == "" {
+    integer = "0"
+  }
+  
+  (int: integer, frac: fractional, sign: sign, pm: pm, e: e)
 }
 
 
