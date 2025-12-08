@@ -21,7 +21,7 @@
 #let content-to-string-table(x) = {
   let prefix = none
   let suffix = none
-  if x.has("text") { return (x.text, prefix, suffix) }
+  if x.has("text") and x.text.len() > 0 { return (x.text, prefix, suffix) }
   if x.has("children") and x.children.len() != 0 {
     if x.children.all(x => x.has("text")){
       return (x.children.map(x => x.text).join(), prefix, suffix)
@@ -41,6 +41,8 @@
 }
 
 #let nonum = highlight
+#assert.eq(content-to-string-table[], none)
+#assert.eq(content-to-string-table[#""], none)
 #assert.eq(content-to-string-table[alpha ], none)
 #assert.eq(content-to-string-table[#nonum[€]12], ("12", [€], none))
 #assert.eq(content-to-string-table[#nonum[€]12.43#nonum[#footnote[1]]], ("12.43", [€], footnote[1]))
@@ -55,30 +57,44 @@
 /// "." are unified to "." and the minus symbol "−" is replaced by the 
 /// ASCII "-" character. 
 #let number-to-string(number) = {
-  let result
-  if type(number) == str { result = number }
-  else if type(number) in (int, float) { result = str(number) }
-  else if type(number) == content  { result = content-to-string(number) } 
-  else { result = none }
+  let result = if type(number) == str { 
+    number 
+  } else if type(number) in (int, float) { 
+    str(number)
+  } else if type(number) == content  { 
+    content-to-string(number) 
+  } 
+  
   if result == none { return none }
-  return result.replace(",", ".").replace("−", "-")
+  
+  result.replace(",", ".").replace("−", "-")
 }
 
 #let number-to-string-table(number) = {
-  let result
-  if type(number) == str { result = number }
-  else if type(number) in (int, float) { result = str(number) }
-  else if type(number) == content  { result = content-to-string-table(number) } 
-  else { result = none }
+  let result = if type(number) == str { 
+    number 
+  } else if type(number) in (int, float) { 
+    str(number) 
+  } else if type(number) == content  { 
+    content-to-string-table(number) 
+  }
   if result == none { return none }
-  if type(result) != array { result = (result, none, none) }
+
+  if type(result) != array { 
+    result = (result, none, none)
+  }
+
   result.at(0) = result.at(0).replace(",", ".").replace("−", "-")
+
   if result.len() == 0 or result.at(0).at(0) not in "0123456789+-." { 
     return none
   }
-  return result
+
+  result
 }
 
+
+#assert.eq(number-to-string[], none)
 #assert.eq(number-to-string("123"), "123")
 #assert.eq(number-to-string("-2.0"), "-2.0")
 #assert.eq(number-to-string("−" + "2,0"), "-2.0")
@@ -98,6 +114,8 @@
 #assert.eq(number-to-string[ 2343.23 ], none)
 #assert.eq(str(sym.plus), "+")
 
+
+#assert.eq(number-to-string-table([#""]), none)
 
 
 /// Decomposes a string representing an unsigned floating point into
