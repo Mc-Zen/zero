@@ -212,7 +212,20 @@
   
 
   assert-option(mode, "round-mode", ("places", "figures", "uncertainty"))
-  assert-option(direction, "round-direction", ("nearest", "towards-infinity", "towards-negative-infinity"))
+
+  // Removal hint
+  if direction == "down" {
+    assert(
+      false,
+      message: "In zero:0.5.0, the rounding direction \"down\" has been renamed to \"towards-negative-infinity\""
+    )
+  } else if direction == "up" {
+    assert(
+      false,
+      message: "In zero:0.5.0, the rounding direction \"up\" has been renamed to \"towards-infinity\""
+    )
+  }
+  assert-option(direction, "round-direction", ("nearest", "towards-infinity", "towards-negative-infinity", "away-from-zero", "towards-zero"))
   
   let round-digit = precision
   if mode == "places" {
