@@ -1,5 +1,5 @@
 #set page(width: auto, height: auto, margin: .5em)
-#import "/src/zero.typ": zi, set-unit, num
+#import "/src/zero.typ": num, set-unit, zi
 
 // #show math.equation: box.with(fill: red)
 

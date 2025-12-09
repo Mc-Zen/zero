@@ -6,7 +6,7 @@
   [#nonum[€]123.0#nonum(footnote[A special number])],
   [222.23+-2],
   [12],
-  nonum[non-numerical]
+  nonum[non-numerical],
 )
 
 // #num(prefix: $<$)[23]

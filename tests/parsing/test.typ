@@ -12,7 +12,11 @@
 #assert.eq(content-to-string-table[], none)
 #assert.eq(content-to-string-table[alpha ], none)
 #assert.eq(content-to-string-table[#nonum[€]12], ("12", [€], none))
-#assert.eq(content-to-string-table[#nonum[€]12.43#nonum[#footnote[1]]], ("12.43", [€], footnote[1]))
+#assert.eq(content-to-string-table[#nonum[€]12.43#nonum[#footnote[1]]], (
+  "12.43",
+  [€],
+  footnote[1],
+))
 
 
 
@@ -63,38 +67,38 @@
 
 
 #assert.eq(
-  parse-normalized-compound-numeral("-10e3"), 
-  (sign: "-", int: "10", frac: "", pm: none, e: "3")
+  parse-normalized-compound-numeral("-10e3"),
+  (sign: "-", int: "10", frac: "", pm: none, e: "3"),
 )
 #assert.eq(
-  parse-normalized-compound-numeral("+2.4+-0.1"), 
-  (sign: "+", int: "2", frac: "4", pm: ("0", "1"), e: none)
+  parse-normalized-compound-numeral("+2.4+-0.1"),
+  (sign: "+", int: "2", frac: "4", pm: ("0", "1"), e: none),
 )
 #assert.eq(
-  parse-normalized-compound-numeral("+.4+0.1-0.2e-10"), 
-  (sign: "+", int: "0", frac: "4", pm: (("0", "1"), ("0", "2")), e: "-10")
+  parse-normalized-compound-numeral("+.4+0.1-0.2e-10"),
+  (sign: "+", int: "0", frac: "4", pm: (("0", "1"), ("0", "2")), e: "-10"),
 )
 #assert.eq(
-  parse-normalized-compound-numeral(".4(2)"), 
-  (sign: "+", int: "0", frac: "4", pm: ("0", "2"), e: none)
+  parse-normalized-compound-numeral(".4(2)"),
+  (sign: "+", int: "0", frac: "4", pm: ("0", "2"), e: none),
 )
 #assert.eq(
-  parse-normalized-compound-numeral(".4333(2)"), 
-  (sign: "+", int: "0", frac: "4333", pm: ("0", "0002"), e: none)
+  parse-normalized-compound-numeral(".4333(2)"),
+  (sign: "+", int: "0", frac: "4333", pm: ("0", "0002"), e: none),
 )
 #assert.eq(
-  parse-normalized-compound-numeral(".4333(200)"), 
-  (sign: "+", int: "0", frac: "4333", pm: ("0", "0200"), e: none)
+  parse-normalized-compound-numeral(".4333(200)"),
+  (sign: "+", int: "0", frac: "4333", pm: ("0", "0200"), e: none),
 )
 #assert.eq(
-  parse-normalized-compound-numeral(".43(200)"), 
-  (sign: "+", int: "0", frac: "43", pm: ("2", "00"), e: none)
+  parse-normalized-compound-numeral(".43(200)"),
+  (sign: "+", int: "0", frac: "43", pm: ("2", "00"), e: none),
 )
 #assert.eq(
-  parse-normalized-compound-numeral("2(2)"), 
-  (sign: "+", int: "2", frac: "", pm: ("2", ""), e: none)
+  parse-normalized-compound-numeral("2(2)"),
+  (sign: "+", int: "2", frac: "", pm: ("2", ""), e: none),
 )
 #assert.eq(
-  parse-normalized-compound-numeral("2.3(2.9)"), 
-  (sign: "+", int: "2", frac: "3", pm: ("0", "29"), e: none)
+  parse-normalized-compound-numeral("2.3(2.9)"),
+  (sign: "+", int: "2", frac: "3", pm: ("0", "29"), e: none),
 )

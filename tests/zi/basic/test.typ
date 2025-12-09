@@ -1,5 +1,5 @@
 #set page(width: auto, height: auto, margin: .5em)
-#import "/src/zero.typ": zi, set-unit
+#import "/src/zero.typ": set-unit, zi
 
 #set table(stroke: none)
 
@@ -12,6 +12,7 @@
 #zi.arcsecond[23] \
 #zi.kN[23] \
 #zi.degree[45] \
+// #zi.liter-l[1] \
 #zi.declare("1/s")([2]) \
 
 #zi.kN() // later make them types maybe? Then we can just call #zi.kN, that looks much better
@@ -32,7 +33,7 @@
 #let kgm-s2 = zi.declare("kg m")
 #kgm-s2() \
 $"kg" thin "m"$ \
-#kgm-s2[2] 
+#kgm-s2[2]
 
 
 
@@ -43,14 +44,12 @@ $"kg" thin "m"$ \
 #let Vm-s = zi.declare("V m/s")
 #table(
   columns: 2,
-  Vm-s(unit-separator: "·"),
-  Vm-s(unit-separator: "·")[1.2],
-  Vm-s(fraction: "fraction"),
-  Vm-s(fraction: "fraction")[1.2],
-  Vm-s(fraction: "inline"),
-  Vm-s(fraction: "inline")[1.2],
+  Vm-s(unit-separator: "·"), Vm-s(unit-separator: "·")[1.2],
+  Vm-s(fraction: "fraction"), Vm-s(fraction: "fraction")[1.2],
+  Vm-s(fraction: "inline"), Vm-s(fraction: "inline")[1.2],
   Vm-s(fraction: "inline", unit-separator: "·"),
   Vm-s(fraction: "inline", unit-separator: "·")[1.2],
+
   Vm-s(fraction: "fraction", unit-separator: "·"),
   Vm-s(fraction: "fraction", unit-separator: "·")[1.2],
 )
@@ -62,12 +61,9 @@ $"kg" thin "m"$ \
 #set-unit(unit-separator: "·", fraction: "power")
 #table(
   columns: 2,
-  kgm-s2(),
-  kgm-s2[2],
-  kgm-s2(fraction: "fraction"),
-  kgm-s2(fraction: "fraction")[2],
-  kgm-s2(fraction: "inline"),
-  kgm-s2(fraction: "inline")[2]
+  kgm-s2(), kgm-s2[2],
+  kgm-s2(fraction: "fraction"), kgm-s2(fraction: "fraction")[2],
+  kgm-s2(fraction: "inline"), kgm-s2(fraction: "inline")[2],
 )
 #set-unit(unit-separator: sym.space.thin, fraction: "power")
 

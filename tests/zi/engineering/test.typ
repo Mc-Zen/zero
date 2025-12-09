@@ -1,5 +1,5 @@
 #set page(width: auto, height: auto, margin: .5em)
-#import "/src/zero.typ": zi, set-unit, set-num
+#import "/src/zero.typ": set-num, set-unit, zi
 
 
 #set-num(exponent: "eng")

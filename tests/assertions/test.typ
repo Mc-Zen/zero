@@ -10,7 +10,7 @@
 
 
 #assert-settable-args(arguments(), (:))
-#assert-settable-args(arguments(hey: 2), ("hey"))
+#assert-settable-args(arguments(hey: 2), "hey")
 #assert-settable-args(arguments(hey: 2), (hey: none))
 
 #assert.eq(
