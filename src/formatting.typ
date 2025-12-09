@@ -246,7 +246,7 @@
   /// x, base, product, positive-sign-exponent, tight, math
   if it.exponent == none { return () }
 
-  let (sign, integer, fractional) = decompose-signed-float-string(it.exponent)
+  let (sign, integer, fractional) = decompose-signed-float-numeral(it.exponent)
   let exponent = format-comma-number((
     sign: sign,
     int: integer,

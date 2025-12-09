@@ -1,4 +1,4 @@
-#import "num.typ": num, number-to-string-table
+#import "num.typ": num, to-normalized-numeral-table
 #import "state.typ": num-state
 #import "parsing.typ": nonum
 
@@ -8,7 +8,7 @@
   (
     (
       format.at(cell.x, default: default) == none
-        or number-to-string-table(cell.body) == none
+        or to-normalized-numeral-table(cell.body) == none
     )
       and cell.body.func() != nonum
   )
@@ -25,7 +25,7 @@
     return cell.body.body
   }
   
-  let (numeral, prefix, suffix) = number-to-string-table(cell.body)
+  let (numeral, prefix, suffix) = to-normalized-numeral-table(cell.body)
   let cell-fmt = format.at(cell.x, default: default)
   let args = if type(cell-fmt) == dictionary { cell-fmt } else { () }
 
