@@ -1,6 +1,6 @@
 #import "num.typ": num
 #import "state.typ": num-state, update-num-state
-#import "assertations.typ": assert-settable-args
+#import "assertions.typ": assert-settable-args
 #import "parsing.typ": parse-numeral, compute-eng-digits
 #import "utility.typ"
 

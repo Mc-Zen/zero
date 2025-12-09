@@ -1,4 +1,4 @@
-#import "assertations.typ": *
+#import "assertions.typ": *
 
 #let count-leading-zeros(integer-string) = {
   integer-string.len() - integer-string.trim("0", at: start).len()

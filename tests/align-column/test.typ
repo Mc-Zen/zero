@@ -5,6 +5,10 @@
 #set table(stroke: none)
 #context table(
   ..align-column(
-    "1+-2e0", "100", "1.2e2", base: 2, tight: true
+    "1+-2e0",
+    "100",
+    "1.2e2",
+    base: 2,
+    tight: true,
   )
 )

@@ -1,7 +1,7 @@
 #import "state.typ": num-state, update-num-state
 #import "formatting.typ": *
 #import "rounding.typ": *
-#import "assertations.typ": *
+#import "assertions.typ": *
 #import "parsing.typ" as parsing: nonum
 
 #let update-state(state, args, name: none) = {
@@ -138,7 +138,7 @@
 
   // Format number
   let components = show-num-impl(info + it)
-  let collect = if it.math { make-equation } else { it => it.join() }
+  let collect = if it.math { equation-from-items } else { it => it.join() }
 
   if it.align == none { 
     set text(dir: ltr)
