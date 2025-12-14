@@ -15,8 +15,7 @@
 #let candela = declare("cd")
 #let kelvin = declare("K")
 #let kilogram = declare("kg")
-#let metre = declare("m")
-#let meter = metre
+#let meter = declare("m")
 #let mole = declare("mol")
 #let second = declare("s")
 
@@ -25,7 +24,7 @@
 #let cd = candela
 #let K = kelvin
 #let kg = kilogram
-#let m = metre
+#let m = meter
 #let mol = mole
 #let s = second
 
@@ -87,7 +86,6 @@
 #let electronvolt = declare("eV")
 #let hectare = declare("ha")
 #let hour = declare("h")
-#let litre = declare("L")
 #let liter = declare("L")
 #let arcminute = declare(sym.prime)
 #let minute = declare("min")
@@ -147,6 +145,7 @@
 #let kW = declare("kW")
 #let mW = declare("mW")
 #let mSv = declare("mSv")
+#let mL = declare("mL")
 
 
 // combined units
