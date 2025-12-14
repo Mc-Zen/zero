@@ -1,5 +1,5 @@
 #set page(width: auto, height: auto, margin: .5em)
-#import "/src/zero.typ": zi, set-unit, num
+#import "/src/zero.typ": num, set-unit, zi
 
 
 #table(
@@ -11,5 +11,5 @@
   num(positive-sign: true)[+2],
   num[1.00+.2-0.1],
   num(uncertainty-mode: "compact")[1+-2],
-  num[-2+-1e1]
+  num[-2+-1e1],
 )

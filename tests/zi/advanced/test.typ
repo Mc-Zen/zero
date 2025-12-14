@@ -1,5 +1,5 @@
 #set page(width: auto, height: auto, margin: .5em)
-#import "/src/zero.typ": zi, set-unit
+#import "/src/zero.typ": set-unit, zi
 
 #set-unit(fraction: "inline")
 

@@ -1,7 +1,7 @@
 #import "state.typ": num-state, update-num-state
 #import "formatting.typ": *
 #import "rounding.typ": *
-#import "assertations.typ": *
+#import "assertions.typ": *
 #import "parsing.typ" as parsing: nonum
 
 #let update-state(state, args, name: none) = {
@@ -32,31 +32,19 @@
 }
 
 
-#let contextual-round(int, frac, pm, round-state) = {
-  round(
-    int, frac, 
-    mode: round-state.mode,
-    precision: round-state.precision,
-    direction: round-state.direction,
-    ties: round-state.ties,
-    pad: round-state.pad,
-    pm: pm
-  )
-}
-
-
+// Process the exponent with its various modes mode
 #let process-exponent(info, exponent) = {
   let new-exponent = if type(exponent) == dictionary {
     assert(
       "fixed" in exponent or "sci" in exponent,
-      message: "Expected key \"fixed\" or \"sci\", got " + repr(exponent)
+      message: "Expected key \"fixed\" or \"sci\", got " + repr(exponent),
     )
 
-    if "fixed" in exponent { 
+    if "fixed" in exponent {
       exponent.fixed
     } else {
       let threshold = exponent.sci
-      if type(threshold) == int { 
+      if type(threshold) == int {
         threshold = (-threshold, threshold)
       }
       let e = parsing.compute-sci-digits(info)
@@ -80,7 +68,7 @@
   (info.int, info.frac) = shift(info.int, info.frac)
 
   if info.pm != none {
-    if type(info.pm.first()) != array { 
+    if type(info.pm.first()) != array {
       info.pm = shift(..info.pm)
     } else {
       info.pm = pm.map(x => shift(..x))
@@ -96,18 +84,19 @@
 
 
 #let show-num = it => {
-  
   // Process input
   let info
   if type(it.number) == dictionary {
     info = it.number
     if "mantissa" in info {
-      let mantissa = info.mantissa 
-      if type(mantissa) in (int, float) { mantissa = str(mantissa).replace("−", "-") }
+      let mantissa = info.mantissa
+      if type(mantissa) in (int, float) {
+        mantissa = str(mantissa).replace("−", "-")
+      }
       let (sign, int, frac) = parsing.decompose-signed-float-string(mantissa)
       info += (sign: sign, int: int, frac: frac)
     }
-    if "sign" not in info {info.sign = "" }
+    if "sign" not in info { info.sign = "" }
   } else {
     info = parse-numeral(it.number)
   }
@@ -121,12 +110,19 @@
 
   /// Round number and uncertainty
   if it.round.precision != none {
-    (info.int, info.frac, info.pm) = contextual-round(info.int, info.frac, info.pm, it.round)
+    (info.int, info.frac, info.pm) = round(
+      info.int,
+      info.frac,
+      pm: info.pm,
+      ..it.round,
+    )
   }
-  
+
   let digits = if it.digits == auto { info.frac.len() } else { it.digits }
-  if digits < 0 { assert(false, message: "`digits` needs to be positive, got " + str(digits)) }
-  
+  if digits < 0 {
+    assert(false, message: "`digits` needs to be positive, got " + str(digits))
+  }
+
   if info.pm != none {
     let pm = info.pm
     if type(pm.first()) != array { pm = (pm,) }
@@ -138,18 +134,23 @@
 
   // Format number
   let components = show-num-impl(info + it)
-  let collect = if it.math { make-equation } else { it => it.join() }
+  let collect = if it.math { equation-from-items } else { it => it.join() }
 
-  if it.align == none { 
+  if it.align == none {
     set text(dir: ltr)
-    it.prefix + collect(components.join()) + it.suffix 
-  } else if it.align == "components" { 
-    components.map(c => { set text(dir: ltr); collect(c) }) 
+    it.prefix + collect(components.join()) + it.suffix
+  } else if it.align == "components" {
+    components.map(c => {
+      set text(dir: ltr)
+      collect(c)
+    })
   } else {
     set text(dir: ltr)
 
     let (col-widths, col) = it.align
-    let components = components.map(x => if x == () { none } else { collect(x) })
+    let components = components.map(x => if x == () { none } else {
+      collect(x)
+    })
     components.at(0) = it.prefix + components.at(0)
     if it.suffix != none {
       if components.at(2) == none and components.at(3) == none {
@@ -158,8 +159,10 @@
         components.at(3) += it.suffix
       }
     }
-    let widths = components.map(x => if x == none { 0pt } else { measure(x).width })
-    
+    let widths = components.map(x => if x == none { 0pt } else {
+      measure(x).width
+    })
+
     if col-widths != auto {
       for i in range(4) {
         let alignment = if i == 0 { right } else { left }
@@ -174,16 +177,16 @@
 
 
 #let num(
-  number, 
+  number,
   align: none,
   state: auto,
   prefix: none,
   suffix: none,
   force-parentheses-around-uncertainty: false,
-  ..args
+  ..args,
 ) = {
   assert-no-fixed(args)
-  
+
   let inline-args = (
     align: align,
     prefix: prefix,
@@ -197,13 +200,19 @@
     let it = num-state + inline-args + args.named()
     return number.map(n => show-num(it + (number: n)))
   }
-  
+
   if state != auto {
-    let it = update-num-state(state, args.named()) + inline-args + (number: number)
+    let it = (
+      update-num-state(state, args.named()) + inline-args + (number: number)
+    )
     return show-num(it)
   }
   context {
-    let it = update-num-state(num-state.get(), args.named()) + inline-args + (number: number)
+    let it = (
+      update-num-state(num-state.get(), args.named())
+        + inline-args
+        + (number: number)
+    )
     show-num(it)
   }
 }
@@ -219,7 +228,7 @@
 /*
 
 - Mantissa (value or uncertainty): Doesn't really need a show rule?
-- Power: A rule would be beneficial. Does the multiplier need to be included? 
+- Power: A rule would be beneficial. Does the multiplier need to be included?
 
 
 Question: How to pass values on to the nested types
@@ -236,7 +245,7 @@ show num.power: it => {
 
   math.attach([#it.base], t: [#it.exponent])
 
-  or 
+  or
 
   (
     box(),
@@ -260,7 +269,7 @@ show num.uncertainty: it => {
   - it.mode
   - it.symmetric false
   if it.mode == ...
-  
+
   if it.symmetric {
     return (
       math.class("normal", none),
@@ -273,7 +282,7 @@ show num.uncertainty: it => {
 }
 
 show num.num: it => {
-  
+
 }
 
 

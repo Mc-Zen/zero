@@ -4,7 +4,12 @@
 #table(
   columns: 6,
   [`num`], num[12.0], num[-2e3], num[0,222], num("2.2+-0.2"), num("2.2+-0.2e1"),
-  [Ref], $12.0$, $-2 times 10^3$, $0.222$, $2.2 plus.minus 0.2$, $(2.2 plus.minus 0.2) times 10^1$,
+  [Ref],
+  $12.0$,
+  $-2 times 10^3$,
+  $0.222$,
+  $2.2 plus.minus 0.2$,
+  $(2.2 plus.minus 0.2) times 10^1$,
 )
 
 
@@ -41,9 +46,10 @@
 #let tnum = num.with(tight: true)
 #let examples = ("12.2", "2+-3", "4e2", "-2+-1e1")
 #table(
-  columns: 2, stroke: none,
+  columns: 2,
+  stroke: none,
   [`tight: false`], [`tight: true`],
-  ..array.zip(examples.map(num),examples.map(tnum)).flatten()
+  ..array.zip(examples.map(num), examples.map(tnum)).flatten(),
 )
 
 
@@ -134,7 +140,7 @@
 #set-num(base: "4")
 #num("1e2") \
 #set-num(base: 10)
-#num("1e2") 
+#num("1e2")
 
 
 
@@ -153,17 +159,21 @@
   "2.2+.2-.5",
   "2.2+2-5",
   "2.2+2-.5",
-  "9.99+2-.5"
+  "9.99+2-.5",
 )
 
 #table(
-  columns: 3, align: center, stroke: none,
+  columns: 3,
+  align: center,
+  stroke: none,
   [`separate`], [`compact`], [`compact-separator`],
-  ..array.zip(
-    examples.map(num.with(uncertainty-mode: "separate")),
-    examples.map(num.with(uncertainty-mode: "compact")),
-    examples.map(num.with(uncertainty-mode: "compact-separator")),
-  ).flatten()
+  ..array
+    .zip(
+      examples.map(num.with(uncertainty-mode: "separate")),
+      examples.map(num.with(uncertainty-mode: "compact")),
+      examples.map(num.with(uncertainty-mode: "compact-separator")),
+    )
+    .flatten(),
 )
 
 
@@ -281,7 +291,7 @@
 
 #[
   #let state = default-state
-  #{state.decimal-separator = ","}
+  #{ state.decimal-separator = "," }
   #let num = num.with(state: state)
   #num[2.34]
 ]
@@ -309,9 +319,9 @@
 
 #num(
   group: (threshold: (fractional: 3, integer: calc.inf)),
-  [23232.2323]
+  [23232.2323],
 ) \
 #num(
   group: (threshold: (integer: 3, fractional: calc.inf)),
-  [23232.2323]
+  [23232.2323],
 )
