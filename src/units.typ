@@ -208,7 +208,7 @@
     return if math { $result$ } else { result }
   }
 
-  // For the two fractional modes, the numerator shall not be empty. 
+  // For the two fractional modes, the numerator shall not be empty.
   if numerator.len() == 0 { numerator-content = $1$ }
 
   if fraction == "fraction" {
@@ -347,3 +347,10 @@
   })
 }
 
+#let liter-impl = context {
+  if not num-state.get().unit.lowercase-liter {
+    "L"
+  } else {
+    "l"
+  }
+}
