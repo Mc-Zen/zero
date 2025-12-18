@@ -86,7 +86,7 @@
 #let electronvolt = declare("eV")
 #let hectare = declare("ha")
 #let hour = declare("h")
-#let liter = declare("L")
+#let liter = declare(units.liter-impl)
 #let arcminute = declare(sym.prime)
 #let minute = declare("min")
 #let arcsecond = declare(sym.prime.double)
@@ -145,7 +145,7 @@
 #let kW = declare("kW")
 #let mW = declare("mW")
 #let mSv = declare("mSv")
-#let mL = declare("mL")
+#let mL = declare("m" + units.liter-impl)
 
 
 // combined units
