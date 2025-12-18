@@ -94,6 +94,7 @@
   dir: "nearest",
   ties: "away-from-zero",
   pad: true,
+  precision: 2
 ) = {
   total-digits = calc.max(0, total-digits)
   let number = int + frac
@@ -112,6 +113,9 @@
 
     int = number.slice(0, new-int-digits)
     frac = number.slice(new-int-digits)
+  } else if type(pad) == std.int {
+    let max-pad = total-digits - number.len()
+    frac += "0" * calc.clamp(pad - precision + max-pad, 0, max-pad)
   } else if pad {
     frac += "0" * (total-digits - number.len())
   }
@@ -144,8 +148,10 @@
   direction: "nearest",
   ties: "away-from-zero",
   /// Determines whether the number should be padded with zeros if the number has less
-  /// digits than the rounding precision.
-  /// -> bool
+  /// digits than the rounding precision. If an integer is given, determines the minimum
+  /// number of decimal digits (`mode: "places"`) or significant figures (`mode: "figures"`)
+  /// to display. The parameter `pad` has no effect in `mode: "uncertainty"`.
+  /// -> bool | int
   pad: true,
   /// Uncertainty
   pm: none,
@@ -192,7 +198,7 @@
     let is-symmetric = type(pm.first()) != array
     if is-symmetric {
       round-digit-pm = count-leading-zeros(pm.join()) + precision
-      pm = round-or-pad(..pm, round-digit-pm, dir: direction, pad: true)
+      pm = round-or-pad(..pm, round-digit-pm, dir: direction, pad: true, precision: precision)
       round-digit = round-digit-pm + int.len() - pm.first().len()
     } else {
       let place = calc.max(
@@ -206,6 +212,7 @@
         place + u.first().len(),
         dir: direction,
         pad: true,
+        precision: precision
       ))
     }
   }
@@ -219,6 +226,7 @@
       pad: pad,
       sign: sign,
       ties: ties,
+      precision: precision
     ),
     pm,
   )

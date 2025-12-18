@@ -136,8 +136,13 @@
 #assert.eq(round-places("1", "1", precision: 3), ("1", "100", none))
 #assert.eq(round-places("1", "1", precision: 5), ("1", "10000", none))
 #assert.eq(round-places("1", "1", precision: 5), ("1", "10000", none))
-#assert.eq(round-places("1", "1", precision: 5, pad: false), ("1", "1", none))
 
+#assert.eq(round-places("1", "1", precision: 5, pad: false), ("1", "1", none))
+#assert.eq(round-places("1", "1", precision: 5, pad: true), ("1", "10000", none))
+#assert.eq(round-places("1", "1", precision: 5, pad: -1), ("1", "1", none))
+#assert.eq(round-places("1", "1", precision: 5, pad: 0), ("1", "1", none))
+#assert.eq(round-places("1", "1", precision: 5, pad: 3), ("1", "100", none))
+#assert.eq(round-places("1", "1", precision: 5, pad: 6), ("1", "10000", none))
 
 #assert.eq(round-figures("1", "234", precision: 4), ("1", "234", none))
 #assert.eq(round-figures("1", "234", precision: 3), ("1", "23", none))
@@ -147,11 +152,23 @@
 #assert.eq(round-figures("1", "234", precision: -1), ("0", "", none))
 
 #assert.eq(round-figures("1", "2", precision: 4), ("1", "200", none))
+
 #assert.eq(round-figures("1", "2", precision: 4, pad: false), ("1", "2", none))
+#assert.eq(round-figures("1", "2", precision: 4, pad: true), ("1", "200", none))
+#assert.eq(round-figures("1", "2", precision: 4, pad: -1), ("1", "2", none))
+#assert.eq(round-figures("1", "2", precision: 4, pad: 0), ("1", "2", none))
+#assert.eq(round-figures("1", "2", precision: 4, pad: 3), ("1", "20", none))
+#assert.eq(round-figures("1", "2", precision: 4, pad: 6), ("1", "200", none))
 
 #assert.eq(round-figures("0", "00126", precision: 2), ("0", "0013", none))
 #assert.eq(round-figures("0", "000126", precision: 3), ("0", "000126", none))
 
+#assert.eq(round-figures("0", "0016", precision: 4, pad: false), ("0", "0016", none))
+#assert.eq(round-figures("0", "0016", precision: 4, pad: true), ("0", "001600", none))
+#assert.eq(round-figures("0", "0016", precision: 4, pad: -1), ("0", "0016", none))
+#assert.eq(round-figures("0", "0016", precision: 4, pad: 0), ("0", "0016", none))
+#assert.eq(round-figures("0", "0016", precision: 4, pad: 3), ("0", "00160", none))
+#assert.eq(round-figures("0", "0016", precision: 4, pad: 6), ("0", "001600", none))
 
 
 #assert.eq(round-places("99", "92", precision: 2), ("99", "92", none))

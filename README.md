@@ -210,8 +210,9 @@ Rounding can be configured with the `set-round()` function.
     then the number is rounded to the same number of decimal places as the 
     uncertainty. 
 - `precision: int | none = 2` : The precision to round to. Also see parameter `mode`. When set to `none`, no rounding is applied. 
-- `pad: bool = true` : Whether to pad the number with zeros if the 
-   number has fewer digits than the rounding precision. 
+- `pad: bool | int = true` : Whether to pad the number with zeros if the 
+   number has fewer digits than the rounding precision. When an integer is passed, it defines the minimum number of decimal digits to display 
+   for `mode: "places"` and the minimum number of significant figures for `mode: "figures"`. The parameter `pad` has no effect for `mode: "uncertainty"`.
 - `direction: str = "nearest"` : Sets the rounding direction. 
   - `"nearest"`: Rounding takes place in the usual fashion, rounding to the nearer 
     number, e.g., 2.3 → 2 and 2.6 → 3. 
