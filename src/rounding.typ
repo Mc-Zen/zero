@@ -149,8 +149,8 @@
   ties: "away-from-zero",
   /// Determines whether the number should be padded with zeros if the number has less
   /// digits than the rounding precision. If an integer is given, determines the minimum
-  /// number of decimal digits (mode: "places") or significant figures (mode: "figures")
-  /// to display.
+  /// number of decimal digits (`mode: "places"`) or significant figures (`mode: "figures"`)
+  /// to display. `pad` has no effect in `mode: "uncertainty"`.
   /// -> bool | int
   pad: true,
   /// Uncertainty
