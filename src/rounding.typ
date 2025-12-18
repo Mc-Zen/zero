@@ -112,6 +112,8 @@
 
     int = number.slice(0, new-int-digits)
     frac = number.slice(new-int-digits)
+  } else if type(pad) == std.int {
+    frac += "0" * calc.clamp(pad - frac.len(), 0, total-digits - number.len())
   } else if pad {
     frac += "0" * (total-digits - number.len())
   }
@@ -144,8 +146,9 @@
   direction: "nearest",
   ties: "away-from-zero",
   /// Determines whether the number should be padded with zeros if the number has less
-  /// digits than the rounding precision.
-  /// -> bool
+  /// digits than the rounding precision. If an integer is given, determines the minimum
+  /// number of decimal digits to display.
+  /// -> bool | int
   pad: true,
   /// Uncertainty
   pm: none,
