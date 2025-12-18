@@ -31,6 +31,7 @@
     breakable: false,
     use-sqrt: true,
     prefix: auto,
+    lowercase-liter: false,
   ),
 )
 

@@ -423,6 +423,12 @@ These options are also available when instancing a quantity, e.g., `#zi.m(fracti
 Note that the configuration made through `set-num` also affects the numeral of a quantity. 
 
 
+### Lower and upper case liter
+
+By default, the symbol for liter is an uppercase L. In order to display a lowercase l, use the unit option `lowercase-liter`.
+```typ
+#set-unit(lowercase-liter: true)
+```
 
 
 ---
