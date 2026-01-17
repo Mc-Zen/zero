@@ -112,3 +112,9 @@ A #kgm-s2(breakable: true)
   zi.declare("m^3 b^0.5/c^0.5")(fraction: "fraction"),
   zi.declare("m^3 b^0.5/c^0.5")(fraction: "inline"),
 )
+
+#pagebreak()
+
+// Check that math option works with units alone
+#zi.m(1, math: false) \
+#zi.m(math: false)
