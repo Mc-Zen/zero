@@ -243,7 +243,11 @@
   unit,
   ..args,
 ) = context {
-  let num-state = update-num-state(num-state.get(), (unit: args.named()))
+  let args = (unit: args.named())
+  if "math" in args.unit {
+    args.math = args.unit.math
+  }
+  let num-state = update-num-state(num-state.get(), args)
 
   let result = show-unit(
     unit.numerator,
