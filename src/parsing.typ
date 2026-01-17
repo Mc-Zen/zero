@@ -121,7 +121,7 @@
 /// Expects a normalized input string (see @number-to-string).
 ///
 /// *Example:*
-/// #example(`decompose-unsigned-float-string("9.81")`
+/// #example(`decompose-unsigned-float-numeral("9.81")`
 ///
 /// -> (str, str)
 #let decompose-unsigned-float-numeral(
@@ -148,7 +148,7 @@
 /// Expects a normalized input string (see @number-to-string).
 ///
 /// *Example:*
-/// #example(`decompose-signed-float-string("-9.81")`
+/// #example(`decompose-signed-float-numeral("-9.81")`
 ///
 /// -> ("+" | "-", str, str)
 #let decompose-signed-float-numeral(

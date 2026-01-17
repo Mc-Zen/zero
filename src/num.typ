@@ -93,7 +93,7 @@
       if type(mantissa) in (int, float) {
         mantissa = str(mantissa).replace("−", "-")
       }
-      let (sign, int, frac) = parsing.decompose-signed-float-string(mantissa)
+      let (sign, int, frac) = parsing.decompose-signed-float-numeral(mantissa)
       info += (sign: sign, int: int, frac: frac)
     }
     if "sign" not in info { info.sign = "" }
