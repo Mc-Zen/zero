@@ -103,6 +103,7 @@
 #let pm = declare("pm")
 #let ms = declare("ms")
 #let µs = declare("µs")
+#let us = declare("µs")
 #let ns = declare("ns")
 #let ps = declare("ps")
 #let mK = declare("mK")
@@ -122,7 +123,7 @@
 #let GPa = declare("GPa")
 #let MPa = declare("MPa")
 #let kPa = declare("kPa")
-#let kPa = declare("kPa")
+#let mPa = declare("mPa")
 #let MN = declare("MN")
 #let kN = declare("kN")
 #let mN = declare("mN")
@@ -146,6 +147,11 @@
 #let mW = declare("mW")
 #let mSv = declare("mSv")
 #let mL = declare("m" + units.liter-impl)
+#let meV = declare("meV")
+#let keV = declare("keV")
+#let MeV = declare("MeV")
+#let GeV = declare("GeV")
+#let TeV = declare("TeV")
 
 
 // Some common combined units
@@ -168,3 +174,7 @@
 #let V-m = declare("V/m")
 #let A-m = declare("A/m")
 #let Gy-s = declare("Gy/s")
+#let kg-mol = declare("kg/mol")
+#let J-T = declare("J/T")
+#let N-A2 = declare("N/A^2")
+#let F-m = declare("F/m")
