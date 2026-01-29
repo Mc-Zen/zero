@@ -148,6 +148,23 @@
 #let mL = declare("m" + units.liter-impl)
 
 
-// combined units
+// Some common combined units
 #let m-s = declare("m/s")
+#let m-s2 = declare("m/s^2")
 #let km-h = declare("km/h")
+#let Js = declare("J s")
+#let J-K = declare("J/K")
+#let m2 = declare("m^2")
+#let m3 = declare("m^3")
+#let g-cm3 = declare("g/cm^3")
+#let kg-m3 = declare("kg/m^3")
+#let kg-m2 = declare("kg/m^2")
+#let As = declare("A s")
+#let W-m2 = declare("W/m^2")
+#let J-kg = declare("J/kg")
+#let W-K = declare("W/K")
+#let N-m = declare("N/m")
+#let C-m2 = declare("C/m^2")
+#let V-m = declare("V/m")
+#let A-m = declare("A/m")
+#let Gy-s = declare("Gy/s")
