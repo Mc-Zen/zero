@@ -115,10 +115,19 @@
 #let nF = declare("nF")
 #let pF = declare("pF")
 #let mH = declare("mH")
+#let µH = declare("µH")
+#let uH = µH
+#let nH = declare("nH")
+#let pH = declare("pH")
+#let mC = declare("mC")
+#let nC = declare("nC")
+#let µC = declare("µC")
+#let uC = µC
 #let THz = declare("THz")
 #let GHz = declare("GHz")
 #let MHz = declare("MHz")
 #let kHz = declare("kHz")
+#let mHz = declare("mHz")
 #let MJ = declare("MJ")
 #let kJ = declare("kJ")
 #let mJ = declare("mJ")
@@ -151,12 +160,18 @@
 #let kW = declare("kW")
 #let mW = declare("mW")
 #let mSv = declare("mSv")
+#let hL = declare("h" + units.liter-impl)
 #let mL = declare("m" + units.liter-impl)
+#let µL = declare("µ" + units.liter-impl)
+#let uL = µL
 #let meV = declare("meV")
 #let keV = declare("keV")
 #let MeV = declare("MeV")
 #let GeV = declare("GeV")
 #let TeV = declare("TeV")
+#let mohm = declare("m" + sym.Omega)
+#let kohm = declare("k" + sym.Omega)
+#let Mohm = declare("M" + sym.Omega)
 
 
 // Some common combined units
@@ -183,3 +198,7 @@
 #let J-T = declare("J/T")
 #let N-A2 = declare("N/A^2")
 #let F-m = declare("F/m")
+#let kWh = declare("kW h")
+
+
+#kWh()
