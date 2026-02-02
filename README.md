@@ -1,17 +1,17 @@
 # $Z\cdot e^{ro}$
 
-_Advanced scientific number formatting for Typst._
+_Advanced scientific number and unit formatting for Typst._
 
-[![Typst Package](https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fraw.githubusercontent.com%2FMc-Zen%2Fzero%2Fv0.6.0%2Ftypst.toml&query=%24.package.version&prefix=v&logo=typst&label=package&color=239DAD)](https://typst.app/universe/package/zero)
+[![Typst Package](https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fraw.githubusercontent.com%2FMc-Zen%2Fzero%2Fv0.6.1%2Ftypst.toml&query=%24.package.version&prefix=v&logo=typst&label=package&color=239DAD)](https://typst.app/universe/package/zero)
 [![Test Status](https://github.com/Mc-Zen/zero/actions/workflows/run_tests.yml/badge.svg)](https://github.com/Mc-Zen/zero/actions/workflows/run_tests.yml)
 [![MIT License](https://img.shields.io/badge/license-MIT-blue)](https://github.com/Mc-Zen/zero/blob/main/LICENSE)
 
 
 - [Introduction](#introduction)
 - [Quick Demo](#quick-demo)
-- [Number Formatting](#number-formatting)
-- [Table Alignment](#table-alignment)
-- [Units and Quantities](#units-and-quantities)
+- [**Number Formatting**](#number-formatting)
+- [**Table Number Alignment**](#table-alignment)
+- [**Units and Quantities**](#units-and-quantities)
 - [Zero for Third-Party Packages](#zero-for-third-party-packages)
 - [Changelog](#changelog)
 
@@ -47,7 +47,7 @@ A number in scientific notation consists of three parts: the _mantissa_, an opti
 ## Demo
 
 ```typ
-#import "@preview/zero:0.6.0": num, format-table, zi
+#import "@preview/zero:0.6.1": num, format-table, zi
 
 Physicists estimate a number of #num[1e80] particles in the observable universe. 
 
@@ -360,7 +360,7 @@ Zero takes a different approach to units than other packages: In order to avoid 
 
 Take a look at the example below:
 ```typ
-#import "@preview/zero:0.6.0": zi
+#import "@preview/zero:0.6.1": zi
 
 #let kgm-s2 = zi.declare("kg m/s^2")
 
@@ -380,7 +380,7 @@ Take a look at the example below:
 
 ### Declaring a New Unit
 
-All common single units as well as a few frequent combinations have been predefined in the `zi` module. 
+All common single units as well as a few frequent combinations are already predefined in the `zi` module (e.g., `zi.m`, `zi.V`, `zi.m-s`). 
 
 You can create a new unit through the `zi.declare` function. We recommend the following naming convention to uniquely assign a variable name to the unit. 
 
@@ -453,6 +453,11 @@ Lastly, the function `align-columns` can be used to format and align an array of
 
 
 ## Changelog
+
+### Version 0.6.1
+- Fixed dictionary input for 3rd-party packages. 
+- Fixed `math` parameter in unit arguments. 
+- Added more common combined units like `zi.m-s2`, `zi.g-cm^3`, `zi.kg-m^3`, `zi.J-K` and many more. 
 
 ### Version 0.6.0
 _Exponent modes and rounding improvements_
