@@ -3,6 +3,7 @@
   digits: auto,
   decimal-separator: ".",
   omit-unity-mantissa: false,
+  omit-zero-exponent: false,
   uncertainty-mode: "separate",
   positive-sign: false,
   tight: false,
