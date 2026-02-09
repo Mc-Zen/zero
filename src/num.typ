@@ -107,6 +107,9 @@
       info.e = none
     }
   }
+  if info.e in (0, "0") and it.omit-zero-exponent {
+    info.e = none
+  }
 
   /// Round number and uncertainty
   if it.round.precision != none {
