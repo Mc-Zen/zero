@@ -158,7 +158,6 @@
   (int, frac)
 }
 
-#round-decimal("123", "28", precision: -4)
 
 
 
@@ -166,11 +165,15 @@
 /// Rounds (and/or pads) a number given by an integer part and a fractional part.
 /// Different modes are supported.
 #let round(
+
   /// Integer part. -> str
   int,
+
   /// Fractional part. -> str
   frac,
+
   sign: "+",
+
   /// Rounding mode.
   /// - `"places"`: The number is rounded to the number of places after the
   ///   decimal point given by the `precision` parameter.
@@ -179,24 +182,34 @@
   ///   to significant figures given by the `precision` argument and then the number
   ///   is rounded to the same number of places as the uncertainty.
   mode: none,
+
   /// The precision to round to. See parameter `mode` for the different modes.
   /// -> int
   precision: 2,
+
   /// Rounding direction.
   /// -> str
   direction: "nearest",
+
   ties: "away-from-zero",
+
   /// Determines whether the number should be padded with zeros if the number has less
   /// digits than the rounding precision. If an integer is given, determines the minimum
   /// number of decimal digits (`mode: "places"`) or significant figures (`mode: "figures"`)
   /// to display. The parameter `pad` has no effect in `mode: "uncertainty"`.
   /// -> bool | int
   pad: true,
+
   /// Uncertainty
   pm: none,
+
 ) = {
-  if mode == none { return (int, frac, pm) }
-  if mode == "uncertainty" and pm == none { return (int, frac, pm) }
+  if mode == none {
+    return (int, frac, pm)
+  }
+  if mode == "uncertainty" and pm == none {
+    return (int, frac, pm)
+  }
 
 
   assert-option(mode, "round-mode", ("places", "figures", "uncertainty"))
@@ -221,55 +234,38 @@
     "towards-zero",
   ))
 
-  let round-digit
-  if mode == "places" {
-    round-digit = precision + int.len()
-  } else if mode == "figures" {
-    round-digit = precision + count-leading-zeros(int + frac)
-  } else if mode == "uncertainty" {
 
+  if mode == "uncertainty" {
     let is-symmetric = type(pm.first()) != array
     if is-symmetric {
-      let places = count-leading-zeros(pm.join()) + precision - pm.first().len()
-
-      pm = round-decimal(
-        ..pm,
-        dir: direction,
-        precision: places, 
-        mode: "places"
-      )
-      pm = pad-decimal(
-        ..pm,
-        pad, "places",
-        places 
-      )
-
-      
-      mode = "places"
-      precision = places
-    } else {
-
-      let places = calc.max(
-        ..pm.map(((i, f)) => count-leading-zeros(i + f) + precision - i.len())
-      )
-      mode = "places"
-      precision = places
-      pm = pm
-        .map(((i, f)) => round-decimal(
-          i, f,
-          dir: direction,
-          precision: places, mode: "places"
-        ))
-        .map(((i, f)) => pad-decimal(
-          i, f,
-          pad, "places",
-          places 
-        ))
+      pm = (pm,)
     }
     
+  
+    let places = calc.max(
+      ..pm.map(((i, f)) => count-leading-zeros(i + f) + precision - i.len())
+    )
+    pm = pm
+      .map(((i, f)) => round-decimal(
+        i, f,
+        dir: direction,
+        precision: places, mode: "places"
+      ))
+      .map(((i, f)) => pad-decimal(
+        i, f,
+        pad, "places",
+        places 
+      ))
+
+    if is-symmetric {
+      pm = pm.first()
+    }
+    
+    mode = "places"
+    precision = places
   }
 
-  return (
+  (
     ..pad-decimal(
       ..round-decimal(
         int, frac, 
@@ -284,26 +280,3 @@
     pm
   )
 }
-
-
-#assert.eq(
-  round(
-    "1",
-    "23",
-    pm: (("0", "04"), ("0", "3")),
-    precision: 1,
-    mode: "uncertainty",
-  ),
-  ("1", "23", (("0", "04"), ("0", "30"))),
-)
-
-// #assert.eq(
-//   round(
-//     "1",
-//     "234",
-//     pm: (("0", "034")),
-//     precision: 1,
-//     mode: "uncertainty",
-//   ),
-//   ("1", "23", (("0", "04"))),
-// )
