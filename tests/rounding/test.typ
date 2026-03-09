@@ -173,7 +173,7 @@
 
 #assert.eq(round-places("99", "92", precision: 2), ("99", "92", none))
 #assert.eq(round-places("99", "92", precision: 0), ("100", "", none))
-#assert.eq(round-places("99", "99", precision: 1), ("100", "", none))
+#assert.eq(round-places("99", "99", precision: 1), ("100", "0", none))
 #assert.eq(round-places("99", "99", precision: -1), ("100", "", none))
 #assert.eq(round-places("1", "299995", precision: 5), ("1", "30000", none))
 #assert.eq(round-places("1", "299994", precision: 5), ("1", "29999", none))
