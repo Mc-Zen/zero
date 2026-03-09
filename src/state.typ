@@ -14,6 +14,7 @@
   base: 10,
   fixed: none,
   exponent: auto,
+  trim-zeros: false,
   group: (
     size: 3,
     separator: sym.space.thin,
