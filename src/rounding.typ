@@ -182,7 +182,7 @@
     frac = number.slice(new-int-digits).trim("0", at: end)
   }
 
-  (int, frac)
+  (int.trim("0", at: start), frac)
 }
 
 
