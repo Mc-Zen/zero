@@ -236,15 +236,18 @@
 
 
   if mode == "uncertainty" {
+    // Round uncertainties to `precision` figures. 
+
     let is-symmetric = type(pm.first()) != array
     if is-symmetric {
       pm = (pm,)
     }
     
-  
-    let places = calc.max(
-      ..pm.map(((i, f)) => count-leading-zeros(i + f) + precision - i.len())
+    /// Find the (fractional) place of the smallest uncertainty
+    let places = precision + calc.max(
+      ..pm.map(((i, f)) => count-leading-zeros(i + f) - i.len())
     )
+
     pm = pm
       .map(((i, f)) => round-decimal(
         i, f,
@@ -253,7 +256,8 @@
       ))
       .map(((i, f)) => pad-decimal(
         i, f,
-        pad, "places",
+        pad, 
+        "places",
         places 
       ))
 
@@ -261,6 +265,7 @@
       pm = pm.first()
     }
     
+    // Then, round number to the same number of places
     mode = "places"
     precision = places
   }
