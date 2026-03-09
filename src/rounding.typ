@@ -113,13 +113,20 @@
 
     int = number.slice(0, new-int-digits)
     frac = number.slice(new-int-digits)
-  } else if type(pad) == std.int {
-    let max-pad = total-digits - number.len()
-    frac += "0" * calc.clamp(pad - precision + max-pad, 0, max-pad)
-  } else if pad {
-    frac += "0" * (total-digits - number.len())
+      .trim("0", at: end)
+    number = int + frac
   }
-  return (int, frac)
+
+  if total-digits > number.len() {
+    if type(pad) == std.int {
+      let max-pad = total-digits - number.len()
+      frac += "0" * calc.clamp(pad - precision + max-pad, 0, max-pad)
+    } else if pad {
+      frac += "0" * (total-digits - number.len())
+    }
+  }
+  
+  (int, frac)
 }
 
 
