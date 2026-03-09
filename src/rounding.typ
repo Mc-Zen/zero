@@ -13,20 +13,26 @@
 
 /// Rounds an integer given as a string of digits to a given digit place.
 #let round-integer(
+
   /// The integer string to round.
   /// -> str
   integer,
+
   /// The digit place to round to.
   place,
+
   /// The rounding direction.
   /// -> "nearest" | "towards-infinity" | "towards-negative-infinity" | "towards-zero" | "away-from-zero"
   dir: "nearest",
+
   /// How to round ties.
   /// -> "away-from-zero" | "towards-zero" | "to-odd" | "to-even" | "towards-infinity" | "towards-negative-infinity"
   ties: "away-from-zero",
+
   /// The sign of the number.
   /// -> "+" | "-"
-  sign: "+",
+  sign: "+"
+
 ) = {
   if place == 0 { return "" }
   if dir == "towards-infinity" {
@@ -78,7 +84,18 @@
 }
 
 
-
+/// Compute the absolute digit to round to, given a decimal from two strings, 
+/// a precision and a rounding mode of either `"places"` or `"figures"`. 
+/// 
+/// Examples:
+/// - `2.123` (`"2", "123"`), `mode: "places", precision: 2`
+///       ↑ 
+///       round to second place, i.e., third digit in total
+/// - `2.123` (`"2", "123"`), `mode: "figures", precision: 2`
+///      ↑ 
+///      round to second figure, i.e., second digit in total
+/// 
+/// The result is never negative. 
 #let get-rounding-digit(int, frac, mode, precision) = {
   let round-digit = precision + if mode == "places" {
     int.len()
@@ -89,6 +106,12 @@
   calc.max(round-digit, 0)
 }
 
+/// Pads a decimal number to given precision with given rounding mode. 
+/// Examples with `pad: true`:
+/// - `62.1` (`"62", "1"`), `mode: "places", precision: 2`
+///    → `"62.10` 
+/// - `0.003` (`"0", "003"`), `mode: "figures", precision: 4`
+///    → `"0.003000` 
 #let pad-decimal(int, frac, pad, mode, precision) = {
   let rounding-digit = get-rounding-digit(int, frac, mode, precision)
 
@@ -108,6 +131,10 @@
 }
 
 
+/// Rounds a decimal number to given precision with given rounding mode. 
+/// 
+/// If rounding is applied, the returned fractional part is stripped from
+/// trailing zeros. 
 #let round-decimal(
 
   /// Integer part of a decimal number. 
@@ -162,25 +189,30 @@
 
 
 
-/// Rounds (and/or pads) a number given by an integer part and a fractional part.
-/// Different modes are supported.
+/// Rounds (and/or pads) a number given by an integer part and a fractional 
+/// part. Several rounding modes are supported.
 #let round(
 
-  /// Integer part. -> str
+  /// Integer part. 
+  /// -> str
   int,
 
-  /// Fractional part. -> str
+  /// Fractional part. 
+  /// -> str
   frac,
 
+  /// The sign of the number. 
+  /// -> "+" | "-"
   sign: "+",
 
   /// Rounding mode.
   /// - `"places"`: The number is rounded to the number of places after the
   ///   decimal point given by the `precision` parameter.
   /// - `"figures"`: The number is rounded to a number of significant figures.
-  /// - `"uncertainty"`: Requires giving the uncertainty. The uncertainty is rounded
-  ///   to significant figures given by the `precision` argument and then the number
-  ///   is rounded to the same number of places as the uncertainty.
+  /// - `"uncertainty"`: Requires giving the uncertainty. The uncertainty is 
+  ///   rounded to significant figures given by the `precision` argument and 
+  ///   then the number is rounded to the same number of places as the 
+  ///   uncertainty.
   mode: none,
 
   /// The precision to round to. See parameter `mode` for the different modes.
@@ -191,12 +223,14 @@
   /// -> str
   direction: "nearest",
 
+  /// How to round ties.
+  /// -> "away-from-zero" | "towards-zero" | "to-odd" | "to-even" | "towards-infinity" | "towards-negative-infinity"
   ties: "away-from-zero",
 
-  /// Determines whether the number should be padded with zeros if the number has less
-  /// digits than the rounding precision. If an integer is given, determines the minimum
-  /// number of decimal digits (`mode: "places"`) or significant figures (`mode: "figures"`)
-  /// to display. The parameter `pad` has no effect in `mode: "uncertainty"`.
+  /// Determines whether the number should be padded with zeros if the number 
+  /// has less digits than the rounding precision. If an integer is given, 
+  /// determines the minimum number of decimal digits (`mode: "places"`) or 
+  /// significant figures (`mode: "figures"`) to display. 
   /// -> bool | int
   pad: true,
 
@@ -252,7 +286,8 @@
       .map(((i, f)) => round-decimal(
         i, f,
         dir: direction,
-        precision: places, mode: "places"
+        precision: places, 
+        mode: "places"
       ))
       .map(((i, f)) => pad-decimal(
         i, f,
