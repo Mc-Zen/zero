@@ -266,7 +266,7 @@
 #let parse-numeral(numeral) = {
   let numeral = to-normalized-numeral(numeral)
   if numeral == none {
-    assert(false, message: "Cannot parse the number `" + repr(it.number) + "`")
+    assert(false, message: "Cannot parse the numeral `" + repr(numeral) + "`")
   }
   parse-normalized-compound-numeral(numeral)
 }
