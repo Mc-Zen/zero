@@ -60,7 +60,6 @@
   }
 
   let e = if info.e == none { 0 } else { int(info.e) }
-  // let significant-figures = (info.int + info.frac).trim("0").len()
 
   let shift = utility.shift-decimal-left.with(digits: new-exponent - e)
 
@@ -74,9 +73,6 @@
       info.pm = pm.map(x => shift(..x))
     }
   }
-  // if info.int != "0" {
-  //   info.frac = info.frac.slice(0, calc.max(0, significant-figures - info.int.len()))
-  // }
 
   info
 }
@@ -109,6 +105,9 @@
   }
   if info.e in (0, "0") and it.omit-zero-exponent {
     info.e = none
+  }
+  if it.trim-zeros {
+    info.frac = info.frac.trim("0", at: end)
   }
 
   /// Round number and uncertainty

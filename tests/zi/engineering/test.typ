@@ -1,7 +1,8 @@
 #set page(width: auto, height: auto, margin: .5em)
-#import "/src/zero.typ": set-num, set-unit, zi
+#import "/src/zero.typ": set-num, set-unit, zi, num
 
-
+// #num(round: (precision: 2, pad: true, mode: "places"))[1223+-.2]
+// #num(round: (precision: 2, pad: true, mode: "places"))[1223.12+-.3]
 #set-num(exponent: "eng")
 
 #zi.m[2] \

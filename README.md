@@ -106,9 +106,12 @@ Zero's core is the `num()` function, which provides flexible number formatting. 
   product:                content = sym.times,
   tight:                  bool = false,
   math:                   bool = true,
+
   omit-unity-mantissa:    bool = false,
   positive-sign:          bool = false,
   positive-sign-exponent: bool = false,
+  trim-zeros:             bool = false,
+
   base:                   int | content = 10,
   uncertainty-mode:       str = "separate",
   round:                  dictionary,
@@ -122,7 +125,6 @@ Zero's core is the `num()` function, which provides flexible number formatting. 
   - `"sci"` : The exponent is chosen according to scientific notation. Use `(sci: n)` to activate scientific notation only when the absolute of the exponent is at least `n` or `(sci: (min, max))` to activate scientific notation only when the exponent is less or equal to `min` or greater or equal to `max`. 
   - `"eng"` : The exponent chosen according to engineering notation, that is the exponent is a multiple of three and the integer part is never zero. 
   - `(fixed: n)` : The exponent is fixed to the given integer. 
-
 - `decimal-separator: str = "."` : Specifies the marker that is used for separating integer and decimal part.
 - `product: content = sym.times` : Specifies the multiplication symbol used for scientific notation. 
 - `tight: bool = false` : If true, tight spacing is applied between operands (applies to $\times$ and $\pm$). 
@@ -130,6 +132,7 @@ Zero's core is the `num()` function, which provides flexible number formatting. 
 - `omit-unity-mantissa: bool = false` : Determines whether a mantissa of 1 is omitted in scientific notation, e.g., $10^4$ instead of $1\cdot 10^4$. 
 - `positive-sign: bool = false` : If set to `true`, positive coefficients are shown with a $+$ sign. 
 - `positive-sign-exponent: bool = false` : If set to `true`, positive exponents are shown with a $+$ sign. 
+- `trim-zeros: bool = false` : If set to `true`, trailing zeros are trimmed from the fractional part of the number. By default, they are kept in order to preserve the given input precision but especially for `float` input and automatic exponents, such as scientific notation, it can be useful to trim any trailing zeros. 
 - `base: int | content = 10` : The base used for scientific power notation. 
 - `uncertainty-mode: str = "separate"` : Selects one of the modes `"separate"`, `"compact"`, or `"compact-separator"` for displaying uncertainties. The different behaviors are shown below:
 
