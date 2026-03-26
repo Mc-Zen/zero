@@ -258,3 +258,22 @@
   ),
   ("1", "23", (("", "04"), ("", "30"))),
 )
+#assert.eq(
+  round(
+    "0",
+    "",
+    precision: 2,
+    mode: "places",
+  ),
+  ("", "00", none),
+)
+
+#assert.eq(
+  round(
+    "0",
+    "",
+    precision: 2,
+    mode: "figures",
+  ),
+  ("", "", none),
+)
