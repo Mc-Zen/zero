@@ -34,7 +34,8 @@
   sign: "+"
 
 ) = {
-  if place == 0 { return "" }
+  if place == 0 { panic("") }
+
   if dir == "towards-infinity" {
     if sign == "+" { dir = "away-from-zero" } else { dir = "towards-zero" }
   }
@@ -103,7 +104,7 @@
     count-leading-zeros(int + frac)
   }
 
-  calc.max(round-digit, 0)
+  calc.max(round-digit)
 }
 
 /// Pads a decimal number to given precision with given rounding mode. 
@@ -162,22 +163,26 @@
 
 ) = {
   let rounding-digit = get-rounding-digit(int, frac, mode, precision)
+  if rounding-digit < 0 { return ("", "")}
 
   let number = int + frac
 
   if rounding-digit < number.len() {
     number = round-integer(
-      number,
-      rounding-digit,
+      "0" + number, // prevent errors when rounding-digit is 0
+      1 + rounding-digit,
       dir: dir,
       ties: ties,
       sign: sign,
     )
-    let new-int-digits = int.len() + number.len() - rounding-digit
+
+    // We ALWAYS need to pad the integer part, e.g. when rounding
+    // 123 to the hundreds, round-integer gives 1 but we want 100. 
     if rounding-digit < int.len() {
       number += "0" * (int.len() - rounding-digit)
     }
 
+    let new-int-digits = int.len() + 1
     int = number.slice(0, new-int-digits)
     frac = number.slice(new-int-digits).trim("0", at: end)
   }
@@ -320,3 +325,4 @@
     pm
   )
 }
+
