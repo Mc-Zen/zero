@@ -76,7 +76,6 @@
 #assert.eq(round-integer("123", 2, dir: "towards-zero"), "12")
 #assert.eq(round-integer("123", 1, dir: "towards-zero"), "1")
 #assert.eq(round-integer("9989823", 7, dir: "towards-zero"), "9989823")
-#assert.eq(round-integer("123", 0, dir: "towards-zero"), "")
 #assert.eq(round-integer("12", 1, dir: "towards-zero", sign: "-"), "1")
 
 #assert.eq(round-integer("120", 2, dir: "away-from-zero"), "12")
@@ -92,7 +91,6 @@
   round-integer("9989823", 7, dir: "towards-negative-infinity"),
   "9989823",
 )
-#assert.eq(round-integer("123", 0, dir: "towards-negative-infinity"), "")
 #assert.eq(
   round-integer("12", 1, dir: "towards-negative-infinity", sign: "-"),
   "2",
@@ -107,12 +105,12 @@
 
 
 #assert.eq(round-integer("2234", 1, dir: "nearest"), "2")
-#assert.eq(round-integer("2234", 0, dir: "nearest"), "")
 #assert.eq(round-integer("0022", 3, dir: "nearest"), "002")
 #assert.eq(round-integer("0395", 3, dir: "nearest"), "040")
 #assert.eq(round-integer("999", 2, dir: "nearest"), "100")
 
 
+// #assert-panic(() => round-integer("123", 0))
 
 
 
@@ -129,8 +127,9 @@
 #assert.eq(round-places("1", "234", precision: 0), ("1", "", none))
 #assert.eq(round-places("23", "534", precision: -1), ("20", "", none))
 #assert.eq(round-places("12345", "534", precision: -3), ("12000", "", none))
-#assert.eq(round-places("2", "234", precision: -3), ("", "", none))
-#assert.eq(round-places("22", "", precision: -3), ("", "", none))
+#assert.eq(round-places("70", "", precision: -2), ("100", "", none))
+#assert.eq(round-places("70", "", precision: -3), ("", "", none))
+#assert.eq(round-places("70", "", precision: -4), ("", "", none))
 #assert.eq(round-places("", "0022", precision: 3), ("", "002", none))
 
 #assert.eq(round-places("1", "1", precision: 0), ("1", "", none))
@@ -151,6 +150,9 @@
 #assert.eq(round-figures("1", "234", precision: 1), ("1", "", none))
 #assert.eq(round-figures("1", "234", precision: 0), ("", "", none))
 #assert.eq(round-figures("1", "234", precision: -1), ("", "", none))
+#assert.eq(round-figures("8", "234", precision: 0), ("10", "", none))
+#assert.eq(round-figures("8", "234", precision: -1), ("", "", none))
+#assert.eq(round-figures("8", "234", precision: -2), ("", "", none))
 #assert.eq(round-figures("11", "", precision: -3), ("", "", none))
 
 #assert.eq(round-figures("1", "2", precision: 4), ("1", "200", none))
