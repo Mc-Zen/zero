@@ -34,6 +34,12 @@
 
 // Process the exponent with its various modes mode
 #let process-exponent(info, exponent) = {
+
+  if (info.int + info.frac).trim("0") == "" {
+    // Add no exponent if number is 0
+    return info
+  }
+
   let new-exponent = if type(exponent) == dictionary {
     assert(
       "fixed" in exponent or "sci" in exponent,

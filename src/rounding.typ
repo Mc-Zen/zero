@@ -98,14 +98,17 @@
 /// 
 /// The result is never negative. 
 #let get-rounding-digit(int, frac, mode, precision) = {
-  let round-digit = precision + if mode == "places" {
-    int.len()
+  if mode == "places" {
+    precision + int.len()
   } else if mode == "figures" {
-    count-leading-zeros(int + frac)
+    if (int + frac).trim("0") == "" {
+      int.len()
+    } else {
+      precision + count-leading-zeros(int + frac)
+    }
   }
-
-  calc.max(round-digit)
 }
+
 
 /// Pads a decimal number to given precision with given rounding mode. 
 /// Examples with `pad: true`:

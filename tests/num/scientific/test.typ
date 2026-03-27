@@ -19,3 +19,9 @@
 #num(exponent: (sci: (-4, 3)))[1200] \
 #num(exponent: (sci: (-4, 3)))[.001] \
 #num(exponent: (sci: (-4, 3)))[.0001] \
+
+#pagebreak()
+
+#num(exponent: "sci")[0] \
+#num(exponent: "sci")[0e4] \
+#num(exponent: "sci")[0.00] \
