@@ -19,3 +19,8 @@
 #num(exponent: "eng")[.0001] \
 #num(exponent: "eng")[.00001] \
 #num(exponent: "eng")[1e-6] \
+
+#pagebreak()
+
+#num(exponent: "eng")[0] \
+#num(exponent: "eng")[0e2] \ // it's okay that the exponent is now 2
