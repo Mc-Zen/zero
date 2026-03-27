@@ -11,3 +11,4 @@
 #num(exponent: (fixed: -1))[1e-4] \
 #num(exponent: (fixed: 1))[2+-1] \
 #num(exponent: (fixed: 2))[2+-1e1] \
+#num(exponent: (fixed: 2))[0.00] \

@@ -1,4 +1,5 @@
 #import "/src/rounding.typ": *
+#import "/src/zero.typ": num
 
 
 
@@ -277,3 +278,25 @@
   ),
   ("", "", none),
 )
+
+
+
+
+
+
+#set page(width: auto, height: auto, margin: .5em)
+
+// Rounding zero
+#num(round: (precision: 3, mode: "places"))[0] \
+#num(round: (precision: 3, mode: "places"))[0.0] \
+#num(round: (precision: 3, mode: "figures"))[0] \
+#num(round: (precision: 3, mode: "places"), exponent: "sci")[0.0]
+
+#pagebreak()
+
+// Rounding affects displayed digits, (after the exponent is applied)
+#num(round: (precision: 1), exponent: (fixed: 2))[42.34e3] \
+#num(round: (precision: 1), exponent: "sci")[42.34e3] \
+#num(round: (precision: 2, mode: "figures"), exponent: "eng")[42.34e3] \
+
+
