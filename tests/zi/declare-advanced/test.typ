@@ -7,13 +7,3 @@
 #zi.declare($M_dot.o$, ("s", -2), ($β$, -2))() \
 #zi.declare(($M_dot.o$, -1), ("s", -0.5), ($β$, "-a"))() \
 #zi.declare((sym.prime.double, 2))() \
-
-
-#pagebreak()
-
-
-#zi.liter() \
-#zi.mL() \
-#set-unit(lowercase-liter: true)
-#zi.liter() \
-#zi.mL() \
