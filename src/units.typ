@@ -184,6 +184,13 @@
   /// Unprocessed arguments.
   ..args,
 ) = {
+  assert(
+    fraction in ("power", "fraction", "inline"),
+    message: "Invalid fraction: "
+      + fraction
+      + ". Expected \"power\", \"fraction\", or \"inline\"",
+  )
+
   let fold-units = fold-units.with(
     unit-separator: unit-separator,
     math: math,
@@ -200,7 +207,7 @@
   let denominator-content = fold-units(..denominator, denom-exp-multiplier)
 
   if fraction == "power" {
-    // Numerator may be empty!
+    // Numerator could be empty!
     let result = denominator-content
     if numerator.len() != 0 {
       result = numerator-content + unit-separator + result
@@ -211,33 +218,20 @@
   // For the two fractional modes, the numerator shall not be empty.
   if numerator.len() == 0 { numerator-content = $1$ }
 
-  if fraction == "fraction" {
-    if not math {
-      assert(
-        false,
-        "`math: false` cannot be used together with `fraction: \"fraction\"`",
-      )
+  if math {
+    if denominator.len() > 1 and fraction == "inline" {
+      denominator-content = $(#denominator-content)$
     }
-    return $#numerator-content/#denominator-content$
-  } else if fraction == "inline" {
-    if denominator.len() > 1 {
-      denominator-content = "(" + denominator-content + ")"
-    }
-
-    if math {
-      $#numerator-content#h(0pt)\/#h(0pt)#denominator-content$
-    } else {
-      numerator-content + "/" + denominator-content
-    }
+    set std.math.frac(style: "horizontal") if fraction == "inline"
+    $#numerator-content/#denominator-content$
   } else {
-    assert(
-      false,
-      message: "Invalid fraction: "
-        + fraction
-        + ". Expected \"power\", \"fraction\", or \"symbol\"",
-    )
+    if denominator.len() > 1 {
+      denominator-content = [(#denominator-content)]
+    }
+    numerator-content + "/" + denominator-content
   }
 }
+
 
 #let unit(
   unit,
@@ -255,13 +249,6 @@
     ..num-state.unit,
     math: num-state.math,
   )
-  if not num-state.unit.breakable {
-    if num-state.math {
-      result = $result$
-    } else {
-      result = box(result)
-    }
-  }
   result
 }
 
@@ -319,10 +306,13 @@
       unit.numerator.first().first() = prefix + unit.numerator.first().first()
     }
   }
+  let breakable = utility.process-breakable(num-state.unit.breakable)
 
   let result = {
     num(value, state: num-state, force-parentheses-around-uncertainty: true)
+    sym.wj
     separator
+    if not breakable.unit { sym.wj }
     show-unit(
       unit.numerator,
       unit.denominator,
@@ -332,9 +322,9 @@
     )
   }
 
-  if not num-state.unit.breakable {
+  if not breakable.power {
     if num-state.math {
-      result = $result$
+      result = box($result$)
     } else {
       result = box(result)
     }
