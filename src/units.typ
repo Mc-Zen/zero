@@ -192,7 +192,7 @@
   )
 
   let fold-units = fold-units.with(
-    unit-separator: unit-separator,
+    unit-separator: unit-separator + sym.wj,
     math: math,
     use-sqrt: use-sqrt,
   )
@@ -210,7 +210,7 @@
     // Numerator could be empty!
     let result = denominator-content
     if numerator.len() != 0 {
-      result = numerator-content + unit-separator + result
+      result = numerator-content + unit-separator + sym.wj + result
     }
     return if math { $result$ } else { result }
   }
@@ -243,12 +243,12 @@
   }
   let num-state = update-num-state(num-state.get(), args)
 
-  let result = show-unit(
+  let result = (show-unit(
     unit.numerator,
     unit.denominator,
     ..num-state.unit,
     math: num-state.math,
-  )
+  ))
   result
 }
 
@@ -313,13 +313,13 @@
     sym.wj
     separator
     if not breakable.unit { sym.wj }
-    show-unit(
+    box(show-unit(
       unit.numerator,
       unit.denominator,
       fraction: num-state.unit.fraction,
       unit-separator: num-state.unit.unit-separator,
       math: num-state.math,
-    )
+    ))
   }
 
   result
