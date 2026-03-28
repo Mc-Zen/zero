@@ -306,7 +306,7 @@
       unit.numerator.first().first() = prefix + unit.numerator.first().first()
     }
   }
-  let breakable = utility.process-breakable(num-state.unit.breakable)
+  let breakable = utility.process-breakable(num-state.breakable)
 
   let result = {
     num(value, state: num-state, force-parentheses-around-uncertainty: true)
@@ -322,13 +322,6 @@
     )
   }
 
-  if not breakable.power {
-    if num-state.math {
-      result = box($result$)
-    } else {
-      result = box(result)
-    }
-  }
   result
 }
 

@@ -15,6 +15,7 @@
   fixed: none,
   exponent: auto,
   trim-zeros: false,
+  breakable: false,
   group: (
     size: 3,
     separator: sym.space.thin,
@@ -30,7 +31,6 @@
   unit: (
     unit-separator: sym.space.thin,
     fraction: "power",
-    breakable: false,
     use-sqrt: true,
     prefix: auto,
     lowercase-liter: false,
