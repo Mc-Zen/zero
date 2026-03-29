@@ -290,7 +290,7 @@
 // num with manual state
 
 #[
-  #let state = default-state
+  #let state = impl.default-state
   #{ state.decimal-separator = "," }
   #let num = num.with(state: state)
   #num[2.34]
@@ -309,7 +309,7 @@
 // num with state input
 
 #context {
-  let state = num-state.get()
+  let state = impl.num-state.get()
   num("1", state: state)
   [ ]
   num("2", state: state)
