@@ -43,3 +43,27 @@
 #assert.eq(shift-decimal-left("123", "456", digits: -5), ("12345600", ""))
 #assert.eq(shift-decimal-left("0", "0012", digits: -4), ("12", ""))
 #assert.eq(shift-decimal-left("0", "0012", digits: -2), ("0", "12"))
+
+
+#let process-breakable(breakable) = {
+  let default = (
+    uncertainty: false,
+    power: false,
+    unit: false,
+  )
+
+  if breakable == false {
+    return default
+  }
+  if breakable == true {
+    return (
+      uncertainty: true,
+      power: true,
+      unit: true,
+    )
+  }
+  if type(breakable) == dictionary {
+    return default + breakable
+  }
+  assert(false)
+}

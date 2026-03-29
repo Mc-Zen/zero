@@ -105,6 +105,7 @@ Zero's core is the `num()` function, which provides flexible number formatting. 
   decimal-separator:      str = ".",
   product:                content = sym.times,
   tight:                  bool = false,
+  breakable:              bool | dict = false,
   math:                   bool = true,
 
   omit-unity-mantissa:    bool = false,
@@ -128,6 +129,7 @@ Zero's core is the `num()` function, which provides flexible number formatting. 
 - `decimal-separator: str = "."` : Specifies the marker that is used for separating integer and decimal part.
 - `product: content = sym.times` : Specifies the multiplication symbol used for scientific notation. 
 - `tight: bool = false` : If true, tight spacing is applied between operands (applies to $\times$ and $\pm$). 
+- `breakable: bool | dict` : Whether numbers and quantities can be broken across paragraph lines. Setting this to `true`/`false` entirely enables/disables breaking. For more fine-grained control, a dictionary with the keys `uncertainty`, `power`, and `unit` (all booleans) can be passed for specifying whether breaks are allowed after the ± symbol, the × symbol, or before the unit, respectively. 
 - `math: bool = true` : If set to `false`, the parts of the number won't be wrapped in a `math.equation`. This makes it possible to use `num()` with non-math fonts.
 - `omit-unity-mantissa: bool = false` : Determines whether a mantissa of 1 is omitted in scientific notation, e.g., $10^4$ instead of $1\cdot 10^4$. 
 - `positive-sign: bool = false` : If set to `true`, positive coefficients are shown with a $+$ sign. 
@@ -409,7 +411,6 @@ The appearance of units can be configured via `set-unit`:
 #set-unit(
   unit-separator:  content = sym.space.thin,
   fraction:        str = "power",
-  breakable:       bool = false,
   prefix:          auto | none = auto
 )
 ```
@@ -418,7 +419,6 @@ The appearance of units can be configured via `set-unit`:
   - `"power"` : Units with negative exponents are shown as powers. 
   - `"fraction"` : When units with negative exponents are present, a fraction is created and the concerned units are put in the denominator. 
   - `"inline"` : An inline fraction is created. 
-- `breakable: bool` : Whether units and quantities can be broken across paragraph lines. 
 - `prefix: auto | none` : When set to `auto` and `num.exponent` is set to `"eng"`, a metric prefix is displayed along with the unit, replacing the exponent, e.g., `zi.m[2e4]` will render as 20km. 
 
 These options are also available when instancing a quantity, e.g., `#zi.m(fraction: "inline")[2.5]`. 

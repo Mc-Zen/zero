@@ -173,9 +173,19 @@
 }
 
 
+#let nonbreaking-binary-class(body, tight: false, breakable: true) = {
+  let space = if tight { 0pt } else { 2em/9 }
+  
+  if breakable {
+    math.class("binary", body)
+  } else {
+    // Recover spacing of binary relations but without breakability
+    h(space) + math.class("normal", body) + h(space)
+  }
+}
 
 #let format-uncertainty = it => {
-  /// pm, digits, mode, concise, tight, math
+  /// pm, digits, mode, concise, tight, math, breakable
   let pm = it.pm
   if pm == none { return () }
   let is-symmetric = type(pm.first()) != array
@@ -206,18 +216,26 @@
     decimal-separator: it.decimal-separator,
   )))
   if is-symmetric {
-    if it.concise { ("(", pm.first(), ")") } else if it.math {
+    if it.concise {
+      ("(", pm.first(), ")")
+    } else if it.math {
       (
         math.class("normal", none),
-        math.class(if it.tight { "normal" } else { "binary" }, sym.plus.minus),
+        nonbreaking-binary-class(
+          sym.plus.minus, 
+          tight: it.tight, 
+          breakable: it.breakable.uncertainty
+        ),
         pm.first(),
       )
     } else {
-      let space = if not it.tight { sym.space.thin }
+      let space = if it.tight { sym.space.hair } else { sym.space.thin }
       (
         space,
+        sym.wj,
         sym.plus.minus,
         space,
+        if not it.breakable.uncertainty { sym.wj },
         pm.first(),
       )
     }
@@ -231,6 +249,7 @@
     )
   } else {
     (
+      sym.wj,
       non-math-attach(
         none,
         t: "+" + pm.at(0),
@@ -243,7 +262,7 @@
 
 
 #let format-power = it => {
-  /// x, base, product, positive-sign-exponent, tight, math
+  /// x, base, product, positive-sign-exponent, tight, math, breakable
   if it.exponent == none { return () }
 
   let (sign, integer, fractional) = decompose-signed-float-numeral(it.exponent)
@@ -262,19 +281,24 @@
     if it.product == none { (power,) } else {
       (
         box(),
-        math.class(if it.tight { "normal" } else { "binary" }, it.product),
+        nonbreaking-binary-class(
+          it.product, 
+          tight: it.tight, 
+          breakable: it.breakable.power
+        ),
         power,
       )
     }
   } else {
     let power = non-math-attach([#it.base], t: [#exponent])
     if it.product == none { (power,) } else {
-      let space = if not it.tight { sym.space.thin }
+      let space = if it.tight { sym.space.hair } else { sym.space.thin }
       (
-        box(),
         space,
+        sym.wj,
         it.product,
         space,
+        if not it.breakable.power { sym.wj },
         power,
       )
     }
@@ -284,6 +308,7 @@
 
 
 #let show-num-impl = it => {
+  let breakable = utility.process-breakable(it.breakable)
   /// sign, int, frac, e, pm,
   /// digits
   /// omit-unity-mantissa, uncertainty-mode, positive-sign
@@ -321,6 +346,7 @@
     math: it.math,
     mode: it.uncertainty-mode,
     decimal-separator: it.decimal-separator,
+    breakable: breakable
   )
 
 
@@ -332,6 +358,7 @@
     tight: it.tight,
     math: it.math,
     decimal-separator: it.decimal-separator,
+    breakable: breakable
   )
 
   let integer-part = (
@@ -349,6 +376,9 @@
   )
 
   let uncertainty-part = format-uncertainty(uncertainty)
+  if not breakable.uncertainty and uncertainty-part.len() != 0{
+    // uncertainty-part = (std.box(equation-from-items(uncertainty-part)),)
+  }
 
   if concise-uncertainty {
     fractional-part += uncertainty-part
