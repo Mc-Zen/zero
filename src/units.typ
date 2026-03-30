@@ -319,6 +319,7 @@
       fraction: num-state.unit.fraction,
       unit-separator: num-state.unit.unit-separator,
       math: num-state.math,
+      use-sqrt: num-state.unit.use-sqrt
     ))
   }
 
