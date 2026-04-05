@@ -162,7 +162,7 @@
     frac: it.frac,
     group: it.group,
     digits: it.digits,
-    decimal-separator: it.decimal-separator,
+    decimal-separator: [#it.decimal-separator],
   ))
 
   return sequence((
