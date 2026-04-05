@@ -13,14 +13,6 @@
 )
 
 
-#pagebreak()
-
-// input formats
-
-#num[-2.23] \
-#num(-2.23) \
-#num("-2.23") \
-
 
 
 #pagebreak()
@@ -38,162 +30,6 @@
 #num("-3.1+-1.1") \
 #num("2+-1e1") \
 
-
-#pagebreak()
-
-// tight
-
-#let tnum = num.with(tight: true)
-#let examples = ("12.2", "2+-3", "4e2", "-2+-1e1")
-#table(
-  columns: 2,
-  stroke: none,
-  [`tight: false`], [`tight: true`],
-  ..array.zip(examples.map(num), examples.map(tnum)).flatten(),
-)
-
-
-
-#pagebreak()
-
-// decimal separator (in- and output)
-
-#num("1.2+-,1") #num("1,2+-.9") \
-#num("2e1.2") #num("2e1,2")
-
-#set-num(decimal-separator: ",")
-#num("1.2+-,1") #num("1,2+-.9") \
-#num("2e1.2") #num("2e1,2")
-#set-num(decimal-separator: ".")
-
-#num("1.234", decimal-separator: ",") \
-#num("1.234", decimal-separator: "__") \
-
-
-
-#pagebreak()
-
-// multiplication symbol
-
-#num("2e9") \
-#num("2e9", product: math.dot) \
-#set-num(product: math.dot)
-#num("2e9") \
-#set-num(product: math.times)
-#num("2e9") \
-
-
-
-#pagebreak()
-
-// unit mantissa
-
-#num("1e9", omit-unity-mantissa: false) \
-#num("1e9", omit-unity-mantissa: true) \
-#num("2e9", omit-unity-mantissa: true) \
-#num("1+-1e9", omit-unity-mantissa: true) \
-#num("1", omit-unity-mantissa: true) \
-#set-num(omit-unity-mantissa: true)
-#num("1e3") \
-#set-num(omit-unity-mantissa: false)
-#num("1e3") \
-
-
-
-#pagebreak()
-
-// implicit plus
-
-#num("1", positive-sign: false)
-#num("1", positive-sign: true)
-#num("-1", positive-sign: false)
-#num("-1", positive-sign: true) \
-#set-num(positive-sign: true)
-#num("9")
-#set-num(positive-sign: false)
-#num("9")
-
-
-
-#pagebreak()
-
-// implicit plus exponent
-
-#num("1e3", positive-sign-exponent: false)
-#num("1e3", positive-sign-exponent: true)
-#num("1e-1", positive-sign-exponent: false)
-#num("1e-1", positive-sign-exponent: true) \
-#set-num(positive-sign-exponent: true)
-#num("1e9")
-#set-num(positive-sign-exponent: false)
-#num("1e9")
-
-
-
-#pagebreak()
-
-// power base
-
-#num("1e2", base: 2) \
-#num("1e2", base: $e$) \
-#num("1e2", base: $π$)
-#set-num(base: "4")
-#num("1e2") \
-#set-num(base: 10)
-#num("1e2")
-
-
-
-#pagebreak()
-
-// uncertainty mode
-
-#let examples = (
-  "1.7+-.2",
-  "1.7+-.02",
-  "1.7+-.28",
-  "1.7+-2.8",
-  "1.7(2)",
-  "1.7(.2)",
-  "1.7(28)",
-  "2.2+.2-.5",
-  "2.2+2-5",
-  "2.2+2-.5",
-  "9.99+2-.5",
-)
-
-#table(
-  columns: 3,
-  align: center,
-  stroke: none,
-  [`separate`], [`compact`], [`compact-separator`],
-  ..array
-    .zip(
-      examples.map(num.with(uncertainty-mode: "separate")),
-      examples.map(num.with(uncertainty-mode: "compact")),
-      examples.map(num.with(uncertainty-mode: "compact-separator")),
-    )
-    .flatten(),
-)
-
-
-
-#pagebreak()
-
-// digit grouping
-
-#num("10.10") \
-#num("123.321") \
-#num("1234.4321") \
-#num("12345.54321") \
-#num("1234567") \
-#set-group(threshold: calc.inf)
-#num("1234567") \
-#set-group(threshold: 3)
-#num("1234.4321") \
-#set-group(separator: "'", size: 2)
-#num("12345.54321") \
-#set-group(separator: sym.space.thin, size: 3, threshold: 5)
 
 
 
@@ -234,27 +70,6 @@
 
 
 
-#pagebreak()
-
-// digits
-
-#num("1.234", digits: 2) \
-#num("1.2", digits: 2)
-
-
-
-#pagebreak()
-
-// fixed exponent
-
-#num("1.234", exponent: (fixed: -2)) \
-#num("1.234", exponent: (fixed: 1)) \
-#num("1e4", exponent: (fixed: 1)) \
-#num("1e-4", exponent: (fixed: -1)) \
-#num("2+-1", exponent: (fixed: 1)) \
-#num("2+-1e1", exponent: (fixed: 2)) \
-
-
 
 #pagebreak()
 
@@ -267,13 +82,7 @@
 #num("2.1+.2-.2e1", uncertainty-mode: "separate")
 
 
-#pagebreak()
 
-// content input
-
-#num[.1]
-#num[,1]
-#num[2e-1,2]
 
 #pagebreak()
 
