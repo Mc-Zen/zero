@@ -1,6 +1,10 @@
 #import "/src/zero.typ": *
 #set page(width: auto, height: auto, margin: 2pt)
 
+#num[2.3e3] \
+#num[-1.1e-3] \
+
+#pagebreak()
 
 // multiplication symbol
 #num("2e9") \

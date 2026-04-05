@@ -54,3 +54,14 @@
     )
     .flatten(),
 )
+
+
+#pagebreak()
+
+
+#set-num(math: true)
+
+// combine "compact" and exponential
+#num("2.1+-.2e1", uncertainty-mode: "separate") \
+#num("2.1+-.2e1", uncertainty-mode: "compact") \
+#num("2.1+.2-.2e1", uncertainty-mode: "separate")

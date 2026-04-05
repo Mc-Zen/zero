@@ -16,3 +16,19 @@
 #num("12345.54321") \
 #set-group(separator: sym.space.thin, size: 3, threshold: 5)
 
+
+#pagebreak()
+
+// Asymmetric thresholds
+#num(
+  group: (threshold: (fractional: 5, integer: 3)),
+  [23232.2323],
+) \
+#num(
+  group: (threshold: (fractional: 3, integer: calc.inf)),
+  [23232.2323],
+) \
+#num(
+  group: (threshold: (integer: 3, fractional: calc.inf)),
+  [23232.2323],
+)

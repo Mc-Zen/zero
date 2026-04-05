@@ -1,5 +1,5 @@
 #import "/src/rounding.typ": *
-#import "/src/zero.typ": num
+#import "/src/zero.typ": num, set-round
 
 
 
@@ -285,6 +285,63 @@
 
 
 #set page(width: auto, height: auto, margin: .5em)
+
+// Places
+#set-round(mode: "places", precision: 2)
+#num("1.234") \
+#num("1.236") \
+#set-round(pad: false)
+#num("1.1") \
+#set-round(pad: true)
+#num("1.1") \
+#set-round(direction: "towards-negative-infinity")
+#num("1.199") \
+#set-round(direction: "towards-infinity")
+#num("1.192") \
+#num("1.190") \
+#set-round(direction: "nearest")
+
+
+#pagebreak()
+
+// Figures
+#set-round(mode: "figures", precision: 2)
+#num("1.27") \
+#num("0.00001227") \
+#num("9876") \
+#num("9976") \
+
+
+#pagebreak()
+
+
+// Uncertainty
+#set-round(mode: "uncertainty", precision: 1)
+#num("1.234(34)") \
+#num("1.23422(34)") \
+#num("8.8+-2") \
+
+
+#pagebreak()
+
+
+// Turning off rounding
+#set-round(mode: "places")
+#num(round: (precision: none), "1.234") \
+
+
+#pagebreak()
+
+
+// Tie to odd
+#set-round(precision: none)
+#num(round: (precision: 0, ties: "to-odd"))[.5]
+
+
+
+#pagebreak()
+
+
 
 // Rounding zero
 #num(round: (precision: 3, mode: "places"))[0] \

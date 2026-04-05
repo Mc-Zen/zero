@@ -18,3 +18,11 @@
 #num(omit-unity-mantissa: true, exponent: "sci")[100] \
 // but omitted when trailing zeros are trimmed
 #num(omit-unity-mantissa: true, exponent: "sci", trim-zeros: true)[100]
+
+
+
+#pagebreak()
+
+// combine signs and omit-unity-mantissa
+#num("1e3", positive-sign: true, omit-unity-mantissa: true) \
+#num("-1e3", positive-sign: true, omit-unity-mantissa: true) \

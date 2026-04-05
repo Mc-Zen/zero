@@ -14,25 +14,20 @@
 #zi.degree[45] \
 // #zi.liter-l[1] \
 #zi.declare("1/s")([2]) \
-
-#zi.kN() // later make them types maybe? Then we can just call #zi.kN, that looks much better
-
-#zi.declare("1/s")(fraction: "fraction")
-#zi.declare("1/s")(fraction: "inline")
-
+#zi.kN() \ // later make them types maybe? Then we can just call #zi.kN, that looks much better
+#zi.declare("1/s")(fraction: "fraction") \
+#zi.declare("1/s")(fraction: "inline") \
 #let um = zi.declare("mum")
 #um[12]
 
 
 #pagebreak()
 
-// #set page(width: 4cm)
 
 // Unit declaration
 #let kgm-s2 = zi.declare("kg m/s^2")
 #let kgm-s2 = zi.declare("kg m")
 #kgm-s2() \
-$"kg" thin "m"$ \
 #kgm-s2[2]
 
 
@@ -69,25 +64,15 @@ $"kg" thin "m"$ \
 
 
 
-#set page(width: 2cm)
-Hello #zi.m-s[2.2]
-
-Hello #zi.m-s(breakable: true)[2.2]
-
-A #kgm-s2()
-A #kgm-s2(breakable: true)
-
 
 #pagebreak()
 
 #set page(width: auto)
-#table(
-  zi.m-s("2+-2"),
-  zi.m-s("2+-2e3"),
-  zi.m-s(uncertainty-mode: "compact", "2+-1"),
-  zi.m-s(uncertainty-mode: "compact-separator", "2+-1"),
-  zi.m-s(exponent: (fixed: 1), "2+-1.1"),
-)
+#zi.m-s("2+-2") \
+#zi.m-s("2+-2e3") \
+#zi.m-s(uncertainty-mode: "compact", "2+-1") \
+#zi.m-s(uncertainty-mode: "compact-separator", "2+-1") \
+#zi.m-s(exponent: (fixed: 1), "2+-1.1") \
 
 #pagebreak()
 
@@ -95,23 +80,20 @@ A #kgm-s2(breakable: true)
 
 #let m-s-V = zi.declare("m/s/V^2")
 
-#table(
-  zi.m(fraction: "power", math: false)[2],
-  zi.m-s(fraction: "power", math: false)[2],
-  zi.m-s(fraction: "inline", math: false)[2],
-  m-s-V(fraction: "power", math: false)[2],
-  m-s-V(fraction: "inline", math: false)[2],
-)
+
+#zi.m(fraction: "power", math: false)[2] \
+#zi.m-s(fraction: "power", math: false)[2] \
+#zi.m-s(fraction: "inline", math: false)[2] \
+#m-s-V(fraction: "power", math: false)[2] \
+#m-s-V(fraction: "inline", math: false)[2] \
 
 #pagebreak()
 
 #set-unit(use-sqrt: true, fraction: "inline")
-#zi.m-s()
-#table(
-  zi.declare("m^3 b^0.5/c^0.5")(fraction: "power"),
-  zi.declare("m^3 b^0.5/c^0.5")(fraction: "fraction"),
-  zi.declare("m^3 b^0.5/c^0.5")(fraction: "inline"),
-)
+#zi.m-s() \
+#zi.declare("m^3 b^0.5/c^0.5")(fraction: "power") \
+#zi.declare("m^3 b^0.5/c^0.5")(fraction: "fraction") \
+#zi.declare("m^3 b^0.5/c^0.5")(fraction: "inline") \
 
 #pagebreak()
 
