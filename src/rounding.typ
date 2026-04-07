@@ -96,7 +96,6 @@
 ///      ↑ 
 ///      round to second figure, i.e., second digit in total
 /// 
-/// The result is never negative. 
 #let get-rounding-digit(int, frac, mode, precision) = {
   if mode == "places" {
     precision + int.len()
