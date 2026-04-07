@@ -4,4 +4,5 @@
 
 #set text(dir: rtl)
 
-#num(decimal-separator: ",")[1,2]
+#num(decimal-separator: ",")[1,2] \
+#zi.N-A2[2.1]
