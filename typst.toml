@@ -4,7 +4,7 @@ version = "0.6.1"
 entrypoint = "src/zero.typ"
 authors = ["Mc-Zen <https://github.com/Mc-Zen>"]
 license = "MIT"
-description = "Advanced scientific number formatting."
+description = "Precise scientific number formatting."
 compiler = "0.12.0"
 
 repository = "https://github.com/Mc-Zen/zero"
