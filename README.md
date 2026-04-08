@@ -109,6 +109,7 @@ Zero's core is the `num()` function, which provides flexible number formatting. 
   math:                   bool = true,
 
   omit-unity-mantissa:    bool = false,
+  omit-zero-exponent:     bool = false,
   positive-sign:          bool = false,
   positive-sign-exponent: bool = false,
   trim-zeros:             bool = false,
@@ -132,6 +133,7 @@ Zero's core is the `num()` function, which provides flexible number formatting. 
 - `breakable: bool | dict` : Whether numbers and quantities can be broken across paragraph lines. Setting this to `true`/`false` entirely enables/disables breaking. For more fine-grained control, a dictionary with the keys `uncertainty`, `power`, and `unit` (all booleans) can be passed for specifying whether breaks are allowed after the ± symbol, the × symbol, or before the unit, respectively. 
 - `math: bool = true` : If set to `false`, the parts of the number won't be wrapped in a `math.equation`. This makes it possible to use `num()` with non-math fonts.
 - `omit-unity-mantissa: bool = false` : Determines whether a mantissa of 1 is omitted in scientific notation, e.g., $10^4$ instead of $1\cdot 10^4$. 
+- `omit-zero-exponent: bool = false` : Determines whether a power with an exponent of 0 is omitted.  
 - `positive-sign: bool = false` : If set to `true`, positive coefficients are shown with a $+$ sign. 
 - `positive-sign-exponent: bool = false` : If set to `true`, positive exponents are shown with a $+$ sign. 
 - `trim-zeros: bool = false` : If set to `true`, trailing zeros are trimmed from the fractional part of the number. By default, they are kept in order to preserve the given input precision but especially for `float` input and automatic exponents, such as scientific notation, it can be useful to trim any trailing zeros. 
