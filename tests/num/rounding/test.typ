@@ -120,7 +120,7 @@
 #let round-places = round.with(mode: "places")
 #let round-figures = round.with(mode: "figures")
 
-#assert.eq(round("23", "5", mode: none), ("23", "5", none))
+#assert.eq(round("23", "5", precision: none), ("23", "5", none))
 
 #assert.eq(round-places("1", "234", precision: 3), ("1", "234", none))
 #assert.eq(round-places("1", "234", precision: 2), ("1", "23", none))

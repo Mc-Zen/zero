@@ -220,10 +220,11 @@
   ///   rounded to significant figures given by the `precision` argument and 
   ///   then the number is rounded to the same number of places as the 
   ///   uncertainty.
-  mode: none,
+  mode: "places",
 
-  /// The precision to round to. See parameter `mode` for the different modes.
-  /// -> int
+  /// The precision to round to. See parameter `mode` for the different modes. 
+  /// If set to `none`, no rounding is performed. 
+  /// -> int | none
   precision: 2,
 
   /// Rounding direction.
@@ -245,7 +246,7 @@
   pm: none,
 
 ) = {
-  if mode == none {
+  if precision == none {
     return (int, frac, pm)
   }
   if mode == "uncertainty" and pm == none {

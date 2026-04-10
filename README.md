@@ -21,13 +21,13 @@ _Precise scientific number and unit formatting for Typst._
 
 Proper number formatting is essential for clear and readable scientific documents. **Zero** provides tools for consistent formatting and simplifies adherence to established publication standards. Key features include:
 
-- **Standardized** formatting
-- Digit [**grouping**](#grouping), e.g., $`299\,792\,458`$ instead of $299792458$
-- **Plug-and-play** number [**alignment in tables**](#table-alignment)
-- Quick scientific notation, e.g., `"2e4"` becomes $2\times10^4$
-- Symmetric and asymmetric [**uncertainties**](#specifying-uncertainties)
-- [**Rounding**](#rounding) in various modes
+- Standardized formatting
 - [**Unit and quantity formatting**](#units-and-quantities)
+- Plug-and-play number [**alignment in tables**](#table-alignment)
+- Symmetric and asymmetric [**uncertainties**](#specifying-uncertainties)
+- Quick scientific notation, e.g., `"2e4"` becomes $2\times10^4$
+- [**Rounding**](#rounding) in various modes
+- Digit [**grouping**](#grouping), e.g., $`299\,792\,458`$ instead of $299792458$
 - Helpers for package authors
 
 A number in scientific notation consists of three parts: the _mantissa_, an optional _uncertainty_, and an optional _power_ (exponent). The following figure illustrates the anatomy of a formatted number:
@@ -159,7 +159,7 @@ Configuration example:
 ### Grouping
 
 
-Digit grouping is important for keeping large figures readable. It is customary to separate thousands with a thin space, a period, comma, or an apostrophe (however, we discourage using a period or a comma to avoid confusion since both are used for decimal separators in various countries). 
+Digit grouping is important for keeping large figures readable. It is customary to separate thousands with a thin space, a period, comma, or an apostrophe (however, we do not recommend using a period or a comma to avoid confusion since both are used for decimal separators in various countries). 
 
 
 <p align="center">
@@ -203,21 +203,20 @@ Rounding can be configured with the `set-round()` function.
 ```typ
 #set-round(
   mode:       str = "places",
-  precision:  int | none = 2,
+  precision:  int | none = none,
   pad:        bool = true,
   direction:  str = "nearest",
   ties:       str = "away-from-zero"
 )
 ```
 - `mode: str = "places"` : Sets the rounding mode. The possible options are
-  - `none` : Rounding is turned off. 
   - `"places"` : The number is rounded to the number of decimal places given by the `precision` parameter. 
   - `"figures"` : The number is rounded to a number of significant figures given by the `precision` parameter.
   - `"uncertainty"` : Requires giving an uncertainty value. The uncertainty is 
      rounded to significant figures according to the `precision` argument and 
     then the number is rounded to the same number of decimal places as the 
     uncertainty. 
-- `precision: int | none = 2` : The precision to round to. Also see parameter `mode`. When set to `none`, no rounding is applied. 
+- `precision: int | none = none` : The precision to round to. Also see parameter `mode`. When set to `none`, no rounding is applied. 
 - `pad: bool | int = true` : Whether to pad the number with zeros if the 
    number has fewer digits than the rounding precision. When an integer is passed, it defines the minimum number of decimal digits to display 
    for `mode: "places"` and the minimum number of significant figures for `mode: "figures"`. The parameter `pad` has no effect for `mode: "uncertainty"`.
