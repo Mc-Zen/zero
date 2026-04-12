@@ -172,7 +172,7 @@
 /// Parses a normalized compound numeral string into sign, integer,
 /// fractional, uncertainty and exponent.
 ///
-/// Here, normalized means that the decimal separator/// is `"."`, and
+/// Here, normalized means that the decimal separator is `"."`, and
 /// `"+"`, `"-"` is used for all signs (as opposed to `"−"`).
 ///
 /// Sign, integer and fractional part are guaranteed to be valid (however,
@@ -185,6 +185,7 @@
 ///
 /// -> (int: str, frac: str, sign: str, pm: array | str, e: str)
 #let parse-normalized-compound-numeral(numeral) = {
+  numeral = numeral.replace("E", "e")
   let original-numeral = numeral
   let e
   let pm
