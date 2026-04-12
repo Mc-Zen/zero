@@ -2,7 +2,7 @@
 #set page(width: auto, height: auto, margin: 2pt)
 
 #num[2.3e3] \
-#num[-1.1e-3] \
+#num[-1.1E-3] \
 
 #pagebreak()
 
