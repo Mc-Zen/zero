@@ -141,14 +141,6 @@
   if digits < 0 {
     assert(false, message: "`digits` needs to be positive, got " + str(digits))
   }
-
-  if info.pm != none {
-    let pm = info.pm
-    if type(pm.first()) != array { pm = (pm,) }
-    // digits = calc.max(digits, ..pm.map(array.last).map(str.len))
-  }
-
-  // info.digits = digits
   it.digits = digits
 
   // Format number
