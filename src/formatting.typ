@@ -210,7 +210,7 @@
     sign: none,
     int: int,
     frac: frac,
-    digits: it.digits,
+    digits: auto,
     group: false,
     positive-sign: false,
     decimal-separator: it.decimal-separator,

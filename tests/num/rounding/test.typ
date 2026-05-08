@@ -120,142 +120,138 @@
 #let round-places = round.with(mode: "places")
 #let round-figures = round.with(mode: "figures")
 
-#assert.eq(round("23", "5", precision: none), ("23", "5", none))
+#assert.eq(round("23", "5", precision: none), ("23", "5"))
 
-#assert.eq(round-places("1", "234", precision: 3), ("1", "234", none))
-#assert.eq(round-places("1", "234", precision: 2), ("1", "23", none))
-#assert.eq(round-places("1", "234", precision: 1), ("1", "2", none))
-#assert.eq(round-places("1", "234", precision: 0), ("1", "", none))
-#assert.eq(round-places("23", "534", precision: -1), ("20", "", none))
-#assert.eq(round-places("12345", "534", precision: -3), ("12000", "", none))
-#assert.eq(round-places("70", "", precision: -2), ("100", "", none))
-#assert.eq(round-places("70", "", precision: -3), ("", "", none))
-#assert.eq(round-places("70", "", precision: -4), ("", "", none))
-#assert.eq(round-places("", "0022", precision: 3), ("", "002", none))
+#assert.eq(round-places("1", "234", precision: 3), ("1", "234"))
+#assert.eq(round-places("1", "234", precision: 2), ("1", "23"))
+#assert.eq(round-places("1", "234", precision: 1), ("1", "2"))
+#assert.eq(round-places("1", "234", precision: 0), ("1", ""))
+#assert.eq(round-places("23", "534", precision: -1), ("20", ""))
+#assert.eq(round-places("12345", "534", precision: -3), ("12000", ""))
+#assert.eq(round-places("70", "", precision: -2), ("100", ""))
+#assert.eq(round-places("70", "", precision: -3), ("", ""))
+#assert.eq(round-places("70", "", precision: -4), ("", ""))
+#assert.eq(round-places("", "0022", precision: 3), ("", "002"))
 
-#assert.eq(round-places("1", "1", precision: 0), ("1", "", none))
-#assert.eq(round-places("1", "1", precision: 3), ("1", "100", none))
-#assert.eq(round-places("1", "1", precision: 5), ("1", "10000", none))
-#assert.eq(round-places("1", "1", precision: 5), ("1", "10000", none))
+#assert.eq(round-places("1", "1", precision: 0), ("1", ""))
+#assert.eq(round-places("1", "1", precision: 3), ("1", "100"))
+#assert.eq(round-places("1", "1", precision: 5), ("1", "10000"))
+#assert.eq(round-places("1", "1", precision: 5), ("1", "10000"))
 
-#assert.eq(round-places("1", "1", precision: 5, pad: false), ("1", "1", none))
-#assert.eq(round-places("1", "1", precision: 5, pad: true), ("1", "10000", none))
-#assert.eq(round-places("1", "1", precision: 5, pad: -1), ("1", "1", none))
-#assert.eq(round-places("1", "1", precision: 5, pad: 0), ("1", "1", none))
-#assert.eq(round-places("1", "1", precision: 5, pad: 3), ("1", "100", none))
-#assert.eq(round-places("1", "1", precision: 5, pad: 6), ("1", "10000", none))
+#assert.eq(round-places("1", "1", precision: 5, pad: false), ("1", "1"))
+#assert.eq(round-places("1", "1", precision: 5, pad: true), ("1", "10000"))
+#assert.eq(round-places("1", "1", precision: 5, pad: -1), ("1", "1"))
+#assert.eq(round-places("1", "1", precision: 5, pad: 0), ("1", "1"))
+#assert.eq(round-places("1", "1", precision: 5, pad: 3), ("1", "100"))
+#assert.eq(round-places("1", "1", precision: 5, pad: 6), ("1", "10000"))
 
-#assert.eq(round-figures("1", "234", precision: 4), ("1", "234", none))
-#assert.eq(round-figures("1", "234", precision: 3), ("1", "23", none))
-#assert.eq(round-figures("1", "234", precision: 2), ("1", "2", none))
-#assert.eq(round-figures("1", "234", precision: 1), ("1", "", none))
-#assert.eq(round-figures("1", "234", precision: 0), ("", "", none))
-#assert.eq(round-figures("1", "234", precision: -1), ("", "", none))
-#assert.eq(round-figures("8", "234", precision: 0), ("10", "", none))
-#assert.eq(round-figures("8", "234", precision: -1), ("", "", none))
-#assert.eq(round-figures("8", "234", precision: -2), ("", "", none))
-#assert.eq(round-figures("11", "", precision: -3), ("", "", none))
+#assert.eq(round-figures("1", "234", precision: 4), ("1", "234"))
+#assert.eq(round-figures("1", "234", precision: 3), ("1", "23"))
+#assert.eq(round-figures("1", "234", precision: 2), ("1", "2"))
+#assert.eq(round-figures("1", "234", precision: 1), ("1", ""))
+#assert.eq(round-figures("1", "234", precision: 0), ("", ""))
+#assert.eq(round-figures("1", "234", precision: -1), ("", ""))
+#assert.eq(round-figures("8", "234", precision: 0), ("10", ""))
+#assert.eq(round-figures("8", "234", precision: -1), ("", ""))
+#assert.eq(round-figures("8", "234", precision: -2), ("", ""))
+#assert.eq(round-figures("11", "", precision: -3), ("", ""))
 
-#assert.eq(round-figures("1", "2", precision: 4), ("1", "200", none))
+#assert.eq(round-figures("1", "2", precision: 4), ("1", "200"))
 
-#assert.eq(round-figures("1", "2", precision: 4, pad: false), ("1", "2", none))
-#assert.eq(round-figures("1", "2", precision: 4, pad: true), ("1", "200", none))
-#assert.eq(round-figures("1", "2", precision: 4, pad: -1), ("1", "2", none))
-#assert.eq(round-figures("1", "2", precision: 4, pad: 0), ("1", "2", none))
-#assert.eq(round-figures("1", "2", precision: 4, pad: 3), ("1", "20", none))
-#assert.eq(round-figures("1", "2", precision: 4, pad: 6), ("1", "200", none))
+#assert.eq(round-figures("1", "2", precision: 4, pad: false), ("1", "2"))
+#assert.eq(round-figures("1", "2", precision: 4, pad: true), ("1", "200"))
+#assert.eq(round-figures("1", "2", precision: 4, pad: -1), ("1", "2"))
+#assert.eq(round-figures("1", "2", precision: 4, pad: 0), ("1", "2"))
+#assert.eq(round-figures("1", "2", precision: 4, pad: 3), ("1", "20"))
+#assert.eq(round-figures("1", "2", precision: 4, pad: 6), ("1", "200"))
 
-#assert.eq(round-figures("0", "00126", precision: 2), ("", "0013", none))
-#assert.eq(round-figures("0", "000126", precision: 3), ("", "000126", none))
+#assert.eq(round-figures("0", "00126", precision: 2), ("", "0013"))
+#assert.eq(round-figures("0", "000126", precision: 3), ("", "000126"))
 
-#assert.eq(round-figures("0", "0016", precision: 4, pad: false), ("", "0016", none))
-#assert.eq(round-figures("0", "0016", precision: 4, pad: true), ("", "001600", none))
-#assert.eq(round-figures("0", "0016", precision: 4, pad: -1), ("", "0016", none))
-#assert.eq(round-figures("0", "0016", precision: 4, pad: 0), ("", "0016", none))
-#assert.eq(round-figures("0", "0016", precision: 4, pad: 3), ("", "00160", none))
-#assert.eq(round-figures("0", "0016", precision: 4, pad: 6), ("", "001600", none))
+#assert.eq(round-figures("0", "0016", precision: 4, pad: false), ("", "0016"))
+#assert.eq(round-figures("0", "0016", precision: 4, pad: true), ("", "001600"))
+#assert.eq(round-figures("0", "0016", precision: 4, pad: -1), ("", "0016"))
+#assert.eq(round-figures("0", "0016", precision: 4, pad: 0), ("", "0016"))
+#assert.eq(round-figures("0", "0016", precision: 4, pad: 3), ("", "00160"))
+#assert.eq(round-figures("0", "0016", precision: 4, pad: 6), ("", "001600"))
 
 
-#assert.eq(round-places("99", "92", precision: 2), ("99", "92", none))
-#assert.eq(round-places("99", "92", precision: 0), ("100", "", none))
-#assert.eq(round-places("99", "99", precision: 1), ("100", "0", none))
-#assert.eq(round-places("99", "99", precision: -1), ("100", "", none))
-#assert.eq(round-places("1", "299995", precision: 5), ("1", "30000", none))
-#assert.eq(round-places("1", "299994", precision: 5), ("1", "29999", none))
-#assert.eq(round-places("523", "", precision: -2), ("500", "", none))
+#assert.eq(round-places("99", "92", precision: 2), ("99", "92"))
+#assert.eq(round-places("99", "92", precision: 0), ("100", ""))
+#assert.eq(round-places("99", "99", precision: 1), ("100", "0"))
+#assert.eq(round-places("99", "99", precision: -1), ("100", ""))
+#assert.eq(round-places("1", "299995", precision: 5), ("1", "30000"))
+#assert.eq(round-places("1", "299994", precision: 5), ("1", "29999"))
+#assert.eq(round-places("523", "", precision: -2), ("500", ""))
 
 
 #assert.eq(
-  round("42", "3734", pm: ("", "0025"), precision: 2, mode: "uncertainty"),
+  round-to-uncertainty("42", "3734", ("", "0025"), precision: 2),
   ("42", "3734", ("", "0025")),
 )
 #assert.eq(
-  round("42", "3734", pm: ("", "0025"), precision: 1, mode: "uncertainty"),
+  round-to-uncertainty("42", "3734", ("", "0025"), precision: 1),
   ("42", "373", ("", "003")),
 )
 #assert.eq(
-  round("42", "3734", pm: ("2", "2"), precision: 1, mode: "uncertainty"),
+  round-to-uncertainty("42", "3734", ("2", "2"), precision: 1),
   ("42", "", ("2", "")),
 )
 #assert.eq(
-  round("42", "3734", pm: ("2", "2"), precision: 2, mode: "uncertainty"),
+  round-to-uncertainty("42", "3734", ("2", "2"), precision: 2),
   ("42", "4", ("2", "2")),
 )
 #assert.eq(
-  round("42", "3734", pm: ("2", "2"), precision: 3, mode: "uncertainty"),
+  round-to-uncertainty("42", "3734", ("2", "2"), precision: 3),
   ("42", "37", ("2", "20")),
 )
 
 #assert.eq(
-  round("4211", "3734", pm: ("230", "2"), precision: 1, mode: "uncertainty"),
+  round-to-uncertainty("4211", "3734", ("230", "2"), precision: 1),
   ("4200", "", ("200", "")),
 )
 
 #assert.eq(
-  round("1", "23", pm: ("0", "2"), precision: 1, mode: "uncertainty"),
+  round-to-uncertainty("1", "23", ("0", "2"), precision: 1),
   ("1", "2", ("", "2")),
 )
 #assert.eq(
-  round("123", "9", pm: ("20", ""), precision: 1, mode: "uncertainty"),
+  round-to-uncertainty("123", "9", ("20", ""), precision: 1),
   ("120", "", ("20", "")),
 )
 #assert.eq(
-  round(
+  round-to-uncertainty(
     "1",
     "23",
-    pm: (("0", "2"), ("0", "3")),
+    (("0", "2"), ("0", "3")),
     precision: 1,
-    mode: "uncertainty",
   ),
   ("1", "2", (("", "2"), ("", "3"))),
 )
 #assert.eq(
-  round(
+  round-to-uncertainty(
     "123",
     "9",
-    pm: (("020", ""), ("30", "")),
+    (("020", ""), ("30", "")),
     precision: 1,
-    mode: "uncertainty",
   ),
   ("120", "", (("20", ""), ("30", ""))),
 )
 #assert.eq(
-  round(
+  round-to-uncertainty(
     "1",
     "23",
-    pm: (("0", "24"), ("0", "3")),
+    (("0", "24"), ("0", "3")),
     precision: 1,
-    mode: "uncertainty",
   ),
   ("1", "2", (("", "2"), ("", "3"))),
 )
 #assert.eq(
-  round(
+  round-to-uncertainty(
     "1",
     "23",
-    pm: (("0", "04"), ("0", "3")),
+    (("0", "04"), ("0", "3")),
     precision: 1,
-    mode: "uncertainty",
   ),
   ("1", "23", (("", "04"), ("", "30"))),
 )
@@ -266,7 +262,7 @@
     precision: 2,
     mode: "places",
   ),
-  ("", "00", none),
+  ("", "00"),
 )
 
 #assert.eq(
@@ -276,7 +272,7 @@
     precision: 2,
     mode: "figures",
   ),
-  ("", "", none),
+  ("", ""),
 )
 
 
@@ -316,8 +312,26 @@
 
 
 // Uncertainty
-#set-round(mode: "uncertainty", precision: 1)
-#num("1.234(34)") \
+
+#num("12.378+-0.2") \
+#num("1.234(9)") \
+#num("1.23422(310)") \
+// num is rounded
+#num("8.8+-2") \
+// num is padded
+#num("8+-0.02") \
+// signs are respected
+#num("-8.8+-2", round: (direction: "towards-negative-infinity")) \
+// num is not padded
+#num("8.8+-0.02", round: (pad: false)) \
+// num is rounded and padded
+#num(round: (pad: true))[0.299+-.12] \
+// num is rounded and not padded
+#num(round: (pad: false))[0.299+-.12] \
+
+#set-round(follow-uncertainty: false)
+#num("12.378+-0.2", round: (precision: 2, mode: "places")) \
+#num("12.378+-0.2", round: (precision: 2, mode: "figures")) \
 #num("1.23422(34)") \
 #num("8.8+-2") \
 

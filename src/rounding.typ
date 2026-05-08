@@ -197,7 +197,7 @@
 
 
 /// Rounds (and/or pads) a number given by an integer part and a fractional 
-/// part. Several rounding modes are supported.
+/// part. 
 #let round(
 
   /// Integer part. 
@@ -216,15 +216,11 @@
   /// - `"places"`: The number is rounded to the number of places after the
   ///   decimal point given by the `precision` parameter.
   /// - `"figures"`: The number is rounded to a number of significant figures.
-  /// - `"uncertainty"`: Requires giving the uncertainty. The uncertainty is 
-  ///   rounded to significant figures given by the `precision` argument and 
-  ///   then the number is rounded to the same number of places as the 
-  ///   uncertainty.
   mode: "places",
 
   /// The precision to round to. See parameter `mode` for the different modes. 
-  /// If set to `none`, no rounding is performed. 
-  /// -> int | none
+  /// If set to `auto` or `none`, no rounding is performed. 
+  /// -> int | auto | none
   precision: 2,
 
   /// Rounding direction.
@@ -242,19 +238,15 @@
   /// -> bool | int
   pad: true,
 
-  /// Uncertainty
-  pm: none,
+  ..
 
 ) = {
-  if precision == none {
-    return (int, frac, pm)
-  }
-  if mode == "uncertainty" and pm == none {
-    return (int, frac, pm)
+  if precision in (auto, none) {
+    return (int, frac)
   }
 
 
-  assert-option(mode, "round-mode", ("places", "figures", "uncertainty"))
+  assert-option(mode, "round-mode", ("places", "figures"))
 
   // Removal hint
   if direction == "down" {
@@ -277,55 +269,107 @@
   ))
 
 
-  if mode == "uncertainty" {
-    // Round uncertainties to `precision` figures. 
+  pad-decimal(
+    ..round-decimal(
+      int, frac, 
+      precision: precision,
+      mode: mode,
+      dir: direction,
+      sign: sign,
+      ties: ties,
+    ),
+    pad, mode, precision
+  )
+}
 
-    let is-symmetric = type(pm.first()) != array
-    if is-symmetric {
-      pm = (pm,)
-    }
-    
-    /// Find the (fractional) place of the smallest uncertainty
-    let places = precision + calc.max(
-      ..pm.map(((i, f)) => count-leading-zeros(i + f) - i.len())
+
+/// Rounds a number to the same decimal place as its uncertainty. 
+#let round-to-uncertainty(
+  
+  /// Integer part. 
+  /// -> str
+  int,
+
+  /// Fractional part. 
+  /// -> str
+  frac,
+
+  /// Uncertainty, given as a tuple of integer and fractional part. Can also be a tuple of two tuples, in the case of asymmetric uncertainty.
+  /// -> (str, str) | ((str, str), (str, str))
+  uncertainty,
+
+  /// The sign of the number. 
+  /// -> "+" | "-"
+  sign: "+",
+
+  /// The precision to round the uncertainty to. If `auto`, the uncertainty left as is.
+  /// -> auto | int
+  precision: auto,
+
+  /// Rounding direction.
+  /// -> str
+  direction: "nearest",
+
+  /// How to round ties.
+  /// -> "away-from-zero" | "towards-zero" | "to-odd" | "to-even" | "towards-infinity" | "towards-negative-infinity"
+  ties: "away-from-zero",
+
+  /// Determines whether the number should be padded with zeros if the number 
+  /// has less digits than the rounding precision. If an integer is given, 
+  /// determines the minimum number of decimal digits (`mode: "places"`) or 
+  /// significant figures (`mode: "figures"`) to display. 
+  /// -> bool | int
+  pad: true,
+  ..
+
+) = {
+  let is-symmetric = type(uncertainty.first()) != array
+  if is-symmetric {
+    uncertainty = (uncertainty,)
+  }
+  
+  /// Find the (fractional) place of the smallest uncertainty
+  let places = if precision == auto {
+    calc.max(
+      ..uncertainty.map(((i, f)) => f.len())
     )
-
-    pm = pm
-      .map(((i, f)) => round-decimal(
-        i, f,
-        dir: direction,
-        precision: places, 
-        mode: "places"
-      ))
-      .map(((i, f)) => pad-decimal(
-        i, f,
-        pad, 
-        "places",
-        places 
-      ))
-
-    if is-symmetric {
-      pm = pm.first()
-    }
-    
-    // Then, round number to the same number of places
-    mode = "places"
-    precision = places
+  } else {
+    precision + calc.max(
+      ..uncertainty.map(((i, f)) => count-leading-zeros(i + f) - i.len())
+    )
   }
 
+  uncertainty = uncertainty
+    .map(((i, f)) => round-decimal(
+      i, f,
+      dir: direction,
+      precision: places, 
+      mode: "places"
+    ))
+    .map(((i, f)) => pad-decimal(
+      i, f,
+      pad, 
+      "places",
+      places 
+    ))
+
+  if is-symmetric {
+    uncertainty = uncertainty.first()
+  }
+  
+  // Then, round number to the same number of places as the uncertainty. 
   (
     ..pad-decimal(
       ..round-decimal(
         int, frac, 
-        precision: precision,
-        mode: mode,
+        precision: places,
+        mode: "places",
         dir: direction,
         sign: sign,
         ties: ties,
       ),
-      pad, mode, precision
+      pad, "places", places
     ),
-    pm
+    uncertainty
   )
 }
-
