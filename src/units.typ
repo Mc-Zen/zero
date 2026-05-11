@@ -59,7 +59,7 @@
         per = not per
         exponent = exponent.slice(1)
       }
-      exponent = [#exponent]
+      // exponent = [#exponent]
       if unit != "1" {
         // make calls like "1/s" possible in addition to "/s"
         if per { denominator.push((symbol, exponent)) } else {
@@ -89,7 +89,7 @@
 
   for child in children {
     if type(child) in (str, content, symbol) {
-      numerator.push((child, [1]))
+      numerator.push((child, "1"))
     } else if type(child) == array {
       assert(
         child.len() == 2,
@@ -107,9 +107,9 @@
       }
       if exponent.starts-with("-") {
         exponent = exponent.slice(1)
-        denominator.push((unit, [#exponent]))
+        denominator.push((unit, exponent))
       } else {
-        numerator.push((unit, [#exponent]))
+        numerator.push((unit, exponent))
       }
     } else {
       assert(
@@ -123,14 +123,22 @@
   (numerator: numerator, denominator: denominator)
 }
 
-#let format-unit-power(unit, exponent, math: true) = {
-  if math {
-    if type(exponent) in (int, float) {
-      exponent = str(exponent)
-    }
-    if exponent in (1, [1]) { unit } else { std.math.attach(unit, t: exponent) }
+#let format-unit-power(unit, exponent, math: true, negative: false) = {
+  if type(exponent) in (int, float) {
+    exponent = str(exponent)
+  }
+  
+  exponent = [#exponent]
+  if negative {
+    exponent = sym.minus + exponent
+  }
+  
+  if exponent in (1, [1], "1") {
+    unit
   } else {
-    if exponent in (1, [1]) { unit } else {
+    if math {
+      std.math.attach(unit, t: exponent)
+    } else {
       unit + super(typographic: false, exponent)
     }
   }
@@ -146,13 +154,10 @@
   let units = units
     .pos()
     .map(((unit, exponent)) => {
-      if exp-multiplier == -1 {
-        exponent = sym.minus + exponent
-      }
-      if use-sqrt and exponent == [0.5] and math {
+      if use-sqrt and exponent == "0.5" and exp-multiplier == 1 and math {
         return std.math.sqrt(unit)
       }
-      format-unit-power(unit, exponent, math: math)
+      format-unit-power(unit, exponent, math: math, negative: exp-multiplier == -1)
     })
 
   let folded-units = units.join(unit-separator)
