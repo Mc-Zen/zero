@@ -1,3 +1,5 @@
+#import "parsing.typ": content-to-string
+
 #let translations = (
   "fallback": (
     "times": "×",
@@ -116,6 +118,27 @@
     "µ": "mikro",
   ),
 )
+
+#let base-to-string(base) = {
+  if type(base) == str {
+    return base
+  } else if type(base) in (int, float, symbol) {
+    return str(base)
+  } else if type(base) == content {
+    if base.func() == math.equation {
+      let result = content-to-string(base.body)
+      if result != none {
+        return result
+      }
+    }
+  }
+
+  assert(
+    false,
+    message: "Failed to convert base to string. Please provide a manual alt text for this numeral.",
+  )
+}
+
 #let generate-alt-description(info, translation: auto) = {
   let lang = text.lang
   if translation == auto {
@@ -159,7 +182,7 @@
       " "
         + translation.times
         + " "
-        + str(info.base)
+        + base-to-string(info.base)
         + " "
         + translation.power
         + " "
