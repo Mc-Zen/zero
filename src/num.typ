@@ -3,7 +3,7 @@
 #import "rounding.typ": *
 #import "assertions.typ": *
 #import "parsing.typ" as parsing: nonum
-#import "accessibility.typ": generate-alt-description
+#import "accessibility.typ": generate-num-alt-description
 #let update-state(state, args, name: none) = {
   assert-no-fixed(args)
   state.update(s => {
@@ -145,14 +145,14 @@
 
   let description
   if it.alt == auto {
-    it.alt = generate-alt-description
+    it.alt = generate-num-alt-description
   }
   if type(it.alt) == dictionary {
     assert(
       "times" in it.alt and "power" in it.alt and "plus" in it.alt and "minus" in it.alt,
       message: "Expected keys \"times\", \"power\", \"plus\", and \"minus\", got " + repr(it.alt),
     )
-    it.alt = generate-alt-description.with(translation: it.alt)
+    it.alt = generate-num-alt-description.with(translation: it.alt)
   }
   if type(it.alt) == function {
     description = (it.alt)(

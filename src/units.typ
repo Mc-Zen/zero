@@ -2,6 +2,7 @@
 #import "state.typ": num-state, update-num-state
 #import "assertions.typ": assert-settable-args
 #import "parsing.typ": compute-eng-digits, parse-numeral
+#import "accessibility.typ": generate-unit-alt-description
 #import "utility.typ"
 
 /// [internal function]
@@ -196,6 +197,10 @@
       + ". Expected \"power\", \"fraction\", or \"inline\"",
   )
 
+  let equation = std.math.equation.with(
+    alt: generate-unit-alt-description(numerator, denominator)
+  )
+
   let fold-units = fold-units.with(
     unit-separator: unit-separator + sym.wj,
     math: math,
@@ -205,7 +210,7 @@
 
   let numerator-content = fold-units(..numerator, 1)
   if denominator.len() == 0 {
-    return if math { $#numerator-content$ } else { numerator-content }
+    return if math { equation($#numerator-content$) } else { numerator-content }
   }
 
   let denom-exp-multiplier = if fraction == "power" { -1 } else { 1 }
@@ -217,7 +222,7 @@
     if numerator.len() != 0 {
       result = numerator-content + unit-separator + sym.wj + result
     }
-    return if math { $result$ } else { result }
+    return if math { equation($result$) } else { result }
   }
 
   // For the two fractional modes, the numerator shall not be empty.
@@ -228,7 +233,7 @@
       denominator-content = $(#denominator-content)$
     }
     set std.math.frac(style: "horizontal") if fraction == "inline"
-    $#numerator-content/#denominator-content$
+    equation($#numerator-content/#denominator-content$)
   } else {
     if denominator.len() > 1 {
       denominator-content = [(#denominator-content)]
