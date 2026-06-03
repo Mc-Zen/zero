@@ -117,27 +117,30 @@
   }
 
   /// Round number and uncertainty
-  if it.round.precision != none {
-    (info.int, info.frac, info.pm) = round(
+  if info.pm != none and it.round.follow-uncertainty {
+    (info.int, info.frac, info.pm) = round-to-uncertainty(
       info.int,
       info.frac,
-      pm: info.pm,
+      info.pm,
+      sign: info.sign,
       ..it.round,
+      precision: it.round.uncertainty-precision,
     )
+  } else {
+    if it.round.precision != none {
+      (info.int, info.frac) = round(
+        info.int,
+        info.frac,
+        sign: info.sign,
+        ..it.round,
+      )
+    }
   }
 
   let digits = if it.digits == auto { info.frac.len() } else { it.digits }
   if digits < 0 {
     assert(false, message: "`digits` needs to be positive, got " + str(digits))
   }
-
-  if info.pm != none {
-    let pm = info.pm
-    if type(pm.first()) != array { pm = (pm,) }
-    digits = calc.max(digits, ..pm.map(array.last).map(str.len))
-  }
-
-  // info.digits = digits
   it.digits = digits
 
   // Format number

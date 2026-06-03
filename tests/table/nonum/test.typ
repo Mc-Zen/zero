@@ -4,7 +4,7 @@
 #ztable(
   format: (auto,),
   [#nonum[€]123.0#nonum(footnote[A special number])],
-  [222.23+-2],
+  [222.23+-2.00],
   [12],
   nonum[non-numerical],
 )

@@ -23,7 +23,9 @@
   ),
   round: (
     mode: "places",
-    precision: none,
+    precision: auto,
+    follow-uncertainty: true,
+    uncertainty-precision: auto,
     pad: true,
     direction: "nearest",
     ties: "away-from-zero",
