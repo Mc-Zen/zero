@@ -198,28 +198,28 @@ Set `threshold: calc.inf` to disable grouping.
 
 ### Rounding
 
-Rounding can be configured with the `set-round()` function. 
+Rounding can be configured with the `set-round()` function. Numbers with an uncertainty are by default automatically rounded to the precision of the uncertainty (this can be turned off with the option `follow-uncertainty`, see below). Otherwise, rounding takes place according to `mode` and `precision`.
 
 ```typ
 #set-round(
-  mode:       str = "places",
-  precision:  int | none = none,
-  pad:        bool = true,
-  direction:  str = "nearest",
-  ties:       str = "away-from-zero"
+  follow-uncertainty:    bool = true,
+  uncertainty-precision: auto | int = auto,
+  mode:                  str = "places",
+  precision:             int | auto = auto,
+  pad:                   bool = true,
+  direction:             str = "nearest",
+  ties:                  str = "away-from-zero"
 )
 ```
-- `mode: str = "places"` : Sets the rounding mode. The possible options are
+- `follow-uncertainty: bool = true` : If `true`, round to match the uncertainty (if present) instead of rounding to a fixed precision.
+- `uncertainty-precision: int | auto = auto` : The number of significant figures to round the uncertainty to. 
+- `mode: str = "places"` : Sets the fixed appendrounding mode. The possible options are
   - `"places"` : The number is rounded to the number of decimal places given by the `precision` parameter. 
   - `"figures"` : The number is rounded to a number of significant figures given by the `precision` parameter.
-  - `"uncertainty"` : Requires giving an uncertainty value. The uncertainty is 
-     rounded to significant figures according to the `precision` argument and 
-    then the number is rounded to the same number of decimal places as the 
-    uncertainty. 
-- `precision: int | none = none` : The precision to round to. Also see parameter `mode`. When set to `none`, no rounding is applied. 
+- `precision: int | auto = auto` : The precision to round to. Also see parameter `mode`. When set to `auto`, no rounding is applied. 
 - `pad: bool | int = true` : Whether to pad the number with zeros if the 
    number has fewer digits than the rounding precision. When an integer is passed, it defines the minimum number of decimal digits to display 
-   for `mode: "places"` and the minimum number of significant figures for `mode: "figures"`. The parameter `pad` has no effect for `mode: "uncertainty"`.
+   for `mode: "places"` and the minimum number of significant figures for `mode: "figures"`. 
 - `direction: str = "nearest"` : Sets the rounding direction. 
   - `"nearest"`: Rounding takes place in the usual fashion, rounding to the nearer 
     number, e.g., 2.3 → 2 and 2.6 → 3. 
