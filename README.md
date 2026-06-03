@@ -198,7 +198,9 @@ Set `threshold: calc.inf` to disable grouping.
 
 ### Rounding
 
-Rounding can be configured with the `set-round()` function. Numbers with an uncertainty are by default automatically rounded to the precision of the uncertainty (this can be turned off with the option `follow-uncertainty`, see below). Otherwise, rounding takes place according to `mode` and `precision`.
+Rounding can be configured with the `set-round()` function. Numbers with an uncertainty are by default automatically rounded to the precision of the uncertainty. This behavior is engaged when `follow-uncertainty` is true. 
+
+If `follow-uncertainty` is false or the number just has no uncertainty, the normal rounding method according to `mode` and `precision` applies. In this case, there is no guarantee that value and uncertainty have the same number of digits.
 
 ```typ
 #set-round(
