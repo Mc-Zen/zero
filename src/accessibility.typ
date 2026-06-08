@@ -6,42 +6,49 @@
     "power": "^",
     "plus": "+",
     "minus": "−",
+    "per": "/",
   ),
   "en": (
     "times": "times",
     "power": "to the power of",
     "plus": "plus",
     "minus": "minus",
+    "per": "per",
   ),
   "de": (
     "times": "mal",
     "power": "hoch",
     "plus": "plus",
     "minus": "minus",
+    "per": "pro",
   ),
   "fr": (
     "times": "fois",
     "power": "à la puissance",
     "plus": "plus",
     "minus": "moins",
+    "per": "par",
   ),
   "es": (
     "times": "veces",
     "power": "elevado a",
     "plus": "más",
     "minus": "menos",
+    "per": "por",
   ),
   "it": (
     "times": "per",
     "power": "alla potenza di",
     "plus": "più",
     "minus": "meno",
+    "per": "per",
   ),
   "ru": (
     "times": "на",
     "power": "в степени",
     "plus": "плюс",
     "minus": "минус",
+    "per": "в",
   ),
 )
 
@@ -103,21 +110,6 @@
     k: "chilo",
     h: "etto",
   ),
-  da: (
-    h: "hekto",
-    p: "piko",
-    µ: "mikro",
-  ),
-  po: (
-    h: "hekto",
-    k: "quilo",
-    d: "decy",
-    da: "deka",
-    c: "centy",
-    m: "mili",
-    p: "piko",
-    µ: "mikro",
-  ),
 )
 
 #let units = (
@@ -176,25 +168,57 @@
     min: "Minute",
     s: "Sekunde",
     d: "Tag",
+    kg: "Kilogramm",
+    g: "Gramm",
+    dB: "Dezibel",
+    eV: "Elektronvolt",
     au: "astronomische Einheit",
     sym.prime.double: "Bogensekunde",
     sym.prime: "Bogenminute",
     mol: "Mol",
   ),
   fr: (
+    A: "ampère",
     sym.degree: "degré",
     sym.degree + "C": "degré Celsius",
     h: "heure",
+    em: "mètre",
     min: "minute",
     s: "seconde",
     d: "jour",
     au: "unité astronomique",
     sym.prime.double: "seconde d'arc",
     sym.prime: "minute d'arc",
+    decibel: "décibel",
+    eV: "électronvolt",
+    g: "gramme",
+    kg: "kilogramme",
+    l: "litre",
+    Np: "néper",
+    sr: "stéradian",
   ),
   es: (
-    sym.degree: "grado",
+    A: "amperio",
+    C: "culombio",
+    sym.degree: "grado sexagesimal",
     sym.degree + "C": "grado Celsius",
+    eV: "electronvoltio",
+    F: "faradio",
+    g: "gramo",
+    kg: "kilogramo",
+    l: "litro",
+    m: "metro",
+    ha: "hectárea",
+    J: "julio",
+    H: "henrio",
+    Hz: "hercio",
+    mol: "mol",
+    sym.Omega: "ohmio",
+    rad: "radián",
+    sr: "esterorradián",
+    t: "tonelada",
+    V: "voltio",
+    W: "vatio",
     h: "hora",
     min: "minuto",
     s: "segundo",
@@ -204,6 +228,10 @@
     sym.prime: "minuto de arco",
   ),
   it: (
+    m: "metro",
+    kg: "kilogrammo",
+    g: "grammo",
+    eV: "elettronvolt",
     sym.degree: "grado",
     sym.degree + "C": "grado Celsius",
     h: "ora",
@@ -216,28 +244,28 @@
   ),
 )
 
-
-#let unit-component-description(component) = {
-  let units = units.at(text.lang)
-  if component in units {
-    return units.at(component)
-  }
-  if component.len() > 1 {
-    let prefixes = prefixes.at(text.lang)
-
-    let prefix = component.at(0)
-    let unit = component.slice(1)
-    if prefix in prefixes and unit in units {
-      return prefixes.at(prefix) + " " + units.at(unit)
-    }
-  }
-  assert(
-    false,
-    message: "Failed to auto-generate alt description for unit component "
-      + component
-      + ". Please provide a manual alt text for this unit.",
-  )
-}
+#let special-powers = (
+  en: (
+    "2": "squared",
+    "3": "cubed",
+  ),
+  de: (
+    "2": "hoch 2",
+    "3": "hoch 3",
+  ),
+  fr: (
+    "2": "carré",
+    "3": "cubo",
+  ),
+  es: (
+    "2": "al cuadrado",
+    "3": "al cubo",
+  ),
+  it: (
+    "2": "al quadrato",
+    "3": "al cubo",
+  ),
+)
 
 
 #let base-to-string(base) = {
@@ -315,11 +343,70 @@
 }
 
 
-#let generate-unit-alt-description(numerator, denominator, translation: auto) = {
+
+#let unit-component-description(component) = {
+  let units = units.en + units.at(text.lang, default: units.en)
+  if component in units {
+    return units.at(component)
+  }
+  if component.len() > 1 {
+    let prefixes = prefixes.at(text.lang, default: prefixes.en)
+
+    let prefix = component.at(0)
+    let unit = component.slice(1)
+    if prefix in prefixes and unit in units {
+      return prefixes.at(prefix) + " " + units.at(unit)
+    }
+  }
+  assert(
+    false,
+    message: "Failed to auto-generate alt description for unit component "
+      + component
+      + ". Please provide a manual alt text for this unit.",
+  )
+}
+
+#let generate-unit-alt-description(
+  numerator,
+  denominator,
+  translation: auto,
+) = {
   let lang = text.lang
   if translation == auto {
     translation = translations.at(lang, default: translations.fallback)
+    assert(
+      lang in translations,
+      message: "Unsupported language "
+        + lang
+        + " for alt text generation. Please provide a manual alt text for this unit. Supported languages are: "
+        + repr(translations.keys())
+        + ". If you want to contribute a translation for your language, please open a pull request.",
+    )
   }
+
+
+  let alt = ""
+  let special-powers = special-powers.at(lang, default: (:))
+  let power-of-unit-component-description((unit-component, exponent)) = {
+    unit-component-description(unit-component)
+    if exponent != "1" {
+      if exponent in special-powers {
+        " " + special-powers.at(exponent)
+      } else {
+        " " + translation.power + " " + exponent
+      }
+    }
+  }
+  alt += numerator
+    .map(power-of-unit-component-description)
+    .join(" ")
+  if denominator.len() > 0 {
+    alt += " " + translation.per + " "
+    alt += denominator
+      .map(power-of-unit-component-description)
+      .join(" " + translation.per + " ")
+  }
+  alt
 }
 #context {
   // assert(generate-alt-description()
