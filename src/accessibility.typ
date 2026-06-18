@@ -271,7 +271,7 @@
     A: "ampeeria",
     au: "astronomista yksikköä",
     B: "beliä",
-    Bq: "becquerelia",
+    Bq: "becquereliä",
     C: "coulombia",
     cd: "kandelaa",
     d: "päivää",
