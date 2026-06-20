@@ -73,12 +73,22 @@
   ),
   // identical prefixes are inherited from English
   de: (
-    p: "piko",
-    µ: "mikro",
-    c: "zenti",
-    d: "dezi",
-    da: "deka",
-    h: "hekto",
+    a: "Atto",
+    f: "Femto",
+    p: "Piko",
+    n: "Nano",
+    µ: "Mikro",
+    m: "Milli",
+    c: "Zenti",
+    d: "Dezi",
+    da: "Deka",
+    h: "Hekto",
+    k: "Kilo",
+    M: "Mega",
+    G: "Giga",
+    T: "Tera",
+    P: "Peta",
+    E: "Exa",
   ),
   fr: (
     d: "déci",
@@ -373,7 +383,13 @@
   description
 }
 
-
+#let join-prefix-unit(prefix, unit, lang) = {
+  if lang == "de" {
+    prefix + lower(unit)
+  } else {
+    prefix + unit
+  }
+}
 
 #let unit-component-description(component) = {
   let units = units.en + units.at(text.lang, default: units.en)
@@ -386,7 +402,7 @@
     let prefix = clusters.at(0)
     let unit = clusters.slice(1).join()
     if prefix in prefixes and unit in units {
-      return prefixes.at(prefix) + " " + units.at(unit)
+      return join-prefix-unit(prefixes.at(prefix), units.at(unit), text.lang)
     }
   }
   assert(
@@ -440,10 +456,10 @@
 
 #context {
   // assert(generate-alt-description()
-  assert(unit-component-description("mm") == "milli meter")
+  assert(unit-component-description("mm") == "millimeter")
   assert(unit-component-description("kg") == "kilogram")
   assert(unit-component-description("au") == "astronomical unit")
-  assert(unit-component-description("aau") == "atto astronomical unit") // silly but it should work
+  assert(unit-component-description("aau") == "attoastronomical unit") // silly but it should work
 
   import "/src/units.typ": parse-unit
 
@@ -466,13 +482,13 @@
       generate-unit-alt-description(
         ..parse-unit("m^2/µs^3").values(),
       ),
-      "Meter hoch 2 pro mikro Sekunde hoch 3",
+      "Meter hoch 2 pro Mikrosekunde hoch 3",
     )
     assert.eq(
       generate-unit-alt-description(
         ..parse-unit("mN m").values(),
       ),
-      "milli Newton Meter",
+      "Millinewton Meter",
     )
   }
 
@@ -488,7 +504,7 @@
       generate-unit-alt-description(
         ..parse-unit("MN m").values(),
       ),
-      "méga newton mètre",
+      "méganewton mètre",
     )
   }
 }
