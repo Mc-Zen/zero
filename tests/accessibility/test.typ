@@ -13,13 +13,13 @@
     generate-num-alt-description(
       parse-numeral("-1.34+-2e-2") + num-state.get(),
     ),
-    "-1.34 plus minus 2 times 10 to the power of -2",
+    "minus 1.34 plus minus 2 times 10 to the power of -2",
   )
   assert.eq(
     generate-num-alt-description(
       parse-numeral("-1.34+0.5-2e-2") + num-state.get() + (base: 2),
     ),
-    "-1.34 plus 0.5 minus 2 times 2 to the power of -2",
+    "minus 1.34 plus 0.5 minus 2 times 2 to the power of -2",
   )
 
   set text(lang: "de")
@@ -28,13 +28,13 @@
       generate-num-alt-description(
         parse-numeral("-1.34+-2e-2") + num-state.get() + (decimal-separator: ","),
       ),
-      "-1,34 plus minus 2 mal 10 hoch -2",
+      "minus 1,34 plus minus 2 mal 10 hoch -2",
     )
     assert.eq(
       generate-num-alt-description(
         parse-numeral("-1.34+0.5-2e-2") + num-state.get() + (base: 2,decimal-separator: ","),
       ),
-      "-1,34 plus 0,5 minus 2 mal 2 hoch -2",
+      "minus 1,34 plus 0,5 minus 2 mal 2 hoch -2",
     )
   }
   set text(lang: "fr")
@@ -43,13 +43,13 @@
       generate-num-alt-description(
         parse-numeral("-1.34+-2e-2") + num-state.get(),
       ),
-      "-1.34 plus moins 2 fois 10 à la puissance -2",
+      "moins 1.34 plus moins 2 fois 10 à la puissance -2",
     )
     assert.eq(
       generate-num-alt-description(
         parse-numeral("-1.34+0.5-2e-2") + num-state.get() + (base: 2),
       ),
-      "-1.34 plus 0.5 moins 2 fois 2 à la puissance -2",
+      "moins 1.34 plus 0.5 moins 2 fois 2 à la puissance -2",
     )
   }
   
@@ -59,13 +59,13 @@
       generate-num-alt-description(
         parse-numeral("-1.34+-2e-2") + num-state.get(),
       ),
-      "-1.34 + − 2 × 10 ^ -2",
+      "− 1.34 + − 2 × 10 ^ -2",
     )
     assert.eq(
       generate-num-alt-description(
         parse-numeral("-1.34+0.5-2e-2") + num-state.get() + (base: 2),
       ),
-      "-1.34 + 0.5 − 2 × 2 ^ -2",
+      "− 1.34 + 0.5 − 2 × 2 ^ -2",
     )
   }
   
@@ -168,3 +168,4 @@
 //   "minus": "min",
 // ))[1.34+-3e-7]
 // #math.equation(alt: "high", $a+b$)
+if necessary

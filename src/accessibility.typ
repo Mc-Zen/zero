@@ -339,7 +339,7 @@
   }
 
   let description = ""
-  description += if info.sign == "-" { "-" }
+  description += if info.sign == "-" { translation.minus + " " }
   description += format-comma-number(info.int, info.frac)
 
   if info.pm != none {
