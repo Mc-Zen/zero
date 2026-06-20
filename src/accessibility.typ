@@ -162,6 +162,7 @@
   ),
   de: (
     // identical/similar units are inherited from English
+    ha: "Hektar",
     sym.degree: "Grad",
     sym.degree + "C": "Grad Celsius",
     h: "Stunde",
@@ -176,13 +177,43 @@
     sym.prime.double: "Bogensekunde",
     sym.prime: "Bogenminute",
     mol: "Mol",
+    A: "Ampère",
+    B: "Bel",
+    Bq: "Becquerel",
+    C: "Coulomb",
+    cd: "Candela",
+    Da: "Dalton",
+    F: "Farad",
+    Gy: "Gray",
+    H: "Henry",
+    Hz: "Hertz",
+    J: "Joule",
+    K: "Kelvin",
+    kat: "Katal",
+    L: "Liter",
+    lm: "Lumen",
+    lx: "Lux",
+    m: "Meter",
+    N: "Newton",
+    Np: "Neper",
+    sym.Omega: "Ohm",
+    Pa: "Pascal",
+    rad: "Radian",
+    S: "Siemens",
+    sr: "Steradian",
+    Sv: "Sievert",
+    t: "Tonne",
+    T: "Tesla",
+    V: "Volt",
+    W: "Watt",
+    Wb: "Weber",
   ),
   fr: (
     A: "ampère",
     sym.degree: "degré",
     sym.degree + "C": "degré Celsius",
     h: "heure",
-    em: "mètre",
+    m: "mètre",
     min: "minute",
     s: "seconde",
     d: "jour",
@@ -255,7 +286,7 @@
   ),
   fr: (
     "2": "carré",
-    "3": "cubo",
+    "3": "cubique",
   ),
   es: (
     "2": "al cuadrado",
@@ -350,10 +381,10 @@
     return units.at(component)
   }
   if component.len() > 1 {
-    let prefixes = prefixes.at(text.lang, default: prefixes.en)
-
-    let prefix = component.at(0)
-    let unit = component.slice(1)
+    let prefixes = prefixes.en + prefixes.at(text.lang, default: prefixes.en)
+    let clusters = component.clusters()
+    let prefix = clusters.at(0)
+    let unit = clusters.slice(1).join()
     if prefix in prefixes and unit in units {
       return prefixes.at(prefix) + " " + units.at(unit)
     }
@@ -397,9 +428,7 @@
       }
     }
   }
-  alt += numerator
-    .map(power-of-unit-component-description)
-    .join(" ")
+  alt += numerator.map(power-of-unit-component-description).join(" ")
   if denominator.len() > 0 {
     alt += " " + translation.per + " "
     alt += denominator
@@ -408,10 +437,58 @@
   }
   alt
 }
+
 #context {
   // assert(generate-alt-description()
   assert(unit-component-description("mm") == "milli meter")
   assert(unit-component-description("kg") == "kilogram")
   assert(unit-component-description("au") == "astronomical unit")
-  assert(unit-component-description("aau") == "atto astronomical unit") // doesn't make sense but it should work
+  assert(unit-component-description("aau") == "atto astronomical unit") // silly but it should work
+
+  import "/src/units.typ": parse-unit
+
+  assert.eq(
+    generate-unit-alt-description(
+      ..parse-unit("m").values(),
+    ),
+    "meter",
+  )
+  assert.eq(
+    generate-unit-alt-description(
+      ..parse-unit("m^2/s^3").values(),
+    ),
+    "meter squared per second cubed",
+  )
+
+  set text(lang: "de")
+  context {
+    assert.eq(
+      generate-unit-alt-description(
+        ..parse-unit("m^2/µs^3").values(),
+      ),
+      "Meter hoch 2 pro mikro Sekunde hoch 3",
+    )
+    assert.eq(
+      generate-unit-alt-description(
+        ..parse-unit("mN m").values(),
+      ),
+      "milli Newton Meter",
+    )
+  }
+
+  set text(lang: "fr")
+  context {
+    assert.eq(
+      generate-unit-alt-description(
+        ..parse-unit("m^2/s^3/l^4").values(),
+      ),
+      "mètre carré par seconde cubique par litre à la puissance 4",
+    )
+    assert.eq(
+      generate-unit-alt-description(
+        ..parse-unit("MN m").values(),
+      ),
+      "méga newton mètre",
+    )
+  }
 }
