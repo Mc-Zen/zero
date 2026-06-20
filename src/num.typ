@@ -161,7 +161,7 @@
         int: info.int,
         frac: info.frac,
         decimal-separator: it.decimal-separator,
-        uncertainty: info.pm,
+        pm: info.pm,
         e: info.e,
         base: it.base,
       )

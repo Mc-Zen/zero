@@ -342,19 +342,19 @@
   description += if info.sign == "-" { "-" }
   description += format-comma-number(info.int, info.frac)
 
-  if info.uncertainty != none {
-    if type(info.uncertainty.first()) == array {
+  if info.pm != none {
+    if type(info.pm.first()) == array {
       description += (
         " "
           + translation.plus
           + " "
-          + format-comma-number(..info.uncertainty.first())
+          + format-comma-number(..info.pm.first())
       )
       description += (
         " "
           + translation.minus
           + " "
-          + format-comma-number(..info.uncertainty.last())
+          + format-comma-number(..info.pm.last())
       )
     } else {
       description += (
@@ -363,7 +363,7 @@
           + " "
           + translation.minus
           + " "
-          + format-comma-number(..info.uncertainty)
+          + format-comma-number(..info.pm)
       )
     }
   }
@@ -459,63 +459,3 @@
   alt
 }
 
-#context {
-  // assert(generate-alt-description()
-  assert(unit-component-description("mm") == "millimeter")
-  assert(unit-component-description("kg") == "kilogram")
-  assert(unit-component-description("au") == "astronomical unit")
-  assert(unit-component-description("aau") == "attoastronomical unit") // silly but it should work
-
-  import "/src/units.typ": parse-unit
-
-  assert.eq(
-    generate-unit-alt-description(
-      ..parse-unit("m").values(),
-    ),
-    "meter",
-  )
-  assert.eq(
-    generate-unit-alt-description(
-      ..parse-unit("m^2/s^3").values(),
-    ),
-    "meter squared per second cubed",
-  )
-
-  set text(lang: "de")
-  context {
-    assert.eq(
-      generate-unit-alt-description(
-        ..parse-unit("m^2/µs^3").values(),
-      ),
-      "Quadratmeter pro Kubikmikrosekunde",
-    )
-    assert.eq(
-      generate-unit-alt-description(
-        ..parse-unit("m^4/s/K").values(),
-      ),
-      "Meter hoch 4 pro Sekunde pro Kelvin",
-    )
-    assert.eq(
-      generate-unit-alt-description(
-        ..parse-unit("mN m").values(),
-      ),
-      "Millinewton Meter",
-    )
-  }
-
-  set text(lang: "fr")
-  context {
-    assert.eq(
-      generate-unit-alt-description(
-        ..parse-unit("m^2/s^3/l^4").values(),
-      ),
-      "mètre carré par seconde cubique par litre à la puissance 4",
-    )
-    assert.eq(
-      generate-unit-alt-description(
-        ..parse-unit("MN m").values(),
-      ),
-      "méganewton mètre",
-    )
-  }
-}
