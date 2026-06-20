@@ -291,8 +291,8 @@
     "3": "cubed",
   ),
   de: (
-    "2": "hoch 2",
-    "3": "hoch 3",
+    "2": unit => "Quadrat" + lower(unit),
+    "3": unit => "Kubik" + lower(unit),
   ),
   fr: (
     "2": "carré",
@@ -435,14 +435,19 @@
   let alt = ""
   let special-powers = special-powers.at(lang, default: (:))
   let power-of-unit-component-description((unit-component, exponent)) = {
-    unit-component-description(unit-component)
-    if exponent != "1" {
-      if exponent in special-powers {
-        " " + special-powers.at(exponent)
+    let unit = unit-component-description(unit-component)
+    if exponent == "1" { return unit }
+    if exponent in special-powers {
+      let special-power = special-powers.at(exponent)
+      if type(special-power) == function {
+        unit = special-power(unit)
       } else {
-        " " + translation.power + " " + exponent
+        unit += " " + special-power
       }
+    } else {
+      unit += " " + translation.power + " " + exponent
     }
+    unit
   }
   alt += numerator.map(power-of-unit-component-description).join(" ")
   if denominator.len() > 0 {
@@ -482,7 +487,13 @@
       generate-unit-alt-description(
         ..parse-unit("m^2/µs^3").values(),
       ),
-      "Meter hoch 2 pro Mikrosekunde hoch 3",
+      "Quadratmeter pro Kubikmikrosekunde",
+    )
+    assert.eq(
+      generate-unit-alt-description(
+        ..parse-unit("m^4/s/K").values(),
+      ),
+      "Meter hoch 4 pro Sekunde pro Kelvin",
     )
     assert.eq(
       generate-unit-alt-description(
