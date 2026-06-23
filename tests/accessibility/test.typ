@@ -168,4 +168,3 @@
 //   "minus": "min",
 // ))[1.34+-3e-7]
 // #math.equation(alt: "high", $a+b$)
-if necessary

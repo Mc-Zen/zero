@@ -2,4 +2,4 @@
 
 
 $1#sym.space.thin"fs"$ \
-$1#sym.space.thin"µZero"$ \
+$1#sym.space.thin"µN"$ \

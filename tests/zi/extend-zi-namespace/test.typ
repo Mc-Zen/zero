@@ -2,4 +2,4 @@
 #import "zi.typ"
 
 #zi.fs[1] \
-#zi.µZ[1] \
+#zi.µN[1] \

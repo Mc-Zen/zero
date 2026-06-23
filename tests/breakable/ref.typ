@@ -108,6 +108,6 @@
 #set page(width: 9em, height: auto, margin: .5em)
 
 
-Unit of force is $"kg"th"m"th"stel"th"A"th"A"th"s"^(-2)th"mol"^(-1)$ 
+Unit of force is $"kg"th"m"th"sr"th"A"th"A"th"s"^(-2)th"mol"^(-1)$ 
 
-Unit of force is \ #box(width: 10cm)[kg#th;m#th;stel#th;A#th;A#th;s#super[−2]#th;mol#super[−1]] \
+Unit of force is \ #box(width: 10cm)[kg#th;m#th;sr#th;A#th;A#th;s#super[−2]#th;mol#super[−1]#th;N] \

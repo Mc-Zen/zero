@@ -76,7 +76,7 @@
 #set-num(tight: false, math: true)
 
 
-#let long-unit = zi.declare("kg m/s^2/mol/N stel A A")
+#let long-unit = zi.declare("kg m/s^2/mol/N sr A A")
 
 
 #set-num(breakable: false)
