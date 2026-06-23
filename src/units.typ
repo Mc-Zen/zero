@@ -124,6 +124,17 @@
   (numerator: numerator, denominator: denominator)
 }
 
+
+
+
+#let liter-impl = context {
+  if not num-state.get().unit.lowercase-liter {
+    "L"
+  } else {
+    "l"
+  }
+}
+
 #let format-unit-power(unit, exponent, math: true, negative: false) = {
   if type(exponent) in (int, float) {
     exponent = str(exponent)
@@ -132,6 +143,10 @@
   exponent = [#exponent]
   if negative {
     exponent = sym.minus + exponent
+  }
+
+  if type(unit) == str and unit.ends-with("L") {
+    unit = unit.replace("L", "") + liter-impl
   }
   
   if exponent in (1, [1], "1") {
