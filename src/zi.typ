@@ -1,12 +1,12 @@
 #import "units.typ"
 
-#let declare(..unit) = {
+#let declare(alt: auto, ..unit) = {
   assert(unit.named().len() == 0, )
 
   (..value) => if value.pos().len() == 0 { 
-    units.unit(units.parse-unit(..unit.pos()), ..value)
+    units.unit(units.parse-unit(..unit.pos()), ..value, alt: alt)
   } else { 
-    units.qty(..value, units.parse-unit(..unit.pos()))
+    units.qty(..value, units.parse-unit(..unit.pos()), alt: alt)
   }
 }
 

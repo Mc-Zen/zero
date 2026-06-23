@@ -1,6 +1,6 @@
 #import "parsing.typ": content-to-string
 
-#let translations = (
+#let phrases = (
   "fallback": (
     "times": "×",
     "power": "^",
@@ -285,7 +285,7 @@
   ),
 )
 
-#let special-powers = (
+#let power-shorthands = (
   en: (
     "2": "squared",
     "3": "cubed",
@@ -332,32 +332,26 @@
 #let generate-num-alt-description(info, translation: auto) = {
   let lang = text.lang
   if translation == auto {
-    translation = translations.at(lang, default: translations.fallback)
+    translation = phrases.at(lang, default: phrases.fallback)
   }
   let format-comma-number(int, frac) = {
     int + if frac != "" { info.decimal-separator + frac }
   }
 
-  let description = ""
-  description += if info.sign == "-" { translation.minus + " " }
-  description += format-comma-number(info.int, info.frac)
+  let alt = ""
+  alt += if info.sign == "-" { translation.minus + " " }
+  alt += format-comma-number(info.int, info.frac)
 
   if info.pm != none {
     if type(info.pm.first()) == array {
-      description += (
-        " "
-          + translation.plus
-          + " "
-          + format-comma-number(..info.pm.first())
+      alt += (
+        " " + translation.plus + " " + format-comma-number(..info.pm.first())
       )
-      description += (
-        " "
-          + translation.minus
-          + " "
-          + format-comma-number(..info.pm.last())
+      alt += (
+        " " + translation.minus + " " + format-comma-number(..info.pm.last())
       )
     } else {
-      description += (
+      alt += (
         " "
           + translation.plus
           + " "
@@ -368,7 +362,7 @@
     }
   }
   if info.e != none {
-    description += (
+    alt += (
       " "
         + translation.times
         + " "
@@ -380,7 +374,7 @@
     )
   }
 
-  description
+  alt
 }
 
 #let join-prefix-unit(prefix, unit, lang) = {
@@ -393,22 +387,25 @@
 
 #let unit-component-description(component) = {
   let units = units.en + units.at(text.lang, default: units.en)
-  if component in units {
-    return units.at(component)
-  }
-  if component.len() > 1 {
-    let prefixes = prefixes.en + prefixes.at(text.lang, default: prefixes.en)
-    let clusters = component.clusters()
-    let prefix = clusters.at(0)
-    let unit = clusters.slice(1).join()
-    if prefix in prefixes and unit in units {
-      return join-prefix-unit(prefixes.at(prefix), units.at(unit), text.lang)
+  if type(component) in (symbol, str) {
+    component = str(component)
+    if component in units {
+      return units.at(component)
+    }
+    if component.len() > 1 {
+      let prefixes = prefixes.en + prefixes.at(text.lang, default: prefixes.en)
+      let clusters = component.clusters()
+      let prefix = clusters.at(0)
+      let unit = clusters.slice(1).join()
+      if prefix in prefixes and unit in units {
+        return join-prefix-unit(prefixes.at(prefix), units.at(unit), text.lang)
+      }
     }
   }
   assert(
     false,
     message: "Failed to auto-generate alt description for unit component "
-      + component
+      + repr(component)
       + ". Please provide a manual alt text for this unit.",
   )
 }
@@ -420,35 +417,36 @@
 ) = {
   let lang = text.lang
   if translation == auto {
-    translation = translations.at(lang, default: translations.fallback)
+    translation = phrases.at(lang, default: phrases.fallback)
     assert(
-      lang in translations,
+      lang in phrases,
       message: "Unsupported language "
         + lang
         + " for alt text generation. Please provide a manual alt text for this unit. Supported languages are: "
-        + repr(translations.keys())
+        + repr(phrases.keys())
         + ". If you want to contribute a translation for your language, please open a pull request.",
     )
   }
 
-
   let alt = ""
-  let special-powers = special-powers.at(lang, default: (:))
+  let power-shorthands = power-shorthands.at(lang, default: (:))
+
   let power-of-unit-component-description((unit-component, exponent)) = {
     let unit = unit-component-description(unit-component)
     if exponent == "1" { return unit }
-    if exponent in special-powers {
-      let special-power = special-powers.at(exponent)
-      if type(special-power) == function {
-        unit = special-power(unit)
+    if exponent in power-shorthands {
+      let power-shorthand = power-shorthands.at(exponent)
+      if type(power-shorthand) == function {
+        unit = power-shorthand(unit)
       } else {
-        unit += " " + special-power
+        unit += " " + power-shorthand
       }
     } else {
       unit += " " + translation.power + " " + exponent
     }
     unit
   }
+
   alt += numerator.map(power-of-unit-component-description).join(" ")
   if denominator.len() > 0 {
     alt += " " + translation.per + " "
@@ -456,6 +454,7 @@
       .map(power-of-unit-component-description)
       .join(" " + translation.per + " ")
   }
+
   alt
 }
 
