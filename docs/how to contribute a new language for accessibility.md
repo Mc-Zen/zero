@@ -52,10 +52,13 @@ Please provide translations of all base units where they deviate from the Englis
 ```
 Each entry defines one shorthand for a specific exponent. If the shorthand is just added as a separate word after the unit as in `newton squared`, it is sufficient to provide a string. If the necessary modification is more complicated, the shorthand can also be given as a function that takes the base unit as argument.
 
-### Take joining prefixes with units
 
-
+### Joining prefixes with units
 > [!IMPORTANT]
 > How are prefixes (like centi) joined to units?
 
 In most languages, the prefix is just joined with the unit, e.g. `cm` becomes `centimeter`. However, in German for example, it is necessary to transform the unit to lower case. In such an instance, modify the function `join-prefix-unit` to cover the case of the new language accordingly.
+
+
+### Anything else?
+Is there anything else that the new language requires? Mind that the descriptions might necessarily be a bit simplified, it is for example infeasible to adapt units to the grammatical case of surrounding text. Nonetheless, the infrastructure of Zero regarding accessibility can be extended to accommodate needs for languages that were not considered during its conception.
