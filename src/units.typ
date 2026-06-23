@@ -187,6 +187,7 @@
   unit-separator: sym.space.thin,
   /// Whether to display a square root symbol when the exponent is 1/2.
   use-sqrt: true,
+  alt: auto,
   /// Unprocessed arguments.
   ..args,
 ) = {
@@ -196,10 +197,11 @@
       + fraction
       + ". Expected \"power\", \"fraction\", or \"inline\"",
   )
+  if alt == auto {
+    alt = generate-unit-alt-description(numerator, denominator)
+  }
 
-  let equation = std.math.equation.with(
-    alt: generate-unit-alt-description(numerator, denominator)
-  )
+  let equation = std.math.equation.with(alt: alt)
 
   let fold-units = fold-units.with(
     unit-separator: unit-separator + sym.wj,
@@ -245,6 +247,7 @@
 
 #let unit(
   unit,
+  alt: auto,
   ..args,
 ) = context {
   let args = (unit: args.named())
@@ -258,6 +261,7 @@
     unit.denominator,
     ..num-state.unit,
     math: num-state.math,
+    alt: alt,
   ))
   result
 }
@@ -268,6 +272,7 @@
 #let qty(
   value,
   unit,
+  alt: auto,
   ..args,
 ) = context {
   let unit = unit
@@ -329,7 +334,8 @@
       fraction: num-state.unit.fraction,
       unit-separator: num-state.unit.unit-separator,
       math: num-state.math,
-      use-sqrt: num-state.unit.use-sqrt
+      use-sqrt: num-state.unit.use-sqrt,
+      alt: alt,
     )
   }
 
