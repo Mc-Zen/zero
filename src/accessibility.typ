@@ -359,6 +359,9 @@
   ),
 )
 
+// Register of the shorthands for special powers that a language has. This
+// can be a string that is appended to the constituent unit (with a space) 
+// or a function that takes the translated constituent unit. 
 #let power-shorthands = (
   en: (
     "2": "squared",
@@ -386,6 +389,8 @@
   ),
 )
 
+// How to form the plural of a constituent unit. For each language, this should
+// be a function that takes a unit symbol string, e.g. "Hz".
 #let pluralize = (
   en: unit => {
     let singular = units.en.at(unit)
@@ -400,6 +405,7 @@
     }
     return singular + "s"
   },
+  
   de: unit => {
     let singular = units.de.at(unit)
     if unit in ("h", "min", "s", sym.prime.double, sym.prime, "t") {
@@ -426,6 +432,7 @@
     if unit == "au" { return "unités astronomique" }
     return singular + "s"
   },
+  
   es: unit => {
     let singular = units.es.at(unit, default: units.en.at(unit))
     if unit in ("lx", "Hz", "S") {
@@ -442,6 +449,7 @@
       return singular + "es"
     }
   },
+  
   it: unit => {
     let singular = units.it.at(unit, default: units.en.at(unit))
     if unit in ("J", "A", "T") { return singular }
@@ -453,6 +461,47 @@
     return singular
   },
 )
+
+
+// How to join a prefix to a unit. This can be overridden for individual languages.
+#let join-prefix-unit(
+  /// The translated prefix, e.g. "milli"
+  /// -> str
+  prefix, 
+  
+  /// The translated unit, e.g. "meter".
+  /// -> str
+  unit, 
+  
+  /// The language code.
+  /// -> str
+  lang
+) = {
+  if lang == "de" {
+    prefix + lower(unit)
+  } else {
+    prefix + unit
+  }
+}
+
+
+// Check whether a quantity requires the (composed) unit to be in plural. This
+// can be overridden for individual languages.
+#let needs-plural(
+  /// The value of the quantity, e.g. `1.5`.
+  /// -> float
+  value, 
+  
+  /// The language code.
+  /// -> str
+  lang
+) = {
+  if lang == "fr" {
+    return calc.abs(value) >= 2
+  }
+  calc.abs(value) != 1
+}
+
 
 #let base-to-string(base) = {
   if type(base) == str {
@@ -522,20 +571,6 @@
   alt
 }
 
-#let join-prefix-unit(prefix, unit, lang) = {
-  if lang == "de" {
-    prefix + lower(unit)
-  } else {
-    prefix + unit
-  }
-}
-
-#let needs-plural(value, lang) = {
-  if lang == "fr" {
-    return calc.abs(value) >= 2
-  }
-  calc.abs(value) != 1
-}
 
   
 

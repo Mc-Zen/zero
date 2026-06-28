@@ -13,7 +13,8 @@
 /// - Exponents are allowed as in "m^2"
 /// - A unit in the fraction can be specified either with a negative
 ///   exponent "s^-1" or by adding a slash before "/s"
-/// - Prefixes are allowed and should be prepended to the base unit without
+/// - Prefixes are allowed and should be prepended to the
+/// constituent unit without
 ///   a space in between. Example: `"/mm^2"`. Occurrences of "mu" will be replaced
 ///   by the greek mu symbol.
 /// Returns: a dictionary with the keys "numerator" and "denominator",
@@ -139,7 +140,7 @@
   if type(exponent) in (int, float) {
     exponent = str(exponent)
   }
-  
+
   exponent = [#exponent]
   if negative {
     exponent = sym.minus + exponent
@@ -148,7 +149,7 @@
   if type(unit) == str and unit.ends-with("L") {
     unit = unit.replace("L", "") + liter-impl
   }
-  
+
   if exponent in (1, [1], "1") {
     unit
   } else {
@@ -173,7 +174,12 @@
       if use-sqrt and exponent == "0.5" and exp-multiplier == 1 and math {
         return std.math.sqrt(unit)
       }
-      format-unit-power(unit, exponent, math: math, negative: exp-multiplier == -1)
+      format-unit-power(
+        unit,
+        exponent,
+        math: math,
+        negative: exp-multiplier == -1,
+      )
     })
 
   let folded-units = units.join(unit-separator)
@@ -189,23 +195,33 @@
   /// The unit elements in the numerator.
   /// -> array
   numerator,
+
   /// The unit elements in the denominator.
   /// -> array
   denominator,
+
   /// Mode for displaying fractions.
   /// -> "power" | "fraction" | "inline"
   fraction: "power",
+
   /// Whether to use an equation or plain text elements.
   math: true,
-  /// Symbol to use between base units.
+
+  /// Symbol to use between constituent units.
   /// -> content
   unit-separator: sym.space.thin,
+
   /// Whether to display a square root symbol when the exponent is 1/2.
   use-sqrt: true,
+
+  /// The alt description for the unit.
+  /// -> auto | str
   alt: auto,
-  
-  // if part of quantity
+
+  /// Value of the mantissa, if part of quantity
+  /// -> float
   value: 1,
+
   /// Unprocessed arguments.
   ..args,
 ) = {
@@ -226,7 +242,6 @@
     math: math,
     use-sqrt: use-sqrt,
   )
-
 
   let numerator-content = fold-units(..numerator, 1)
   if denominator.len() == 0 {
@@ -274,13 +289,15 @@
   }
   let num-state = update-num-state(num-state.get(), args)
 
-  let result = (show-unit(
-    unit.numerator,
-    unit.denominator,
-    ..num-state.unit,
-    math: num-state.math,
-    alt: alt,
-  ))
+  let result = (
+    show-unit(
+      unit.numerator,
+      unit.denominator,
+      ..num-state.unit,
+      math: num-state.math,
+      alt: alt,
+    )
+  )
   result
 }
 
@@ -333,7 +350,6 @@
         "−18": "a",
       )
 
-
       let prefix = prefixes.at(str(eng))
       assert(unit.numerator.len() != 0)
       unit.numerator.first().first() = prefix + unit.numerator.first().first()
@@ -354,7 +370,7 @@
       math: num-state.math,
       use-sqrt: num-state.unit.use-sqrt,
       alt: alt,
-      value: float(info.int + "." + info.frac)
+      value: float(info.int + "." + info.frac),
     )
   }
 
