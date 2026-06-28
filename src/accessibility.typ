@@ -494,14 +494,17 @@
   let lang = text.lang
   if translation == auto {
     translation = phrases.at(lang, default: phrases.fallback)
-    assert(
-      lang in phrases,
-      message: "Unsupported language "
-        + lang
-        + " for alt text generation. Please provide a manual alt text for this unit. Supported languages are: "
-        + repr(phrases.keys())
-        + ". If you want to contribute a translation for your language, please open a pull request.",
-    )
+    if lang not in phrases {
+      return none
+    }
+    // assert(
+    //   lang in phrases,
+    //   message: "Unsupported language "
+    //     + lang
+    //     + " for alt text generation. Please provide a manual alt text for this unit. Supported languages are: "
+    //     + repr(phrases.keys())
+    //     + ". If you want to contribute a translation for your language, please open a pull request.",
+    // )
   }
 
   let alt = ""
