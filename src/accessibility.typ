@@ -50,6 +50,13 @@
     "minus": "минус",
     "per": "в",
   ),
+  "fi": (
+    "times": "kertaa",
+    "power": "potenssiin",
+    "plus": "plus",
+    "minus": "miinus",
+    "per": "jaettuna",
+  ),
 )
 
 #let prefixes = (
@@ -120,6 +127,24 @@
     k: "chilo",
     h: "etto",
   ),
+  fi: (
+    a: "atto",
+    f: "femto",
+    p: "piko",
+    n: "nano",
+    µ: "mikro",
+    m: "milli",
+    c: "sentti",
+    d: "desi",
+    da: "deka",
+    h: "hehto",
+    k: "kilo",
+    M: "mega",
+    G: "giga",
+    T: "tera",
+    P: "peta",
+    E: "eksa",
+  )
 )
 
 #let units = (
@@ -283,6 +308,53 @@
     sym.prime.double: "secondo d'arco",
     sym.prime: "minuto d'arco",
   ),
+  fi: (
+    A: "ampeeria",
+    au: "astronomista yksikköä",
+    B: "beliä",
+    Bq: "becquereliä",
+    C: "coulombia",
+    cd: "kandelaa",
+    d: "päivää",
+    Da: "daltonia",
+    dB: "desibeliä",
+    sym.degree: "astetta",
+    sym.degree + "C": "Celsiusastetta",
+    eV: "elektronivolttia",
+    F: "faradia",
+    g: "grammaa",
+    Gy: "graytä",
+    H: "henryä",
+    h: "tuntia",
+    ha: "hehtaaria",
+    Hz: "hertsiä",
+    J: "joulea",
+    K: "kelviniä",
+    kat: "katalia",
+    kg: "kilogrammaa",
+    L: "litraa",
+    lm: "luumenia",
+    lx: "luksia",
+    m: "metriä",
+    sym.prime: "kaariminuuttia",
+    min: "minuuttia",
+    mol: "moolia",
+    sym.prime.double: "kaarisekuntia",
+    N: "newtonia",
+    Np: "neperiä",
+    sym.Omega: "ohmia",
+    Pa: "pascalia",
+    rad: "radiaania",
+    s: "sekuntia",
+    S: "siemensiä",
+    sr: "steradiaania",
+    Sv: "sieverttiä",
+    t: "tonnia",
+    T: "teslaa",
+    V: "volttia",
+    W: "wattia",
+    Wb: "weberiä",
+  )
 )
 
 #let power-shorthands = (
@@ -305,6 +377,10 @@
   it: (
     "2": "al quadrato",
     "3": "al cubo",
+  ),
+  fi: (
+    "2": "toiseen",
+    "3": "kolmanteen",
   ),
 )
 
