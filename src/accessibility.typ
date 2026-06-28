@@ -537,20 +537,28 @@
   calc.abs(value) != 1
 }
 
+  
+
 #let unit-component-description(component, plural: false) = {
-  let units = units.en + units.at(text.lang, default: units.en)
+  let lang = text.lang
+  let units = units.en + units.at(lang, default: units.en)
+  let get-unit(unit-code) = {
+    if plural { (pluralize.at(lang))(unit-code) }
+    else { units.at(unit-code) }
+  }
+  
   if type(component) in (symbol, str) {
     component = str(component)
     if component in units {
-      return units.at(component)
+      return get-unit(component)
     }
     if component.len() > 1 {
-      let prefixes = prefixes.en + prefixes.at(text.lang, default: prefixes.en)
+      let prefixes = prefixes.en + prefixes.at(lang, default: prefixes.en)
       let clusters = component.clusters()
       let prefix = clusters.at(0)
       let unit = clusters.slice(1).join()
       if prefix in prefixes and unit in units {
-        return join-prefix-unit(prefixes.at(prefix), units.at(unit), text.lang)
+        return join-prefix-unit(prefixes.at(prefix), get-unit(unit), text.lang)
       }
     }
   }
@@ -589,10 +597,6 @@
 
   let power-of-unit-component-description((unit-component, exponent), plural: false) = {
     let unit = unit-component-description(unit-component, plural: plural)
-    if plural {
-      let pluralize = pluralize.at(lang)
-      unit = pluralize(unit-component)
-    }
     if exponent == "1" { return unit }
     if exponent in power-shorthands {
       let power-shorthand = power-shorthands.at(exponent)
