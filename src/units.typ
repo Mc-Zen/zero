@@ -203,6 +203,9 @@
   /// Whether to display a square root symbol when the exponent is 1/2.
   use-sqrt: true,
   alt: auto,
+  
+  // if part of quantity
+  value: 1,
   /// Unprocessed arguments.
   ..args,
 ) = {
@@ -213,7 +216,7 @@
       + ". Expected \"power\", \"fraction\", or \"inline\"",
   )
   if alt == auto {
-    alt = generate-unit-alt-description(numerator, denominator)
+    alt = generate-unit-alt-description(numerator, denominator, value: value)
   }
 
   let equation = std.math.equation.with(alt: alt)
@@ -307,10 +310,10 @@
     separator = none
   }
 
+  let info = parse-numeral(value)
   if num-state.unit.prefix == auto and num-state.exponent == "eng" {
     num-state.prefixed-eng = true
 
-    let info = parse-numeral(value)
     let e = if info.e == none { 0 } else { int(info.e) }
     let eng = compute-eng-digits(info)
 
@@ -351,6 +354,7 @@
       math: num-state.math,
       use-sqrt: num-state.unit.use-sqrt,
       alt: alt,
+      value: float(info.int + "." + info.frac)
     )
   }
 

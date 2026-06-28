@@ -144,7 +144,7 @@
     T: "tera",
     P: "peta",
     E: "eksa",
-  )
+  ),
 )
 
 #let units = (
@@ -304,6 +304,8 @@
     min: "minuto",
     s: "secondo",
     d: "giorno",
+    rad: "radiante",
+    sr: "steradiante",
     au: "unità astronomica",
     sym.prime.double: "secondo d'arco",
     sym.prime: "minuto d'arco",
@@ -354,7 +356,7 @@
     V: "volttia",
     W: "wattia",
     Wb: "weberiä",
-  )
+  ),
 )
 
 #let power-shorthands = (
@@ -384,6 +386,73 @@
   ),
 )
 
+#let pluralize = (
+  en: unit => {
+    let singular = units.en.at(unit)
+    if unit in ("lx", "Hz", "S") {
+      return singular
+    }
+    if unit == sym.degree + "C" {
+      return "degrees Celsius"
+    }
+    if unit == "H" {
+      return "henries"
+    }
+    return singular + "s"
+  },
+  de: unit => {
+    let singular = units.de.at(unit)
+    if unit in ("h", "min", "s", sym.prime.double, sym.prime, "t") {
+      return singular + "n"
+    }
+    if unit == "au" {
+      return singular + "en"
+    }
+    if unit == "d" {
+      return singular + "e"
+    }
+
+    return singular
+  },
+
+  fr: unit => {
+    let singular = units.fr.at(unit, default: units.en.at(unit))
+    if unit in ("lx", "Hz", "S") {
+      return singular
+    }
+    if unit == sym.degree + "C" { return "degrés Celsius" }
+    if unit == sym.prime.double { return "secondes d'arc" }
+    if unit == sym.prime { return "minutes d'arc" }
+    if unit == "au" { return "unités astronomique" }
+    return singular + "s"
+  },
+  es: unit => {
+    let singular = units.es.at(unit, default: units.en.at(unit))
+    if unit in ("lx", "Hz", "S") {
+      return singular
+    }
+    if unit == sym.degree + "C" { return "grados Celsius" }
+    if unit == "rad" { return "radianes" }
+    if unit == "sr" { return "esterorradianes" }
+    if (
+      singular.endswith("o") or singular.endswith("y") or singular.endswith("a")
+    ) {
+      return singular + "s"
+    } else {
+      return singular + "es"
+    }
+  },
+  it: unit => {
+    let singular = units.it.at(unit, default: units.en.at(unit))
+    if unit in ("J", "A", "T") { return singular }
+    if unit == sym.degree + "C" { return "gradi Celsius" }
+    if unit.endswith("o") or unit.endswith("e") {
+      return singular.slice(0, -1) + "i"
+    }
+    if unit.endswith("a") { return singular.slice(0, -1) + "e" }
+    return singular
+  },
+)
 
 #let base-to-string(base) = {
   if type(base) == str {
@@ -461,7 +530,14 @@
   }
 }
 
-#let unit-component-description(component) = {
+#let needs-plural(value, lang) = {
+  if lang == "fr" {
+    return calc.abs(value) >= 2
+  }
+  calc.abs(value) != 1
+}
+
+#let unit-component-description(component, plural: false) = {
   let units = units.en + units.at(text.lang, default: units.en)
   if type(component) in (symbol, str) {
     component = str(component)
@@ -490,6 +566,7 @@
   numerator,
   denominator,
   translation: auto,
+  value: 1
 ) = {
   let lang = text.lang
   if translation == auto {
@@ -510,8 +587,12 @@
   let alt = ""
   let power-shorthands = power-shorthands.at(lang, default: (:))
 
-  let power-of-unit-component-description((unit-component, exponent)) = {
-    let unit = unit-component-description(unit-component)
+  let power-of-unit-component-description((unit-component, exponent), plural: false) = {
+    let unit = unit-component-description(unit-component, plural: plural)
+    if plural {
+      let pluralize = pluralize.at(lang)
+      unit = pluralize(unit-component)
+    }
     if exponent == "1" { return unit }
     if exponent in power-shorthands {
       let power-shorthand = power-shorthands.at(exponent)
@@ -526,7 +607,14 @@
     unit
   }
 
-  alt += numerator.map(power-of-unit-component-description).join(" ")
+
+  let plural = needs-plural(value, lang)
+  if numerator.len() > 0 {
+    alt += (
+      numerator.slice(0, -1).map(power-of-unit-component-description)
+        + (power-of-unit-component-description(numerator.at(-1), plural: plural),)
+    ).join(" ")
+  }
   if denominator.len() > 0 {
     alt += " " + translation.per + " "
     alt += denominator

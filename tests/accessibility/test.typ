@@ -26,13 +26,17 @@
   context {
     assert.eq(
       generate-num-alt-description(
-        parse-numeral("-1.34+-2e-2") + num-state.get() + (decimal-separator: ","),
+        parse-numeral("-1.34+-2e-2")
+          + num-state.get()
+          + (decimal-separator: ","),
       ),
       "minus 1,34 plus minus 2 mal 10 hoch -2",
     )
     assert.eq(
       generate-num-alt-description(
-        parse-numeral("-1.34+0.5-2e-2") + num-state.get() + (base: 2,decimal-separator: ","),
+        parse-numeral("-1.34+0.5-2e-2")
+          + num-state.get()
+          + (base: 2, decimal-separator: ","),
       ),
       "minus 1,34 plus 0,5 minus 2 mal 2 hoch -2",
     )
@@ -52,7 +56,7 @@
       "moins 1.34 plus 0.5 moins 2 fois 2 à la puissance -2",
     )
   }
-  
+
   set text(lang: "be")
   context {
     assert.eq(
@@ -68,12 +72,6 @@
       "− 1.34 + 0.5 − 2 × 2 ^ -2",
     )
   }
-  
-
-
-
-
-
 
   assert(unit-component-description("mm") == "millimeter")
   assert(unit-component-description("kg") == "kilogram")
@@ -91,6 +89,28 @@
       ..parse-unit("m^2/s^3").values(),
     ),
     "meter squared per second cubed",
+  )
+
+  // plural
+  assert.eq(
+    generate-unit-alt-description(..parse-unit("lx").values(), value: 2),
+    "lux",
+  )
+  assert.eq(
+    generate-unit-alt-description(..parse-unit("°C").values(), value: 2),
+    "degrees Celsius",
+  )
+  assert.eq(
+    generate-unit-alt-description(..parse-unit("m").values(), value: 2),
+    "meters",
+  )
+  assert.eq(
+    generate-unit-alt-description(..parse-unit("1/m").values(), value: 2),
+    " per meter",
+  )
+  assert.eq(
+    generate-unit-alt-description(..parse-unit("N s/m").values(), value: 2),
+    "newton seconds per meter",
   )
 
   set text(lang: "de")
@@ -113,6 +133,25 @@
       ),
       "Millinewton Meter",
     )
+
+    // Plural
+
+    assert.eq(
+      generate-unit-alt-description(..parse-unit("h").values(), value: 2),
+      "Stunden",
+    )
+    assert.eq(
+      generate-unit-alt-description(..parse-unit("d").values(), value: 2),
+      "Tage",
+    )
+    assert.eq(
+      generate-unit-alt-description(..parse-unit("T").values(), value: 2),
+      "Tesla",
+    )
+    assert.eq(
+      generate-unit-alt-description(..parse-unit("au").values(), value: 2),
+      "astronomische Einheiten",
+    )
   }
 
   set text(lang: "fr")
@@ -128,6 +167,23 @@
         ..parse-unit("MN m").values(),
       ),
       "méganewton mètre",
+    )
+
+    assert.eq(
+      generate-unit-alt-description(..parse-unit("h").values(), value: 2),
+      "heures",
+    )
+    assert.eq(
+      generate-unit-alt-description(..parse-unit("h").values(), value: 1.5),
+      "heure",
+    )
+    assert.eq(
+      generate-unit-alt-description(..parse-unit("h").values(), value: -0.5),
+      "heure",
+    )
+    assert.eq(
+      generate-unit-alt-description(..parse-unit("°C").values(), value: 2),
+      "degrés Celsius",
     )
   }
 }
@@ -151,7 +207,7 @@
 // #num[-1.34+-2]
 // #num[-8.34(3)]
 // #num[1.34+-2e-2]
-// #zi.m-s2()
+#zi.m-s2[2]
 
 // #set text(lang: "CA")
 // #num[-1.34+-2]
