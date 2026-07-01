@@ -4,7 +4,7 @@ Zero generates accessible output! Numbers, units, and quantities that are format
 This is supported for a selection of languages and you can extend this selection by opening a PR and providing the necessary translations for the new language. When opening a PR, please read this document carefully and answer all questions below.
 
 ### Translations for numbers
-In order to provide descriptions for numerals, add an entry for the new language in the file `translations.typ` and specify translations for the following keys in the dictionary `phrases`.
+In order to provide descriptions for numerals, add an entry for the new language in the file `accessibility.typ` and specify translations for the following keys in the dictionary `phrases`.
 - `times`
 - `power`
 
