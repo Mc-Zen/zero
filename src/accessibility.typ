@@ -373,7 +373,7 @@
   ),
   fr: (
     "2": "carré",
-    "3": "cubique",
+    "3": "cube",
   ),
   es: (
     "2": "al cuadrado",

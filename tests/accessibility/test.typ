@@ -8,6 +8,10 @@
 #import "/src/state.typ": num-state
 
 
+
+#num[2+-0.2]\
+#num(uncertainty-mode: "compact")[2+-0001.2]
+#num[+1e.5]
 #context {
   assert.eq(
     generate-num-alt-description(
@@ -160,7 +164,7 @@
       generate-unit-alt-description(
         ..parse-unit("m^2/s^3/l^4").values(),
       ),
-      "mètre carré par seconde cubique par litre à la puissance 4",
+      "mètre carré par seconde cube par litre à la puissance 4",
     )
     assert.eq(
       generate-unit-alt-description(
@@ -187,8 +191,6 @@
     )
   }
 }
-
-
 
 
 
