@@ -3,7 +3,7 @@
 #import "rounding.typ": *
 #import "assertions.typ": *
 #import "parsing.typ" as parsing: nonum
-
+#import "accessibility.typ": generate-num-alt-description
 #let update-state(state, args, name: none) = {
   assert-no-fixed(args)
   state.update(s => {
@@ -145,7 +145,34 @@
 
   // Format number
   let components = show-num-impl(info + it)
-  let collect = if it.math { equation-from-items } else { it => it.join() }
+
+  let description
+  if it.alt == auto {
+    it.alt = generate-num-alt-description
+  }
+  if type(it.alt) == dictionary {
+    assert(
+      "times" in it.alt and "power" in it.alt and "plus" in it.alt and "minus" in it.alt,
+      message: "Expected keys \"times\", \"power\", \"plus\", and \"minus\", got " + repr(it.alt),
+    )
+    it.alt = generate-num-alt-description.with(translation: it.alt)
+  }
+  if type(it.alt) == function {
+    description = (it.alt)(
+      (
+        sign: info.sign,
+        int: info.int,
+        frac: info.frac,
+        decimal-separator: it.decimal-separator,
+        pm: info.pm,
+        e: info.e,
+        base: it.base,
+      )
+    )
+  } else {
+    description = it.alt
+  }
+  let collect = if it.math { equation-from-items.with(alt: description) } else { it => it.join() }
 
   if it.align == none {
     set text(dir: ltr)

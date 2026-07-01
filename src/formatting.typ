@@ -10,8 +10,9 @@
   /// An array of content items.
   /// -> array
   items,
+  alt: none
 ) = {
-  math.equation(sequence(items))
+  math.equation(sequence(items), alt: alt)
 }
 
 

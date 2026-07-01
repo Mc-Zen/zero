@@ -2,5 +2,5 @@
 
 
 #let fs = declare("fs")
-#let µZ = declare("muZero")
+#let µN = declare("muN")
 

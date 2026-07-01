@@ -8,6 +8,7 @@
   positive-sign: false,
   tight: false,
   math: true,
+  alt: auto,
   // Power:
   product: sym.times,
   positive-sign-exponent: false,

@@ -91,9 +91,9 @@
 
 #set-unit(use-sqrt: true, fraction: "inline")
 #zi.m-s() \
-#zi.declare("m^3 b^0.5/c^0.5")(fraction: "power") \
-#zi.declare("m^3 b^0.5/c^0.5")(fraction: "fraction") \
-#zi.declare("m^3 b^0.5/c^0.5")(fraction: "inline") \
+#zi.declare("m^3 s^0.5/N^0.5")(fraction: "power") \
+#zi.declare("m^3 s^0.5/N^0.5")(fraction: "fraction") \
+#zi.declare("m^3 s^0.5/N^0.5")(fraction: "inline") \
 
 #pagebreak()
 

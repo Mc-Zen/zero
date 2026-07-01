@@ -12,6 +12,7 @@ _Precise scientific number and unit formatting for Typst._
 - [**Number Formatting**](#number-formatting)
 - [**Table Number Alignment**](#table-alignment)
 - [**Units and Quantities**](#units-and-quantities)
+- [Accessibility](#accessibility)
 - [Zero for Third-Party Packages](#zero-for-third-party-packages)
 - [Changelog](#changelog)
 
@@ -28,7 +29,7 @@ Proper number formatting is essential for clear and readable scientific document
 - Quick scientific notation, e.g., `"2e4"` becomes $2\times10^4$
 - [**Rounding**](#rounding) in various modes
 - Digit [**grouping**](#grouping), e.g., $`299\,792\,458`$ instead of $299792458$
-- Helpers for package authors
+- [**Accessibility**](#accessibility) through auto-generated alt descriptions for numbers and units
 
 A number in scientific notation consists of three parts: the _mantissa_, an optional _uncertainty_, and an optional _power_ (exponent). The following figure illustrates the anatomy of a formatted number:
 
@@ -435,6 +436,15 @@ By default, the symbol for liter is an uppercase L. In order to display a lowerc
 ```typ
 #set-unit(lowercase-liter: true)
 ```
+
+
+---
+
+## Accessibility
+
+Zero generates accessible output! Numbers, units, and quantities that are formatted with Zero have automatically generated alt descriptions that specify how a screen reader should read them.
+
+This is supported for a selection of languages and you can extend this selection by opening a PR and providing the necessary translations for the new language. When opening a PR, please read the [language contribution guide](docs/language-contribution-guide.md) first.
 
 
 ---

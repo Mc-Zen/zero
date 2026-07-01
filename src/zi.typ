@@ -1,12 +1,12 @@
 #import "units.typ"
 
-#let declare(..unit) = {
+#let declare(alt: auto, ..unit) = {
   assert(unit.named().len() == 0, )
 
   (..value) => if value.pos().len() == 0 { 
-    units.unit(units.parse-unit(..unit.pos()), ..value)
+    units.unit(units.parse-unit(..unit.pos()), ..value, alt: alt)
   } else { 
-    units.qty(..value, units.parse-unit(..unit.pos()))
+    units.qty(..value, units.parse-unit(..unit.pos()), alt: alt)
   }
 }
 
@@ -76,7 +76,6 @@
 #let W = watt
 #let Wb = weber
 
-
 #let astronomicalunit = declare("au")
 #let bel = declare("B")
 #let dalton = declare("Da")
@@ -86,7 +85,7 @@
 #let electronvolt = declare("eV")
 #let hectare = declare("ha")
 #let hour = declare("h")
-#let liter = declare(units.liter-impl)
+#let liter = declare("L")
 #let arcminute = declare(sym.prime)
 #let minute = declare("min")
 #let arcsecond = declare(sym.prime.double)
@@ -160,9 +159,9 @@
 #let kW = declare("kW")
 #let mW = declare("mW")
 #let mSv = declare("mSv")
-#let hL = declare("h" + units.liter-impl)
-#let mL = declare("m" + units.liter-impl)
-#let µL = declare("µ" + units.liter-impl)
+#let hL = declare("h" + "L")
+#let mL = declare("m" + "L")
+#let µL = declare("µ" + "L")
 #let uL = µL
 #let meV = declare("meV")
 #let keV = declare("keV")
