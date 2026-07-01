@@ -529,7 +529,10 @@
     translation = phrases.at(lang, default: phrases.fallback)
   }
   let format-comma-number(int, frac) = {
-    int + if frac != "" { info.decimal-separator + frac }
+    if int.len() == 0 {
+      int = "0"
+    }
+    int + if frac.len() > 0 { info.decimal-separator + frac }
   }
 
   let alt = ""
