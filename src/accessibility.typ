@@ -57,6 +57,13 @@
     "minus": "miinus",
     "per": "jaettuna",
   ),
+  "sl": (
+    "times": "krat",
+    "power": "na stopnjo",
+    "plus": "plus",
+    "minus": "minus",
+    "per": "na",
+  ),
 )
 
 #let prefixes = (
@@ -143,6 +150,18 @@
     G: "giga",
     T: "tera",
     P: "peta",
+    E: "eksa",
+  ),
+  sl: (
+    /* inherits femto, nano,
+    centi, deci, kilo, mega,
+    giga, tera, and peta */
+    a: "ato",
+    p: "piko",
+    µ: "mikro",
+    m: "mili",
+    da: "deka",
+    h: "hekto",
     E: "eksa",
   ),
 )
@@ -357,6 +376,43 @@
     W: "wattia",
     Wb: "weberiä",
   ),
+  sl: (
+    /* inherits bel, dalton,
+    decibel, farad, gram,
+    kelvin, katal, kilogram,
+    liter, lumen, meter,
+    newton, neper, radian,
+    steradian, tesla,
+    and volt */
+    A: "amper",
+    au: "astronomska enota",
+    Bq: "bekerel",
+    C: "kulon",
+    cd: "kandela",
+    d: "dan",
+    sym.degree: "stopinja",
+    sym.degree + "C": "stopinja Celzija",
+    eV: "elektronvolt",
+    Gy: "grej",
+    H: "henri",
+    h: "ura",
+    ha: "hektar",
+    Hz: "herc",
+    J: "džul",
+    lx: "luks",
+    sym.prime: "kotna minuta",
+    min: "minuta",
+    mol: "mol",
+    sym.prime.double: "kotna sekunda",
+    sym.Omega: "om",
+    Pa: "paskal",
+    s: "sekunda",
+    S: "simens",
+    Sv: "sivert",
+    t: "tona",
+    W: "vat",
+    Wb: "veber",
+  ),
 )
 
 // Register of the shorthands for special powers that a language has. This
@@ -386,6 +442,10 @@
   fi: (
     "2": "toiseen",
     "3": "kolmanteen",
+  ),
+  sl: (
+    "2": "na kvadrat",
+    "3": "na kub",
   ),
 )
 
@@ -459,6 +519,13 @@
     }
     if unit.endswith("a") { return singular.slice(0, -1) + "e" }
     return singular
+  },
+
+  sl: unit => {
+    let singular = units.sl.at(unit, default: units.en.at(unit))
+    let (dual, plural) = (singular, singular)
+    if unit in () {}
+    panic("TODO, WIP, don't use this")
   },
 )
 
@@ -666,4 +733,3 @@
 
   alt
 }
-
