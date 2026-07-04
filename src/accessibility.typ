@@ -450,9 +450,10 @@
 )
 
 // How to form the plural of a constituent unit. For each language, this should
-// be a function that takes a unit symbol string, e.g. "Hz".
+// be a function that takes a unit symbol string, e.g. "Hz",
+// and a float count which is assumed to be of some plural amount
 #let pluralize = (
-  en: unit => {
+  en: (unit, count) => {
     let singular = units.en.at(unit)
     if unit in ("lx", "Hz", "S") {
       return singular
@@ -466,7 +467,7 @@
     return singular + "s"
   },
   
-  de: unit => {
+  de: (unit, count) => {
     let singular = units.de.at(unit)
     if unit in ("h", "min", "s", sym.prime.double, sym.prime, "t") {
       return singular + "n"
@@ -481,7 +482,7 @@
     return singular
   },
 
-  fr: unit => {
+  fr: (unit, count) => {
     let singular = units.fr.at(unit, default: units.en.at(unit))
     if unit in ("lx", "Hz", "S") {
       return singular
@@ -493,7 +494,7 @@
     return singular + "s"
   },
   
-  es: unit => {
+  es: (unit, count) => {
     let singular = units.es.at(unit, default: units.en.at(unit))
     if unit in ("lx", "Hz", "S") {
       return singular
@@ -510,7 +511,7 @@
     }
   },
   
-  it: unit => {
+  it: (unit, count) => {
     let singular = units.it.at(unit, default: units.en.at(unit))
     if unit in ("J", "A", "T") { return singular }
     if unit == sym.degree + "C" { return "gradi Celsius" }
@@ -521,11 +522,101 @@
     return singular
   },
 
-  sl: unit => {
+  sl: (unit, count) => {
     let singular = units.sl.at(unit, default: units.en.at(unit))
-    let (dual, plural) = (singular, singular)
-    if unit in () {}
-    panic("TODO, WIP, don't use this")
+
+    // This doesn't ruin 1 000, 10 000, 100 000, 1 000 000 ...
+    // Because 0 is plural in the same way as them
+    count = calc.abs(calc.rem(count, 100))
+
+    // Easier keywords
+    let (dual, plural-3-4, plural-5) = (
+      count == 2, // Dual
+      count in (3, 4), // Plural for 3 and 4
+      count >= 5 or count == 0, // Plural for 5+ and 0, unused for now
+    )
+    
+    let feminine(word) = {
+      if dual {
+        word.slice(0, -1) + "i"
+      } else if plural-3-4 {
+        word.slice(0, -1) + "e"
+      } else {
+        word.slice(0, -1)
+      }
+    }
+
+    let masculine(word) = {
+      if dual {
+        if word == "dan" {
+          "dneva"
+        } else if word == "henri" {
+          "henrija"
+        } else if word == "lumen" {
+          "lumna"
+        } else if word == "tesla" {
+          "tesli"
+        } else if word.ends-with(regex("ber|ter")) {
+          word.slice(0, -2) + "ra"
+        } else {
+          word + "a"
+        }
+      } else if plural-3-4 {
+        // Special
+        if word == "dan" {
+          "dnevi"
+        } else if word == "henri" {
+          "henriji"
+        } else if word == "lumen" {
+          "lumni"
+        } else if word == "tesla" {
+          "tesle"
+        } else if word.ends-with(regex("ber|ter")) {
+          word.slice(0, -2) + "ri"
+        } else {
+          word + "i"
+        }
+      } else {
+        if word == "dan" {
+          "dni"
+        } else if word == "henri" {
+          "henrijev"
+        } else if word == "lumen" {
+          "lumnov"
+        } else if word == "tesla" {
+          "tesel"
+        } else if word.ends-with(regex("ber|ter")) {
+          word.slice(0, -2) + "rov"
+        } else if word.ends-with(regex("c|j")) {
+          word + "ev"
+        } else {
+          word + "ov"
+        }
+      }
+    }
+    
+    // Feminine
+    if unit in ("cd", sym.degree, "min", "s", "t") {
+      return feminine(singular)
+    }
+
+    // Masculine
+    if unit in ("A", "B", "Bq", "C", "d", "Da", "dB", "eV", "F", "g", "Gy", "H", "h", "ha", "Hz", "J", "K", "kat", "kg", "L", "lm", "lx", "m", "mol", "N", "Np", sym.Omega, "Pa", "rad", "S", "sr", "Sv", "T", "V", "W", "Wb") {
+      return masculine(singular)
+    }
+
+    // More, all of which are so far feminine
+    if unit in ("au", sym.degree + "C", sym.prime, sym.prime.double) {
+      return singular
+        .split(" ")
+        .map(word => {
+          if word == "Celzija" { word }
+          else { feminine(word) }
+        })
+        .join()
+    }
+
+    panic("Slovenian translation not updated to support '" + singular + "'?")
   },
 )
 
@@ -564,9 +655,12 @@
   lang
 ) = {
   if lang == "fr" {
-    return calc.abs(value) >= 2
+    calc.abs(value) >= 2
+  } else if lang == "sl" {
+    value == 0 or calc.abs(value) != 1
+  } else {
+    calc.abs(value) != 1
   }
-  calc.abs(value) != 1
 }
 
 
@@ -644,11 +738,20 @@
 
   
 
-#let unit-component-description(component, plural: false) = {
+#let unit-component-description(
+  component,
+  plural: false,
+  count: auto,
+) = {
+  if count == auto {
+    if not plural { count = 1 }
+    else { count = 99 }
+  }
+
   let lang = text.lang
   let units = units.en + units.at(lang, default: units.en)
   let get-unit(unit-code) = {
-    if plural { (pluralize.at(lang))(unit-code) }
+    if plural { (pluralize.at(lang))(unit-code, count) }
     else { units.at(unit-code) }
   }
   
@@ -679,7 +782,7 @@
   numerator,
   denominator,
   translation: auto,
-  value: 1
+  value: 1,
 ) = {
   let lang = text.lang
   if translation == auto {
@@ -701,7 +804,7 @@
   let power-shorthands = power-shorthands.at(lang, default: (:))
 
   let power-of-unit-component-description((unit-component, exponent), plural: false) = {
-    let unit = unit-component-description(unit-component, plural: plural)
+    let unit = unit-component-description(unit-component, plural: plural, count: value)
     if exponent == "1" { return unit }
     if exponent in power-shorthands {
       let power-shorthand = power-shorthands.at(exponent)
