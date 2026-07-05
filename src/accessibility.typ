@@ -451,7 +451,7 @@
 
 // How to form the plural of a constituent unit. For each language, this should
 // be a function that takes a unit symbol string, e.g. "Hz",
-// and a float count which is assumed to be of some plural amount
+// and a float count which is assumed to be of some plural amount.
 #let pluralize = (
   en: (unit, count) => {
     let singular = units.en.at(unit)
@@ -530,16 +530,20 @@
     count = calc.abs(calc.rem(count, 100))
 
     // Easier keywords
-    let (dual, plural-3-4, plural-5) = (
+    let (dual, plural-3-4, plural-5, is-float) = (
       count == 2, // Dual
       count in (3, 4), // Plural for 3 and 4
       count >= 5 or count == 0, // Plural for 5+ and 0, unused for now
+      float == type(count), // Singular genitive for floats
     )
-    
+
+    // Sanity check
+    if count == 1 and not is-float { panic("Attempt to use plural for an integer count of 1") }
+
     let feminine(word) = {
       if dual {
         word.slice(0, -1) + "i"
-      } else if plural-3-4 {
+      } else if plural-3-4 or is-float {
         word.slice(0, -1) + "e"
       } else {
         word.slice(0, -1)
@@ -547,7 +551,13 @@
     }
 
     let masculine(word) = {
-      if dual {
+      // Different float rule
+      if word == "tesla" and is-float {
+        is-float = false
+        plural-3-4 = true
+      }
+      
+      if dual or is-float {
         if word == "dan" {
           "dneva"
         } else if word == "henri" {
@@ -657,7 +667,7 @@
   if lang == "fr" {
     calc.abs(value) >= 2
   } else if lang == "sl" {
-    value == 0 or calc.abs(value) != 1
+    calc.abs(value) != 1 or type(value) == float
   } else {
     calc.abs(value) != 1
   }
