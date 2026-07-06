@@ -373,7 +373,7 @@ Take a look at the example below:
 
 #let kgm-s2 = zi.declare("kg m/s^2")
 
-- The current world record for the 100 metres is held by Usain Bolt with #zi.s[9.58]. 
+- The current world record for the 100 meters is held by Usain Bolt with #zi.s[9.58]. 
 - The velocity of light is #zi.m-s[299792458].
 - A Newton is defined as #kgm-s2[1]. 
 - The unit of a frequency is #zi.Hz(). 
