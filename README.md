@@ -78,9 +78,9 @@ See below for a few examples of the syntax that can be used with `num`.
 
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/925fb0ff-5af2-4373-a3e6-63f23523d60c">
-    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/3cd8948a-d0cb-4b77-bd12-9b582abed46d">
-    <img alt="Quick demo" src="https://github.com/user-attachments/assets/925fb0ff-5af2-4373-a3e6-63f23523d60c">
+    <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/1331bf62-530d-423e-9052-2483cb641718">
+    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/eebc2676-ad22-4a97-a21b-09517251f14e">
+    <img alt="num syntax overview" src="https://github.com/user-attachments/assets/1331bf62-530d-423e-9052-2483cb641718">
   </picture>
 </p>
 
@@ -351,12 +351,11 @@ Zero not only aligns numbers at the decimal point but also at the uncertainty an
 
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/0d707e0c-2231-4c0c-afd5-97f6bdf7fca0">
-    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/ee5c1734-93ff-4cce-a59d-2d4f8b7d66f7">
-    <img alt="Advanced number alignment in tables" src="https://github.com/user-attachments/assets/0d707e0c-2231-4c0c-afd5-97f6bdf7fca0">
+    <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/f91004fe-d7ca-4db8-81a1-b65236c72cac">
+    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/e1c8abfe-b59c-4789-a356-df2e545a99c5">
+    <img alt="Advanced number alignment in tables" src="https://github.com/user-attachments/assets/f91004fe-d7ca-4db8-81a1-b65236c72cac">
   </picture>
 </p>
-
 ---
 
 ## Units and Quantities
@@ -380,9 +379,9 @@ Take a look at the example below:
 ```
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/566500e3-7e4f-44eb-ae2e-b527084703bc">
-    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/316ed789-8777-4ff1-b885-9f079bb4b10c">
-    <img alt="Units and quantities" src="https://github.com/user-attachments/assets/566500e3-7e4f-44eb-ae2e-b527084703bc">
+    <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/45597707-323a-4cc2-b331-07daf5ec64c4">
+    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/06768121-e130-40e6-87b3-14a3f1f0372d">
+    <img alt="Units and quantities" src="https://github.com/user-attachments/assets/45597707-323a-4cc2-b331-07daf5ec64c4">
   </picture>
 </p>
 
