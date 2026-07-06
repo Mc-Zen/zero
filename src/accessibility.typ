@@ -530,15 +530,21 @@
     count = calc.abs(calc.rem(count, 100))
 
     // Easier keywords
-    let (dual, plural-3-4, plural-5, is-float) = (
-      count == 2, // Dual
-      count in (3, 4), // Plural for 3 and 4
-      count >= 5 or count == 0, // Plural for 5+ and 0, unused for now
+    let (dual, plural-3-4, is-float) = (
+      count == 2,           // Dual
+      count in (3, 4),      // Plural for 3 and 4
+
+      // A would-be `plural-5` for 5+ and 0
+      // Is simply an `else` branch instead
+      // count >= 5 or count == 0,
+
       float == type(count), // Singular genitive for floats
     )
 
-    // Sanity check
-    if count == 1 and not is-float { panic("Attempt to use plural for an integer count of 1") }
+    // Checks the need for plural despite already supposedly done via `needs-plural()`
+    if calc.abs(count) == 1 and not is-float {
+      panic("Attempt to use plural for an integer count of 1")
+    }
 
     let feminine(word) = {
       // When the word is a feminine adjective, so to a feminine noun
@@ -554,10 +560,9 @@
     }
 
     let masculine(word) = {
-      // Different float rule
+      // Different float rule with a hardcoded `return`
       if word == "tesla" and is-float {
-        is-float = false
-        plural-3-4 = true
+        return "tesle"
       }
       
       if dual or is-float {
@@ -618,7 +623,7 @@
       return masculine(singular)
     }
 
-    // More, all of which are so far feminine
+    // More, all of which are so far feminine, apart from the C-noun
     if unit in ("au", str(sym.degree) + "C", str(sym.prime), str(sym.prime.double)) {
       return singular
         .split(" ")
