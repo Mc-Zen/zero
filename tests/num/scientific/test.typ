@@ -25,3 +25,5 @@
 #num(exponent: "sci")[0] \
 #num(exponent: "sci")[0e4] \
 #num(exponent: "sci")[0.00] \
+#num(exponent: "sci")[1+-2] \
+#num(exponent: "sci")[1+1-2] \
