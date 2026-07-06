@@ -16,7 +16,7 @@
 
 #let examples = (
   `num("1.2e4")`       ,`num[1.2e4]`,
-  `num("-5e-4")`       ,`num(fixed: -2)[0.02]`,
+  `num("-5e-4")`       ,`num(exponent: (fixed: -2))[0.02]`,
   `num("9.81+-.01")`   ,`num("9.81+0.02-.01")`,
   `num("9.81+-.01e2")` ,`num(base: 2)[3e4]`,
 )
