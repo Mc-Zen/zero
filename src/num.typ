@@ -76,7 +76,7 @@
     if type(info.pm.first()) != array {
       info.pm = shift(..info.pm)
     } else {
-      info.pm = pm.map(x => shift(..x))
+      info.pm = info.pm.map(x => shift(..x))
     }
   }
 
