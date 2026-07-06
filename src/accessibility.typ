@@ -541,12 +541,15 @@
     if count == 1 and not is-float { panic("Attempt to use plural for an integer count of 1") }
 
     let feminine(word) = {
+      // When the word is a feminine adjective, so to a feminine noun
+      let adj-role = if word in ("astronomska", "kotna") { "ih" }
+
       if dual {
         word.slice(0, -1) + "i"
       } else if plural-3-4 or is-float {
         word.slice(0, -1) + "e"
       } else {
-        word.slice(0, -1)
+        word.slice(0, -1) + adj-role
       }
     }
 
@@ -606,26 +609,27 @@
     }
     
     // Feminine
-    if unit in ("cd", sym.degree, "min", "s", "t") {
+    if unit in ("cd", str(sym.degree), "h", "min", "s", "t") {
       return feminine(singular)
     }
 
     // Masculine
-    if unit in ("A", "B", "Bq", "C", "d", "Da", "dB", "eV", "F", "g", "Gy", "H", "h", "ha", "Hz", "J", "K", "kat", "kg", "L", "lm", "lx", "m", "mol", "N", "Np", sym.Omega, "Pa", "rad", "S", "sr", "Sv", "T", "V", "W", "Wb") {
+    if unit in ("A", "B", "Bq", "C", "d", "Da", "dB", "eV", "F", "g", "Gy", "H", "ha", "Hz", "J", "K", "kat", "kg", "L", "lm", "lx", "m", "mol", "N", "Np", str(sym.Omega), "Pa", "rad", "S", "sr", "Sv", "T", "V", "W", "Wb") {
       return masculine(singular)
     }
 
     // More, all of which are so far feminine
-    if unit in ("au", sym.degree + "C", sym.prime, sym.prime.double) {
+    if unit in ("au", str(sym.degree) + "C", str(sym.prime), str(sym.prime.double)) {
       return singular
         .split(" ")
         .map(word => {
           if word == "Celzija" { word }
           else { feminine(word) }
         })
-        .join()
+        .join(" ")
     }
 
+    // Beware that this error can also appear because `sym.___` or `symbol(sym.___)` isn't the same as the symbol string itself
     panic("Slovenian translation not updated to support '" + singular + "'?")
   },
 )
