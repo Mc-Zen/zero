@@ -587,7 +587,6 @@
           word + "a"
         }
       } else if plural-3-4 {
-        // Special
         if word == "dan" {
           "dnevi"
         } else if word == "henri" {
