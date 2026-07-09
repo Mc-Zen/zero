@@ -370,7 +370,11 @@
       math: num-state.math,
       use-sqrt: num-state.unit.use-sqrt,
       alt: alt,
-      value: float(info.int + "." + info.frac),
+      value: if info.frac == "" { 
+        int(info.int) 
+      } else {
+        float(info.int + "." + info.frac)
+      },
     )
   }
 
