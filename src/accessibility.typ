@@ -453,7 +453,7 @@
 // be a function that takes a unit symbol string, e.g. "Hz",
 // and a float count which is assumed to be of some plural amount.
 #let pluralize = (
-  en: (unit, count, denom) => {
+  en: (unit, count, is-in-denom) => {
     let singular = units.en.at(unit)
     if unit in ("lx", "Hz", "S") {
       return singular
@@ -467,7 +467,7 @@
     return singular + "s"
   },
   
-  de: (unit, count, denom) => {
+  de: (unit, count, is-in-denom) => {
     let singular = units.de.at(unit)
     if unit in ("h", "min", "s", sym.prime.double, sym.prime, "t") {
       return singular + "n"
@@ -482,7 +482,7 @@
     return singular
   },
 
-  fr: (unit, count, denom) => {
+  fr: (unit, count, is-in-denom) => {
     let singular = units.fr.at(unit, default: units.en.at(unit))
     if unit in ("lx", "Hz", "S") {
       return singular
@@ -494,7 +494,7 @@
     return singular + "s"
   },
   
-  es: (unit, count, denom) => {
+  es: (unit, count, is-in-denom) => {
     let singular = units.es.at(unit, default: units.en.at(unit))
     if unit in ("lx", "Hz", "S") {
       return singular
@@ -511,7 +511,7 @@
     }
   },
   
-  it: (unit, count, denom) => {
+  it: (unit, count, is-in-denom) => {
     let singular = units.it.at(unit, default: units.en.at(unit))
     if unit in ("J", "A", "T") { return singular }
     if unit == sym.degree + "C" { return "gradi Celsius" }
@@ -522,7 +522,7 @@
     return singular
   },
 
-  sl: (unit, count, denom) => {
+  sl: (unit, count, is-in-denom) => {
     let singular = units.sl.at(unit, default: units.en.at(unit))
 
     // This doesn't ruin 1 000, 10 000, 100 000, 1 000 000 ...
@@ -548,7 +548,7 @@
 
     let feminine(word) = {
       // Denominator rule with a hardcoded `return`
-      if denom { return word.slice(0, -1) + "o" }
+      if is-in-denom { return word.slice(0, -1) + "o" }
 
       // When the word is a feminine adjective, so to a feminine noun
       let adj-role = if word in ("astronomska", "kotna") { "ih" }
@@ -564,8 +564,8 @@
 
     let masculine(word) = {
       // Denominator rule with a hardcoded `return`
-      if denom and word == "tesla" { return word.slice(0, -1) + "o" }
-      else if denom { return word }
+      if is-in-denom and word == "tesla" { return word.slice(0, -1) + "o" }
+      else if is-in-denom { return word }
 
       // Different float rule with a hardcoded `return`
       if word == "tesla" and is-float {
@@ -767,7 +767,7 @@
   component,
   plural: false,
   count: auto,
-  denom: false,
+  is-in-denom: false,
 ) = {
   if count == auto {
     if not plural { count = 1 }
@@ -777,10 +777,10 @@
   let lang = text.lang
   let units = units.en + units.at(lang, default: units.en)
   let get-unit(unit-code) = {
-    if plural { (pluralize.at(lang))(unit-code, count, denom) }
+    if plural { (pluralize.at(lang))(unit-code, count, is-in-denom) }
     // Add your language here to `pluralize` the denominator
-    else if denom and lang == "sl" {
-      (pluralize.at(lang))(unit-code, count, denom)
+    else if is-in-denom and lang == "sl" {
+      (pluralize.at(lang))(unit-code, count, is-in-denom)
     }
     else { units.at(unit-code) }
   }
@@ -833,8 +833,8 @@
   let alt = ""
   let power-shorthands = power-shorthands.at(lang, default: (:))
 
-  let power-of-unit-component-description((unit-component, exponent), plural: false, denom-call: false) = {
-    let unit = unit-component-description(unit-component, plural: plural, count: value, denom: denom-call)
+  let power-of-unit-component-description((unit-component, exponent), plural: false, is-in-denom: false) = {
+    let unit = unit-component-description(unit-component, plural: plural, count: value, is-in-denom: is-in-denom)
     if exponent == "1" { return unit }
     if exponent in power-shorthands {
       let power-shorthand = power-shorthands.at(exponent)
@@ -860,7 +860,7 @@
   if denominator.len() > 0 {
     alt += " " + translation.per + " "
     alt += denominator
-      .map(it => power-of-unit-component-description(..(it,), denom-call: true))
+      .map(power-of-unit-component-description.with(is-in-denom: true))
       .join(" " + translation.per + " ")
   }
 
