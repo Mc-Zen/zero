@@ -190,6 +190,84 @@
       "degrés Celsius",
     )
   }
+
+  set text(lang: "sl")
+  context {
+    // [1/2] Tests the `phrases` the same way as English
+    // No special rules apply, hence the copied tests
+    assert.eq(
+      generate-num-alt-description(
+        parse-numeral("-1.34+-2e-2") + num-state.get(),
+      ),
+      "minus 1.34 plus minus 2 krat 10 na stopnjo -2",
+    )
+    assert.eq(
+      generate-num-alt-description(
+        parse-numeral("-1.34+0.5-2e-2") + num-state.get() + (base: 2),
+      ),
+      "minus 1.34 plus 0.5 minus 2 krat 2 na stopnjo -2",
+    )
+
+    // [2/3] Tests the `prefixes` in a single test
+    assert.eq(
+      unit-component-description("mA"),
+      "miliamper",
+    )
+
+    // [3/3] Tests the `units` in its own way
+
+    let nums = (-5.5, -5, -3, -2, -1.0, -1, 0, 1, 1.0, 2, 3, 5, 5.5, "1/")
+
+    // Slovenian units, not all but the first which are unique
+    // The entries are `unit: (0, 1, 1.0, 2, 3, 5, 5.5, denominator's)`
+    // A `3` and `4` are always the same, and made inseparable in the code, so only `3` is tested for
+    // Since the negatives are supposed to be a complete mirror of the positives, the first half of the array is taken from the second
+    // Rules which only apply at higher counts are tested for lower as well anyway
+    let units-sl = (
+      // Feminine, regular
+      cd: ("kandel", "kandela", "kandele", "kandeli", "kandele", "kandel", "kandele", "kandelo"),
+
+      // Masculine, regular
+      A: ("amperov", "amper", "ampera", "ampera", "amperi", "amperov", "ampera", "amper"),
+
+      // Masculine, special hardcoded
+      d: ("dni", "dan", "dneva", "dneva", "dnevi", "dni", "dneva", "dan"),
+      H: ("henrijev", "henri", "henrija", "henrija", "henriji", "henrijev", "henrija", "henri"),
+      lm: ("lumnov", "lumen", "lumna", "lumna", "lumni", "lumnov", "lumna", "lumen"),
+      T: ("tesel", "tesla", "tesle", "tesli", "tesle", "tesel", "tesle", "teslo"),
+
+      // Masculine, special rule for `*ber/*ter`
+      L: ("litrov", "liter", "litra", "litra", "litri", "litrov", "litra", "liter"),
+
+      // Masculine, special rule for `*c/*j`
+      Gy: ("grejev", "grej", "greja", "greja", "greji", "grejev", "greja", "grej"),
+
+      // Combined words
+      au: ("astronomskih enot", "astronomska enota", "astronomske enote", "astronomski enoti", "astronomske enote", "astronomskih enot", "astronomske enote", "astronomsko enoto"),
+    sym.degree + "C": ("stopinj Celzija", "stopinja Celzija", "stopinje Celzija", "stopinji Celzija", "stopinje Celzija", "stopinj Celzija", "stopinje Celzija", "stopinjo Celzija"),
+    )
+
+    for (key, words) in units-sl {
+      words = words.slice(1, -1).rev() + words
+      if nums.len() != words.len() {
+        panic("The `nums` and `words` arrays for `" + key + "` need to be of same length")
+      }
+
+      let pairs = nums.zip(words)
+      let (denom, denom-unit) = pairs.pop()
+
+      let guad(u, n) = generate-unit-alt-description(
+        ..parse-unit(u).values(), value: n,
+      )
+
+      // All integer and float numbers
+      for (count, unit) in pairs {
+        assert.eq(guad(key, count), unit)
+      }
+      // When the unit is in a denominator; a hardcoded count here should be sufficient
+      assert.eq(guad(denom + key, 99), " na " + denom-unit)
+    }
+  }
 }
 
 
