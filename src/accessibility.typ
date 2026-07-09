@@ -451,7 +451,8 @@
 
 // How to form the plural of a constituent unit. For each language, this should
 // be a function that takes a unit symbol string, e.g. "Hz",
-// and a float count which is assumed to be of some plural amount.
+// and a float `count` which is assumed to be of some plural amount,
+// and a bool `is-in-denom` that specifies whether the unit is placed in the denominator. 
 #let pluralize = (
   en: (unit, count, is-in-denom) => {
     let singular = units.en.at(unit)
