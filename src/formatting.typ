@@ -314,6 +314,11 @@
   /// digits
   /// omit-unity-mantissa, uncertainty-mode, positive-sign
 
+  let decimal-separator = it.decimal-separator
+  if decimal-separator == "." {
+    decimal-separator = sym.dot.basic
+  } 
+  
   let omit-mantissa = (
     it.omit-unity-mantissa
       and it.int == "1"
@@ -334,7 +339,7 @@
   let integer = (
     sign: it.sign,
     int: if omit-mantissa { none } else { it.int },
-    decimal-separator: it.decimal-separator,
+    decimal-separator: decimal-separator,
     group: it.group,
   )
 
@@ -346,7 +351,7 @@
     tight: it.tight,
     math: it.math,
     mode: it.uncertainty-mode,
-    decimal-separator: it.decimal-separator,
+    decimal-separator: decimal-separator,
     breakable: breakable
   )
 
@@ -358,7 +363,7 @@
     positive-sign-exponent: it.positive-sign-exponent,
     tight: it.tight,
     math: it.math,
-    decimal-separator: it.decimal-separator,
+    decimal-separator: decimal-separator,
     breakable: breakable
   )
 
@@ -372,7 +377,7 @@
       frac: it.frac,
       group: it.group,
       digits: it.digits,
-      decimal-separator: it.decimal-separator,
+      decimal-separator: decimal-separator,
     )),
   )
 
