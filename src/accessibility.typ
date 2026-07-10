@@ -691,10 +691,8 @@
 ) = {
   if lang == "fr" {
     calc.abs(value) >= 2
-  } else if lang == "sl" {
-    calc.abs(value) != 1 or type(value) == float
   } else {
-    calc.abs(value) != 1
+    calc.abs(value) != 1 or type(value) == float
   }
 }
 
