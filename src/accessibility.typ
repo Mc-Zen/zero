@@ -7,6 +7,7 @@
     "plus": "+",
     "minus": "−",
     "per": "/",
+    "decimal-separator": ".",
   ),
   "en": (
     "times": "times",
@@ -14,6 +15,7 @@
     "plus": "plus",
     "minus": "minus",
     "per": "per",
+    "decimal-separator": ".",
   ),
   "de": (
     "times": "mal",
@@ -21,6 +23,7 @@
     "plus": "plus",
     "minus": "minus",
     "per": "pro",
+    "decimal-separator": ",",
   ),
   "fr": (
     "times": "fois",
@@ -28,6 +31,7 @@
     "plus": "plus",
     "minus": "moins",
     "per": "par",
+    "decimal-separator": ",",
   ),
   "es": (
     "times": "veces",
@@ -35,6 +39,7 @@
     "plus": "más",
     "minus": "menos",
     "per": "por",
+    "decimal-separator": ",",
   ),
   "it": (
     "times": "per",
@@ -42,6 +47,7 @@
     "plus": "più",
     "minus": "meno",
     "per": "per",
+    "decimal-separator": ",",
   ),
   "ru": (
     "times": "на",
@@ -49,6 +55,7 @@
     "plus": "плюс",
     "minus": "минус",
     "per": "в",
+    "decimal-separator": ",",
   ),
   "fi": (
     "times": "kertaa",
@@ -56,6 +63,7 @@
     "plus": "plus",
     "minus": "miinus",
     "per": "jaettuna",
+    "decimal-separator": ",",
   ),
   "sl": (
     "times": "krat",
@@ -63,6 +71,7 @@
     "plus": "plus",
     "minus": "minus",
     "per": "na",
+    "decimal-separator": ",",
   ),
 )
 
@@ -719,7 +728,7 @@
     if int.len() == 0 {
       int = "0"
     }
-    int + if frac.len() > 0 { info.decimal-separator + frac }
+    int + if frac.len() > 0 { translation.decimal-separator + frac }
   }
 
   let alt = ""

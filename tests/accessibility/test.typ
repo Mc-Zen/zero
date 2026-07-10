@@ -30,9 +30,7 @@
   context {
     assert.eq(
       generate-num-alt-description(
-        parse-numeral("-1.34+-2e-2")
-          + num-state.get()
-          + (decimal-separator: ","),
+        parse-numeral("-1.34+-2e-2") + num-state.get()
       ),
       "minus 1,34 plus minus 2 mal 10 hoch -2",
     )
@@ -40,7 +38,7 @@
       generate-num-alt-description(
         parse-numeral("-1.34+0.5-2e-2")
           + num-state.get()
-          + (base: 2, decimal-separator: ","),
+          + (base: 2),
       ),
       "minus 1,34 plus 0,5 minus 2 mal 2 hoch -2",
     )
@@ -51,13 +49,13 @@
       generate-num-alt-description(
         parse-numeral("-1.34+-2e-2") + num-state.get(),
       ),
-      "moins 1.34 plus moins 2 fois 10 à la puissance -2",
+      "moins 1,34 plus moins 2 fois 10 à la puissance -2",
     )
     assert.eq(
       generate-num-alt-description(
         parse-numeral("-1.34+0.5-2e-2") + num-state.get() + (base: 2),
       ),
-      "moins 1.34 plus 0.5 moins 2 fois 2 à la puissance -2",
+      "moins 1,34 plus 0,5 moins 2 fois 2 à la puissance -2",
     )
   }
 
@@ -205,7 +203,7 @@
       generate-num-alt-description(
         parse-numeral("-1.34+0.5-2e-2") + num-state.get() + (base: 2),
       ),
-      "minus 1,34 plus 0.5 minus 2 krat 2 na stopnjo -2",
+      "minus 1,34 plus 0,5 minus 2 krat 2 na stopnjo -2",
     )
 
     // [2/3] Tests the `prefixes` in a single test
