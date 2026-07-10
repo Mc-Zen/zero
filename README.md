@@ -8,7 +8,7 @@ _Precise scientific number and unit formatting for Typst._
 
 
 - [Introduction](#introduction)
-- [Quick Demo](#quick-demo)
+- [Quick Demo](#demo)
 - [**Number Formatting**](#number-formatting)
 - [**Table Number Alignment**](#table-alignment)
 - [**Units and Quantities**](#units-and-quantities)
@@ -362,7 +362,7 @@ Zero not only aligns numbers at the decimal point but also at the uncertainty an
 
 Numbers are frequently displayed together with a (physical) unit forming a so-called _quantity_. Zero has built-in support for formatting quantities through the `zi` module. 
 
-Zero takes a different approach to units than other packages: In order to avoid repetition ([DRY principle](https://de.wikipedia.org/wiki/Don%E2%80%99t_repeat_yourself)) and to avoid accidental errors, every unit is
+Zero takes a different approach to units than other packages: In order to avoid repetition ([DRY principle](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself)) and to avoid accidental errors, every unit is
 - first _declared_ (or already predefined)
 - and then used as a function to produce a quantity. 
 

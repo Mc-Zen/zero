@@ -4,30 +4,27 @@ Zero generates accessible output! Numbers, units, and quantities that are format
 This is supported for a selection of languages and you can extend this selection by opening a PR and providing the necessary translations for the new language. When opening a PR, please read this document carefully and answer all questions below.
 
 ### Translations for numbers
-In order to provide descriptions for numerals, add an entry for the new language in the file `accessibility.typ` and specify translations for the following keys in the dictionary `phrases`.
-- `times`
-- `power`
+In order to provide descriptions for numerals, add an entry for the new language in the file [`accessibility.typ`](../src/accessibility.typ) and specify translations for the following keys in the dictionary `phrases`:
+- `times` and `power`:
+  - These two determine how multiplication and exponentiation is pronounced in the language. This is used for exponent notation; e.g. `num[1e5]` is read as `1 times 10 to the power of 5` when the language is set to English.
 
-These two determine how multiplication and exponentiation is pronounced in the language. This is used for exponent notation; e.g. `num[1e5]` is read as `1 times 10 to the power of 5` when the language is set to English.
-- `plus`
-- `minus`
-
-These two are used to read uncertainties; e.g. `num[10+-2]` is read as `10 plus minus 2` when the language is set to English. The translation of `minus` is also used for the sign, e.g. `num[-5]` becomes `minus 5`.
+- `plus` and `minus`:
+  - These two are used to read uncertainties; e.g. `num[10+-2]` is read as `10 plus minus 2` when the language is set to English. The translation of `minus` is also used for the sign, e.g. `num[-5]` becomes `minus 5`.
 
 > [!IMPORTANT]
 > Does the translation work for both symmetric and asymmetric uncertainties?
 > - `num[10+-2]` → `10 [plus] [minus] 2`
 > - `num[10+3-2]` → `10 [plus] 3 [minus] 2`
-
+>
+> If not, let us know in the PR discussion.
 
 > [!IMPORTANT]
 > Does the translation for `minus` also work for the sign in front of the number?
+> 
+> If not, let us know in the PR discussion.
 
-If not, let us know in the PR discussion.
-
-- `per`
-
-For every unit component in the denominator of a compound unit, this word is prepended, e.g.  `meter per second`. 
+- `per`:
+  - For every unit component in the denominator of a compound unit, this word is prepended, e.g.  `meter per second`. 
 
 ### Translations of prefixes
 Please provide translations of all common prefixes like milli, giga etc.
@@ -44,7 +41,7 @@ All languages that are supported so far have the following rules regarding to wh
 
 In order to control the rule for the first point, you can override the function `needs-plural`. If any of the other rules does not apply in your language, please mention this in the PR.
 
-### Power Shorthands
+### Power shorthands
 > [!IMPORTANT]
 > Many languages have dedicated shorthand expressions for certain powers like `newton squared` instead of `newton to the power of two`. If your language has such shorthands, you can define them in `power-shorthands`. 
 

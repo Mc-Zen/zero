@@ -7,6 +7,7 @@
     "plus": "+",
     "minus": "−",
     "per": "/",
+    "decimal-separator": ".",
   ),
   "en": (
     "times": "times",
@@ -14,6 +15,7 @@
     "plus": "plus",
     "minus": "minus",
     "per": "per",
+    "decimal-separator": ".",
   ),
   "de": (
     "times": "mal",
@@ -21,6 +23,7 @@
     "plus": "plus",
     "minus": "minus",
     "per": "pro",
+    "decimal-separator": ",",
   ),
   "fr": (
     "times": "fois",
@@ -28,6 +31,7 @@
     "plus": "plus",
     "minus": "moins",
     "per": "par",
+    "decimal-separator": ",",
   ),
   "es": (
     "times": "veces",
@@ -35,6 +39,7 @@
     "plus": "más",
     "minus": "menos",
     "per": "por",
+    "decimal-separator": ",",
   ),
   "it": (
     "times": "per",
@@ -42,6 +47,7 @@
     "plus": "più",
     "minus": "meno",
     "per": "per",
+    "decimal-separator": ",",
   ),
   "ru": (
     "times": "на",
@@ -49,6 +55,7 @@
     "plus": "плюс",
     "minus": "минус",
     "per": "в",
+    "decimal-separator": ",",
   ),
   "fi": (
     "times": "kertaa",
@@ -56,6 +63,15 @@
     "plus": "plus",
     "minus": "miinus",
     "per": "jaettuna",
+    "decimal-separator": ",",
+  ),
+  "sl": (
+    "times": "krat",
+    "power": "na stopnjo",
+    "plus": "plus",
+    "minus": "minus",
+    "per": "na",
+    "decimal-separator": ",",
   ),
 )
 
@@ -143,6 +159,18 @@
     G: "giga",
     T: "tera",
     P: "peta",
+    E: "eksa",
+  ),
+  sl: (
+    /* inherits femto, nano,
+    centi, deci, kilo, mega,
+    giga, tera, and peta */
+    a: "ato",
+    p: "piko",
+    µ: "mikro",
+    m: "mili",
+    da: "deka",
+    h: "hekto",
     E: "eksa",
   ),
 )
@@ -357,6 +385,43 @@
     W: "wattia",
     Wb: "weberiä",
   ),
+  sl: (
+    /* inherits bel, dalton,
+    decibel, farad, gram,
+    kelvin, katal, kilogram,
+    liter, lumen, meter,
+    newton, neper, radian,
+    steradian, tesla,
+    and volt */
+    A: "amper",
+    au: "astronomska enota",
+    Bq: "bekerel",
+    C: "kulon",
+    cd: "kandela",
+    d: "dan",
+    sym.degree: "stopinja",
+    sym.degree + "C": "stopinja Celzija",
+    eV: "elektronvolt",
+    Gy: "grej",
+    H: "henri",
+    h: "ura",
+    ha: "hektar",
+    Hz: "herc",
+    J: "džul",
+    lx: "luks",
+    sym.prime: "kotna minuta",
+    min: "minuta",
+    mol: "mol",
+    sym.prime.double: "kotna sekunda",
+    sym.Omega: "om",
+    Pa: "paskal",
+    s: "sekunda",
+    S: "simens",
+    Sv: "sivert",
+    t: "tona",
+    W: "vat",
+    Wb: "veber",
+  ),
 )
 
 // Register of the shorthands for special powers that a language has. This
@@ -387,12 +452,18 @@
     "2": "toiseen",
     "3": "kolmanteen",
   ),
+  sl: (
+    "2": "na kvadrat",
+    "3": "na kub",
+  ),
 )
 
 // How to form the plural of a constituent unit. For each language, this should
-// be a function that takes a unit symbol string, e.g. "Hz".
+// be a function that takes a unit symbol string, e.g. "Hz",
+// and a float `count` which is assumed to be of some plural amount,
+// and a bool `is-in-denom` that specifies whether the unit is placed in the denominator. 
 #let pluralize = (
-  en: unit => {
+  en: (unit, count, is-in-denom) => {
     let singular = units.en.at(unit)
     if unit in ("lx", "Hz", "S") {
       return singular
@@ -406,7 +477,7 @@
     return singular + "s"
   },
   
-  de: unit => {
+  de: (unit, count, is-in-denom) => {
     let singular = units.de.at(unit)
     if unit in ("h", "min", "s", sym.prime.double, sym.prime, "t") {
       return singular + "n"
@@ -421,7 +492,7 @@
     return singular
   },
 
-  fr: unit => {
+  fr: (unit, count, is-in-denom) => {
     let singular = units.fr.at(unit, default: units.en.at(unit))
     if unit in ("lx", "Hz", "S") {
       return singular
@@ -433,7 +504,7 @@
     return singular + "s"
   },
   
-  es: unit => {
+  es: (unit, count, is-in-denom) => {
     let singular = units.es.at(unit, default: units.en.at(unit))
     if unit in ("lx", "Hz", "S") {
       return singular
@@ -450,7 +521,7 @@
     }
   },
   
-  it: unit => {
+  it: (unit, count, is-in-denom) => {
     let singular = units.it.at(unit, default: units.en.at(unit))
     if unit in ("J", "A", "T") { return singular }
     if unit == sym.degree + "C" { return "gradi Celsius" }
@@ -459,6 +530,128 @@
     }
     if unit.endswith("a") { return singular.slice(0, -1) + "e" }
     return singular
+  },
+
+  sl: (unit, count, is-in-denom) => {
+    let singular = units.sl.at(unit, default: units.en.at(unit))
+
+    // This doesn't ruin 1 000, 10 000, 100 000, 1 000 000 ...
+    // Because 0 is plural in the same way as them
+    count = calc.abs(calc.rem(count, 100))
+
+    // Easier keywords
+    let (dual, plural-3-4, is-float) = (
+      count == 2,           // Dual
+      count in (3, 4),      // Plural for 3 and 4
+
+      // A would-be `plural-5` for 5+ and 0
+      // Is simply an `else` branch instead
+      // count >= 5 or count == 0,
+
+      float == type(count), // Singular genitive for floats
+    )
+
+    // Checks the need for plural despite already supposedly done via `needs-plural()`
+    if calc.abs(count) == 1 and not is-float and not denom {
+      panic("Attempt to use plural for an integer count of 1")
+    }
+
+    let feminine(word) = {
+      // Denominator rule with a hardcoded `return`
+      if is-in-denom { return word.slice(0, -1) + "o" }
+
+      // When the word is a feminine adjective, so to a feminine noun
+      let adj-role = if word in ("astronomska", "kotna") { "ih" }
+
+      if dual {
+        word.slice(0, -1) + "i"
+      } else if plural-3-4 or is-float {
+        word.slice(0, -1) + "e"
+      } else {
+        word.slice(0, -1) + adj-role
+      }
+    }
+
+    let masculine(word) = {
+      // Denominator rule with a hardcoded `return`
+      if is-in-denom and word == "tesla" { return word.slice(0, -1) + "o" }
+      else if is-in-denom { return word }
+
+      // Different float rule with a hardcoded `return`
+      if word == "tesla" and is-float {
+        return "tesle"
+      }
+      
+      if dual or is-float {
+        if word == "dan" {
+          "dneva"
+        } else if word == "henri" {
+          "henrija"
+        } else if word == "lumen" {
+          "lumna"
+        } else if word == "tesla" {
+          "tesli"
+        } else if word.ends-with(regex("ber|ter")) {
+          word.slice(0, -2) + "ra"
+        } else {
+          word + "a"
+        }
+      } else if plural-3-4 {
+        if word == "dan" {
+          "dnevi"
+        } else if word == "henri" {
+          "henriji"
+        } else if word == "lumen" {
+          "lumni"
+        } else if word == "tesla" {
+          "tesle"
+        } else if word.ends-with(regex("ber|ter")) {
+          word.slice(0, -2) + "ri"
+        } else {
+          word + "i"
+        }
+      } else {
+        if word == "dan" {
+          "dni"
+        } else if word == "henri" {
+          "henrijev"
+        } else if word == "lumen" {
+          "lumnov"
+        } else if word == "tesla" {
+          "tesel"
+        } else if word.ends-with(regex("ber|ter")) {
+          word.slice(0, -2) + "rov"
+        } else if word.ends-with(regex("c|j")) {
+          word + "ev"
+        } else {
+          word + "ov"
+        }
+      }
+    }
+    
+    // Feminine
+    if unit in ("cd", str(sym.degree), "h", "min", "s", "t") {
+      return feminine(singular)
+    }
+
+    // Masculine
+    if unit in ("A", "B", "Bq", "C", "d", "Da", "dB", "eV", "F", "g", "Gy", "H", "ha", "Hz", "J", "K", "kat", "kg", "L", "lm", "lx", "m", "mol", "N", "Np", str(sym.Omega), "Pa", "rad", "S", "sr", "Sv", "T", "V", "W", "Wb") {
+      return masculine(singular)
+    }
+
+    // More, all of which are so far feminine, apart from the C-noun
+    if unit in ("au", str(sym.degree) + "C", str(sym.prime), str(sym.prime.double)) {
+      return singular
+        .split(" ")
+        .map(word => {
+          if word == "Celzija" { word }
+          else { feminine(word) }
+        })
+        .join(" ")
+    }
+
+    // Beware that this error can also appear because `sym.___` or `symbol(sym.___)` isn't the same as the symbol string itself
+    panic("Slovenian translation not updated to support '" + singular + "'?")
   },
 )
 
@@ -497,9 +690,12 @@
   lang
 ) = {
   if lang == "fr" {
-    return calc.abs(value) >= 2
+    calc.abs(value) >= 2
+  } else if lang == "sl" {
+    calc.abs(value) != 1 or type(value) == float
+  } else {
+    calc.abs(value) != 1
   }
-  calc.abs(value) != 1
 }
 
 
@@ -532,7 +728,7 @@
     if int.len() == 0 {
       int = "0"
     }
-    int + if frac.len() > 0 { info.decimal-separator + frac }
+    int + if frac.len() > 0 { translation.decimal-separator + frac }
   }
 
   let alt = ""
@@ -577,11 +773,25 @@
 
   
 
-#let unit-component-description(component, plural: false) = {
+#let unit-component-description(
+  component,
+  plural: false,
+  count: auto,
+  is-in-denom: false,
+) = {
+  if count == auto {
+    if not plural { count = 1 }
+    else { count = 99 }
+  }
+
   let lang = text.lang
   let units = units.en + units.at(lang, default: units.en)
   let get-unit(unit-code) = {
-    if plural { (pluralize.at(lang))(unit-code) }
+    if plural { (pluralize.at(lang))(unit-code, count, is-in-denom) }
+    // Add your language here to `pluralize` the denominator
+    else if is-in-denom and lang == "sl" {
+      (pluralize.at(lang))(unit-code, count, is-in-denom)
+    }
     else { units.at(unit-code) }
   }
   
@@ -612,7 +822,7 @@
   numerator,
   denominator,
   translation: auto,
-  value: 1
+  value: 1,
 ) = {
   let lang = text.lang
   if translation == auto {
@@ -633,8 +843,8 @@
   let alt = ""
   let power-shorthands = power-shorthands.at(lang, default: (:))
 
-  let power-of-unit-component-description((unit-component, exponent), plural: false) = {
-    let unit = unit-component-description(unit-component, plural: plural)
+  let power-of-unit-component-description((unit-component, exponent), plural: false, is-in-denom: false) = {
+    let unit = unit-component-description(unit-component, plural: plural, count: value, is-in-denom: is-in-denom)
     if exponent == "1" { return unit }
     if exponent in power-shorthands {
       let power-shorthand = power-shorthands.at(exponent)
@@ -660,10 +870,9 @@
   if denominator.len() > 0 {
     alt += " " + translation.per + " "
     alt += denominator
-      .map(power-of-unit-component-description)
+      .map(power-of-unit-component-description.with(is-in-denom: true))
       .join(" " + translation.per + " ")
   }
 
   alt
 }
-
