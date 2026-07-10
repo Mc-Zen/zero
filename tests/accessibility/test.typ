@@ -199,19 +199,20 @@
       generate-num-alt-description(
         parse-numeral("-1.34+-2e-2") + num-state.get(),
       ),
-      "minus 1.34 plus minus 2 krat 10 na stopnjo -2",
+      "minus 1,34 plus minus 2 krat 10 na stopnjo -2",
     )
     assert.eq(
       generate-num-alt-description(
         parse-numeral("-1.34+0.5-2e-2") + num-state.get() + (base: 2),
       ),
-      "minus 1.34 plus 0.5 minus 2 krat 2 na stopnjo -2",
+      "minus 1,34 plus 0.5 minus 2 krat 2 na stopnjo -2",
     )
 
     // [2/3] Tests the `prefixes` in a single test
+    // Use the `\u{00b5}` micro sign, not `\u{03bc}`
     assert.eq(
-      unit-component-description("mA"),
-      "miliamper",
+      unit-component-description("µA"),
+      "mikroamper",
     )
 
     // [3/3] Tests the `units` in its own way
