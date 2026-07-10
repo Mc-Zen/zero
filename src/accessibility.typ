@@ -513,7 +513,7 @@
     if unit == "rad" { return "radianes" }
     if unit == "sr" { return "esterorradianes" }
     if (
-      singular.endswith("o") or singular.endswith("y") or singular.endswith("a")
+      singular.ends-with("o") or singular.ends-with("y") or singular.ends-with("a")
     ) {
       return singular + "s"
     } else {
@@ -525,10 +525,10 @@
     let singular = units.it.at(unit, default: units.en.at(unit))
     if unit in ("J", "A", "T") { return singular }
     if unit == sym.degree + "C" { return "gradi Celsius" }
-    if unit.endswith("o") or unit.endswith("e") {
+    if unit.ends-with("o") or unit.ends-with("e") {
       return singular.slice(0, -1) + "i"
     }
-    if unit.endswith("a") { return singular.slice(0, -1) + "e" }
+    if unit.ends-with("a") { return singular.slice(0, -1) + "e" }
     return singular
   },
 
