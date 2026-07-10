@@ -26,6 +26,10 @@ In order to provide descriptions for numerals, add an entry for the new language
 - `per`:
   - For every unit component in the denominator of a compound unit, this word is prepended, e.g.  `meter per second`. 
 
+- `decimal-separator`:
+  - The decimal separator that is used for this language.
+
+  
 ### Translations of prefixes
 Please provide translations of all common prefixes like milli, giga etc.
 Prefixes that are the same as in English should be left unspecified; they will automatically be inherited from the English translation.
