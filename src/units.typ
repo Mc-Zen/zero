@@ -319,7 +319,7 @@
 
   let separator = sym.space.thin
   if num-state.math {
-    separator = $separator$
+    separator = math.equation($separator$, alt: sym.zws)
   }
 
   let angles = ("°", "′", "″", sym.degree, sym.prime, sym.prime.double)
