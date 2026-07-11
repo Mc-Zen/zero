@@ -552,7 +552,7 @@
     )
 
     // Checks the need for plural despite already supposedly done via `needs-plural()`
-    if calc.abs(count) == 1 and not is-float and not denom {
+    if calc.abs(count) == 1 and not is-float and not is-in-denom {
       panic("Attempt to use plural for an integer count of 1")
     }
 
