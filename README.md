@@ -119,6 +119,8 @@ Zero's core is the `num()` function, which provides flexible number formatting. 
   uncertainty-mode:       str = "separate",
   round:                  dictionary,
   group:                  dictionary,
+
+  alt:                    auto | dictionary | string | none = auto,
 )
 ```
 - `number: str | content | int | float | array` : Number input; `str` is preferred. If the input is `content`, it may only contain text nodes. Numeric types `int` and `float` are supported but not encouraged because of information loss (e.g., the number of trailing "0" digits or the exponent). The remaining types `dictionary` and `array` are intended for advanced use, see [below](#zero-for-third-party-packages).
@@ -151,6 +153,7 @@ Zero's core is the `num()` function, which provides flexible number formatting. 
 
 - `round: dictionary` : You can provide one or more rounding options in a dictionary. Also see [rounding](#rounding). 
 - `group: dictionary` : You can provide one or more grouping options in a dictionary. Also see [grouping](#grouping). 
+- `alt: auto | dictionary | str | none` : The alt description for the number, as read by a screen reader. If set to `auto` and if the document language is supported, the description is generated automatically. By passing a dictionary with the keys `plus`, `minus`, `times`, `power`, and `decimal-separator` you can override the translations for these parts (the meaning of these keys is explained in the [language contribution guide](docs/language-contribution-guide.md#translations-for-numbers)). The alt description can also be set manually per number instance. Also see [accessibility](#accessibility). 
 
 Configuration example: 
 ```typ
@@ -428,6 +431,8 @@ These options are also available when instancing a quantity, e.g., `#zi.m(fracti
 
 Note that the configuration made through `set-num` also affects the numeral of a quantity. 
 
+For supported languages, an automatic alt description is generated for accessibility. A manual description can be specified per unit/quantity through the `alt` parameter, e.g., `zi.m(alt: "meter")`. This is especially necessary for custom units that are not part of the SI system or recommended to be used in compliance with the SI system, e.g., `(zi.declare("yard", alt: "yard"))`.
+
 
 ### Lower and upper case liter
 
@@ -443,7 +448,8 @@ By default, the symbol for liter is an uppercase L. In order to display a lowerc
 
 Zero generates accessible output! Numbers, units, and quantities that are formatted with Zero have automatically generated alt descriptions that specify how a screen reader should read them.
 
-This is supported for a selection of languages and you can extend this selection by opening a PR and providing the necessary translations for the new language. When opening a PR, please read the [language contribution guide](docs/language-contribution-guide.md) first.
+This is supported for a selection of languages (currently: English, German, French, Spanish, Italian, Finnish, and Slovenian) and you can extend this selection by opening a PR and providing the necessary translations for the new language. When opening a PR, please read the [language contribution guide](docs/language-contribution-guide.md) first.
+
 
 
 ---

@@ -152,8 +152,8 @@
   }
   if type(it.alt) == dictionary {
     assert(
-      "times" in it.alt and "power" in it.alt and "plus" in it.alt and "minus" in it.alt,
-      message: "Expected keys \"times\", \"power\", \"plus\", and \"minus\", got " + repr(it.alt),
+      "times" in it.alt and "power" in it.alt and "plus" in it.alt and "minus" in it.alt and "decimal-separator" in it.alt,
+      message: "Expected keys \"times\", \"power\", \"plus\", \"minus\", and \"decimal-marker\" got " + repr(it.alt),
     )
     it.alt = generate-num-alt-description.with(translation: it.alt)
   }
@@ -163,7 +163,6 @@
         sign: info.sign,
         int: info.int,
         frac: info.frac,
-        decimal-separator: it.decimal-separator,
         pm: info.pm,
         e: info.e,
         base: it.base,
