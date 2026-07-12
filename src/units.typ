@@ -308,6 +308,7 @@
   value,
   unit,
   alt: auto,
+  prefixed: false,
   ..args,
 ) = context {
   let unit = unit
@@ -357,12 +358,7 @@
   }
   let breakable = utility.process-breakable(num-state.breakable)
 
-  let result = {
-    num(value, state: num-state, force-parentheses-around-uncertainty: true)
-    sym.wj
-    separator
-    if not breakable.unit { sym.wj }
-    show-unit(
+  let unit-content = show-unit(
       unit.numerator,
       unit.denominator,
       fraction: num-state.unit.fraction,
@@ -376,6 +372,22 @@
         float(info.int + "." + info.frac)
       },
     )
+  let result = {
+    if prefixed {
+      unit-content
+      sym.wj
+      separator
+      if not breakable.unit { sym.wj }
+    }
+
+    num(value, state: num-state, force-parentheses-around-uncertainty: true)
+
+    if not prefixed {
+      sym.wj
+      separator
+      if not breakable.unit { sym.wj }
+      unit-content
+    }
   }
 
   result

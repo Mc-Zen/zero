@@ -1,12 +1,12 @@
 #import "units.typ"
 
-#let declare(alt: auto, ..unit) = {
+#let declare(alt: auto, prefixed:false, ..unit) = {
   assert(unit.named().len() == 0, )
 
   (..value) => if value.pos().len() == 0 { 
-    units.unit(units.parse-unit(..unit.pos()), ..value, alt: alt)
+    units.unit(units.parse-unit(..unit.pos()), ..value, alt: alt, prefixed: prefixed)
   } else { 
-    units.qty(..value, units.parse-unit(..unit.pos()), alt: alt)
+    units.qty(..value, units.parse-unit(..unit.pos()), alt: alt, prefixed: prefixed)
   }
 }
 
@@ -117,7 +117,7 @@
 #let µH = declare("µH")
 #let uH = µH
 #let nH = declare("nH")
-#let pH = declare("pH")
+#let pH = declare("pH", prefixed: true)
 #let mC = declare("mC")
 #let nC = declare("nC")
 #let µC = declare("µC")
