@@ -199,5 +199,30 @@
 #let F-m = declare("F/m")
 #let kWh = declare("kW h")
 
+// the order and if it's included at all is based on https://en.wikipedia.org/wiki/Template:Most_traded_currencies with duplicates removed
+#let dollar = declare("$", prefixed: true, alt:"")
+#let euro = declare("€")
+#let yen = declare("¥", prefixed: true)
+#let pound-sterling = declare("£", prefixed: true)
+#let francs = declare("Fr.")
+#let rupee = declare("₹", prefixed: true)
+#let won = declare("₩", prefixed: true)
+#let krona = declare("kr")
+#let rand = declare("R", prefixed: true)
+#let zloty = declare("zł")
+#let lira = declare("₺")
+#let baht = declare("฿", prefixed: true)
+#let shekel = declare("₪", prefixed: true)
+#let forint = declare("Ft")
+#let koruna = declare("Kč")
+#let philipine-peso = declare("₱", prefixed: true)
+#let ringgit = declare("RM", prefixed: true)
+// unicode symbol for dirham will be added in September 2026
+#let dirham = declare("Dhs", prefixed: true)
+#let riyal = declare("⃁")
+#let sol = declare([S/], prefixed: true, alt:"sol")
 
-#kWh()
+
+// two commonly used crypto currencies
+#let BTC = declare("₿", prefixed: true)
+#let ETH = declare("Ξ", prefixed: true)
