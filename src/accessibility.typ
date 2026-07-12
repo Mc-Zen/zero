@@ -486,7 +486,7 @@
 #let pluralize = (
   en: (unit, count, is-in-denom) => {
     let singular = units.en.at(unit)
-    if unit in ("lx", "Hz", "S") {
+    if unit in ("lx", "Hz", "S", "¥", "₩", "kr", "zł", "฿", "Ft", "Kč", "RM", "Dhs", "₿", "Ξ") {
       return singular
     }
     if unit == sym.degree + "C" {
