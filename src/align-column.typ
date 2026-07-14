@@ -26,7 +26,7 @@
   let max-widths = array.zip(..widths).map(col => calc.max(..col))
 
   return numbers.map(components => components
-    .zip(max-widths, (right, left, left, left))
+    .zip(max-widths, (right, right, left, left, left))
     .map(((body, width, alignment)) => box(width: width, align(
       alignment,
       body,

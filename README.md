@@ -470,6 +470,8 @@ This way, parsing the number can be avoided which makes especially sense for pac
 
 Furthermore, `num()` also allows `array` arguments for `number` which allows for more efficient batch-processing of numbers with the same setup. In this case, the caller of the function needs to provide `context`. 
 
+If you want to accept `num()` or `qty()` as arguments for your functions you can access the underlying raw data we use for drawing by calling the `impl.utility.retrieve.metadata` function. Manipulating this data will not change what content is drawn, but allows you to reason about the values. You can query for numbers and quantities by using `query(selector(metadata).and(<zero-num>))` and `query(selector(metadata).and(<zero-qty>))` respecticely.
+
 Lastly, the function `align-columns` can be used to format and align an array of numerals into a single column. The returned array of items can be used to fill a column of a `table` or `stack`. Also, here the caller of the function needs to provide `context`. 
 
 

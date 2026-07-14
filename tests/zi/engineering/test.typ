@@ -18,3 +18,9 @@
 
 #zi.m-s[12e2] \
 #zi.declare("V m")([12e2])
+
+#context{
+  let x = query(selector(metadata).and(<zero-qty>))
+  let x = query(selector(metadata).and(<zero-num>))
+  x.len()
+}

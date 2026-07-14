@@ -84,12 +84,10 @@
 }
 
 
-
-#let show-num = it => {
-  // Process input
+#let process-input(number) = {
   let info
-  if type(it.number) == dictionary {
-    info = it.number
+  if type(number) == dictionary {
+    info = number
     if "mantissa" in info {
       let mantissa = info.mantissa
       if type(mantissa) in (int, float) {
@@ -100,8 +98,14 @@
     }
     if "sign" not in info { info.sign = "" }
   } else {
-    info = parse-numeral(it.number)
+    info = parse-numeral(number)
   }
+  return info
+}
+
+#let show-num(it) = {
+  // Process input
+  let info = it.info
 
   if it.exponent != auto {
     info = process-exponent(info, it.exponent)
@@ -231,26 +235,54 @@
     fpau: force-parentheses-around-uncertainty,
   )
 
-  if type(number) == array {
+  if (type(number) == array) {
     let named = args.named()
     let num-state = if state == auto { num-state.get() } else { state }
     let it = num-state + inline-args + args.named()
-    return number.map(n => show-num(it + (number: n)))
+
+    return number.map(n => {
+      let info = process-input(n)
+      let metadata-value = (
+        float: if type(n) != float and type(n) != int {utility.info-to-float(info)} else{n},
+        uncertainty: utility.info-to-uncertainty(info),
+        raw:n,
+        info:info,
+      )
+      [#metadata(metadata-value)<zero-num>]
+      show-num(it + (info:info))
+    })
   }
 
-  if state != auto {
+  let info = process-input(number)
+  let metadata-value = [#metadata((
+    float: if type(number) != float and type(number) != int {utility.info-to-float(info)} else{number},
+    uncertainty: utility.info-to-uncertainty(info),
+    raw:number,
+    info:info,
+  ))<zero-num>]
+
+  if (state != auto) {
     let it = (
-      update-num-state(state, args.named()) + inline-args + (number: number)
-    )
-    return show-num(it)
-  }
-  context {
-    let it = (
-      update-num-state(num-state.get(), args.named())
+      update-num-state(state, args.named())
         + inline-args
-        + (number: number)
+        + (info: info)
     )
-    show-num(it)
+    if align == "components"{
+      (metadata-value,) + show-num(it)
+    }else {
+      metadata-value
+      show-num(it)
+    }
+  } else{
+    metadata-value
+    context {
+      let it = (
+        update-num-state(num-state.get(), args.named())
+          + inline-args
+          + (info: info)
+      )
+      show-num(it)
+    }
   }
 }
 

@@ -67,3 +67,29 @@
   }
   assert(false)
 }
+
+#let info-to-float(value) = {
+  let f = float(value.sign + value.int + if value.frac != ""{"." + value.frac} + if value.e != none and not value.e.contains("."){"e" + value.e})
+  
+  if value.e != none and value.e.contains("."){
+    f *= calc.pow(10, float(value.e))
+  }
+  return f
+  }
+
+#let info-to-uncertainty(value) = if value.pm != none{
+  if type(value.pm.first())== array{
+    value.pm.map(x=>float(x.at(0) + "." + x.at(1) + if value.e != none {"e" + value.e}))
+  }else{
+    float(value.pm.at(0) + "." + value.pm.at(1) + if value.e != none {"e" + value.e})
+  }
+}
+
+#let _sequence = ([A] + [B]).func()
+#let retrieve-metadata(it) = {
+  if type(it) == content and it.func() == _sequence{
+    if (it.children.first().func() == metadata){
+      return it.children.first().value
+    }
+  }
+}

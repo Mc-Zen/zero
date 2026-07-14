@@ -309,7 +309,17 @@
   unit,
   alt: auto,
   ..args,
-) = context {
+) = {
+  let info = parse-numeral(value)
+  let metadata-value = (
+    float: if type(value) != float and type(value) != int {utility.info-to-float(info)} else{value},
+    uncertainty: utility.info-to-uncertainty(info),
+    raw:value,
+    info:info,
+    unit:unit
+  )
+  [#metadata(metadata-value)<zero-qty>]
+  context {
   let unit = unit
 
   let num-state = update-num-state(
@@ -327,7 +337,6 @@
     separator = none
   }
 
-  let info = parse-numeral(value)
   if num-state.unit.prefix == auto and num-state.exponent == "eng" {
     num-state.prefixed-eng = true
 
@@ -379,6 +388,7 @@
   }
 
   result
+}
 }
 
 
