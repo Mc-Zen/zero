@@ -316,7 +316,8 @@
     uncertainty: utility.info-to-uncertainty(info),
     raw:value,
     info:info,
-    unit:unit
+    unit:unit,
+    args:args
   )
   [#metadata(metadata-value)<zero-qty>]
   context {

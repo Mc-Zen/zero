@@ -247,6 +247,7 @@
         uncertainty: utility.info-to-uncertainty(info),
         raw:n,
         info:info,
+        args:args,
       )
       [#metadata(metadata-value)<zero-num>]
       show-num(it + (info:info))
@@ -259,6 +260,7 @@
     uncertainty: utility.info-to-uncertainty(info),
     raw:number,
     info:info,
+    args:args
   ))<zero-num>]
 
   if (state != auto) {
