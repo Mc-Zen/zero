@@ -14,9 +14,9 @@
   if (
     body.has("children")
       and body.children.len() != 0
-      and body.children.all(child => child.has("text"))
+      and body.children.all(child => child.has("text") or child == [ ])
   ) {
-    body.children.map(child => child.text).join()
+    body.children.map(child => if child == [ ] { " " } else { child.text }).join()
   }
 }
 
@@ -186,6 +186,7 @@
 /// -> (int: str, frac: str, sign: str, pm: array | str, e: str)
 #let parse-normalized-compound-numeral(numeral) = {
   numeral = numeral.replace("E", "e")
+  // numeral = numeral.replace(" ", "")
   let original-numeral = numeral
   let e
   let pm

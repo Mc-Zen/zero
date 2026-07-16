@@ -36,9 +36,9 @@
 // unparsable inputs
 #assert.eq(to-normalized-numeral[], none)
 #assert.eq(to-normalized-numeral[$a + b$], none)
-#assert.eq(to-normalized-numeral[2 ], none)
-#assert.eq(to-normalized-numeral[ 2], none)
-#assert.eq(to-normalized-numeral[ 2343.23 ], none)
+#assert.eq(to-normalized-numeral-table[2 ], none)
+#assert.eq(to-normalized-numeral-table[ 2], none)
+#assert.eq(to-normalized-numeral-table[ 2343.23 ], none)
 #assert.eq(str(sym.plus), "+")
 
 
