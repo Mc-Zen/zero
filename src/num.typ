@@ -242,26 +242,13 @@
 
     return number.map(n => {
       let info = process-input(n)
-      let metadata-value = (
-        float: if type(n) != float and type(n) != int {utility.info-to-float(info)} else{n},
-        uncertainty: utility.info-to-uncertainty(info),
-        raw:n,
-        info:info,
-        args:args,
-      )
-      [#metadata(metadata-value)<zero-num>]
+      utility.create-num-metadata(info, n, args)
       show-num(it + (info:info))
     })
   }
 
   let info = process-input(number)
-  let metadata-value = [#metadata((
-    float: if type(number) != float and type(number) != int {utility.info-to-float(info)} else{number},
-    uncertainty: utility.info-to-uncertainty(info),
-    raw:number,
-    info:info,
-    args:args
-  ))<zero-num>]
+  let metadata = utility.create-num-metadata(info, number, args)
 
   if (state != auto) {
     let it = (
@@ -270,13 +257,13 @@
         + (info: info)
     )
     if align == "components"{
-      (metadata-value,) + show-num(it)
+      (metadata,) + show-num(it)
     }else {
-      metadata-value
+      metadata
       show-num(it)
     }
   } else{
-    metadata-value
+    metadata
     context {
       let it = (
         update-num-state(num-state.get(), args.named())

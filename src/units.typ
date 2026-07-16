@@ -282,7 +282,9 @@
   unit,
   alt: auto,
   ..args,
-) = context {
+) = {
+  utility.create-unit-metadata(unit, args)
+  context {
   let args = (unit: args.named())
   if "math" in args.unit {
     args.math = args.unit.math
@@ -299,7 +301,7 @@
     )
   )
   result
-}
+}}
 
 
 
@@ -311,15 +313,7 @@
   ..args,
 ) = {
   let info = parse-numeral(value)
-  let metadata-value = (
-    float: if type(value) != float and type(value) != int {utility.info-to-float(info)} else{value},
-    uncertainty: utility.info-to-uncertainty(info),
-    raw:value,
-    info:info,
-    unit:unit,
-    args:args
-  )
-  [#metadata(metadata-value)<zero-qty>]
+  utility.create-qty-metadata(info, value, unit, args)
   context {
   let unit = unit
 
