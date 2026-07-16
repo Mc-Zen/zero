@@ -1,4 +1,4 @@
-#import "num.typ": num
+#import "num.typ": num, process-input
 #import "state.typ": num-state, update-num-state
 #import "assertions.typ": assert-settable-args
 #import "parsing.typ": compute-eng-digits, parse-numeral
@@ -312,7 +312,7 @@
   alt: auto,
   ..args,
 ) = {
-  let info = parse-numeral(value)
+  let info = process-input(value)
   utility.create-qty-metadata(info, value, unit, args)
   context {
   let unit = unit
