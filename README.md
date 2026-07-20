@@ -470,7 +470,11 @@ This way, parsing the number can be avoided which makes especially sense for pac
 
 Furthermore, `num()` also allows `array` arguments for `number` which allows for more efficient batch-processing of numbers with the same setup. In this case, the caller of the function needs to provide `context`. 
 
-To accept `num` or `qty` as arguments for functions, the underlying raw data can be accessed by calling the `impl.utility.retrieve-metadata` function. Manipulating this data will not change what content is drawn, but allows reasoning about the values and units. `impl.utility.info-to-float` converts these values to numbers. To query for numbers and quantities `query(selector(metadata).and(<zero-num>))` and `query(selector(metadata).and(<zero-qty>))` can be used respecticely.
+To accept `num` or `qty` as arguments for package functions, the underlying raw data can be accessed by calling the `impl.utility.retrieve-metadata` function. Manipulating this data will not change what content is drawn, but allows reasoning about the values and units. The info dictionary contains all the relevant information for the numeral and `impl.utility.info-to-float` converts these values to float numbers.
+
+Creating _Zero_-equivalent number and quantity metadata should only be done when the content is contextually equivalent to the outputs from the num and qty functions, this can be done using the `impl.utility.create-qty-metadata` and `create-num-metadata` functions.
+
+_Zero_ features powerful accessibility descriptions for numbers. If your package displays numbers in any way, even if not using the _Zero_ package it may still be useful to generate description strings from numbers. `impl.accessibility.generate-num-alt-description` accepts a number info dictionary which can be created manually or from `impl.parsing.parse-numeral`.
 
 Lastly, the function `align-columns` can be used to format and align an array of numerals into a single column. The returned array of items can be used to fill a column of a `table` or `stack`. Also, here the caller of the function needs to provide `context`. 
 
