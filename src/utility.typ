@@ -86,19 +86,15 @@
 }
 
 #let create-num-metadata(info, raw, args) = [#metadata((
-    float: if type(raw) != float and type(raw) != int {info-to-float(info)} else{raw},
-    uncertainty: info-to-uncertainty(info),
-    raw:raw,
     info:info,
+    raw:raw,
     args:args
   ))<zero-num>]
   
 #let create-qty-metadata(info, raw, unit, args) = [#metadata((
-    float: if type(raw) != float and type(raw) != int {info-to-float(info)} else{raw},
-    uncertainty: info-to-uncertainty(info),
-    raw:raw,
     info:info,
     unit:unit,
+    raw:raw,
     args:args
   ))<zero-qty>]
 
@@ -110,7 +106,7 @@
 #let _sequence = ([A] + [B]).func()
 #let retrieve-metadata(it) = {
   if type(it) == content and it.func() == _sequence{
-    if (it.children.first().func() == metadata){
+    if it.children.first().func() == metadata{
       return it.children.first().value
     }
   }

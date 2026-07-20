@@ -1,5 +1,5 @@
 #set page(width: auto, height: auto, margin: .5em)
-#import "/src/zero.typ": set-num, set-unit, zi, num
+#import "/src/zero.typ": *
 
 #num(digits:4)[#calc.pi]
 #set-num(exponent: "eng")
@@ -15,7 +15,7 @@
     #quantities.first().value.unit.numerator.first().first()
     #numbers.len() num
 
-    #numbers.first().value.float
+    #impl.utility.info-to-float(numbers.first().value.info)
     #numbers.first().value.args.named().digits
   ]
 }

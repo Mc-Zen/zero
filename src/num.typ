@@ -235,7 +235,7 @@
     fpau: force-parentheses-around-uncertainty,
   )
 
-  if (type(number) == array) {
+  if type(number) == array {
     let named = args.named()
     let num-state = if state == auto { num-state.get() } else { state }
     let it = num-state + inline-args + args.named()
@@ -250,7 +250,7 @@
   let info = process-input(number)
   let metadata = utility.create-num-metadata(info, number, args)
 
-  if (state != auto) {
+  if state != auto {
     let it = (
       update-num-state(state, args.named())
         + inline-args
