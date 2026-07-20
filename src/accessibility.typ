@@ -222,6 +222,8 @@
     V: "volt",
     W: "watt",
     Wb: "weber",
+    "%": "percent",
+    "‰": "permille",
   ),
   de: (
     // identical/similar units are inherited from English
@@ -270,6 +272,8 @@
     V: "Volt",
     W: "Watt",
     Wb: "Weber",
+    "%": "Prozent",
+    "‰": "Promille",
   ),
   fr: (
     A: "ampère",
@@ -290,6 +294,8 @@
     l: "litre",
     Np: "néper",
     sr: "stéradian",
+    "%": "pour cent",
+    "‰": "pour mille",
   ),
   es: (
     A: "amperio",
@@ -320,6 +326,8 @@
     au: "unidad astronómica",
     sym.prime.double: "segundo de arco",
     sym.prime: "minuto de arco",
+    "%": "por ciento",
+    "‰": "por mil",
   ),
   it: (
     m: "metro",
@@ -337,6 +345,8 @@
     au: "unità astronomica",
     sym.prime.double: "secondo d'arco",
     sym.prime: "minuto d'arco",
+    "%": "per cento",
+    "‰": "per mille",
   ),
   fi: (
     A: "ampeeria",
@@ -384,6 +394,8 @@
     V: "volttia",
     W: "wattia",
     Wb: "weberiä",
+    "%": "prosentti",
+    "‰": "promille",
   ),
   sl: (
     /* inherits bel, dalton,
@@ -421,12 +433,14 @@
     t: "tona",
     W: "vat",
     Wb: "veber",
+    "%": "procènt",
+    "‰": "promíle",
   ),
 )
 
 // Register of the shorthands for special powers that a language has. This
-// can be a string that is appended to the constituent unit (with a space) 
-// or a function that takes the translated constituent unit. 
+// can be a string that is appended to the constituent unit (with a space)
+// or a function that takes the translated constituent unit.
 #let power-shorthands = (
   en: (
     "2": "squared",
@@ -461,11 +475,11 @@
 // How to form the plural of a constituent unit. For each language, this should
 // be a function that takes a unit symbol string, e.g. "Hz",
 // and a float `count` which is assumed to be of some plural amount,
-// and a bool `is-in-denom` that specifies whether the unit is placed in the denominator. 
+// and a bool `is-in-denom` that specifies whether the unit is placed in the denominator.
 #let pluralize = (
   en: (unit, count, is-in-denom) => {
     let singular = units.en.at(unit)
-    if unit in ("lx", "Hz", "S") {
+    if unit in ("lx", "Hz", "S", "%", "‰") {
       return singular
     }
     if unit == sym.degree + "C" {
@@ -476,10 +490,10 @@
     }
     return singular + "s"
   },
-  
+
   de: (unit, count, is-in-denom) => {
     let singular = units.de.at(unit)
-    if unit in ("h", "min", "s", sym.prime.double, sym.prime, "t") {
+    if unit in ("h", "min", "s", sym.prime.double, sym.prime, "t", "%", "‰") {
       return singular + "n"
     }
     if unit == "au" {
@@ -494,7 +508,7 @@
 
   fr: (unit, count, is-in-denom) => {
     let singular = units.fr.at(unit, default: units.en.at(unit))
-    if unit in ("lx", "Hz", "S") {
+    if unit in ("lx", "Hz", "S", "%", "‰") {
       return singular
     }
     if unit == sym.degree + "C" { return "degrés Celsius" }
@@ -503,10 +517,10 @@
     if unit == "au" { return "unités astronomique" }
     return singular + "s"
   },
-  
+
   es: (unit, count, is-in-denom) => {
     let singular = units.es.at(unit, default: units.en.at(unit))
-    if unit in ("lx", "Hz", "S") {
+    if unit in ("lx", "Hz", "S", "%", "‰") {
       return singular
     }
     if unit == sym.degree + "C" { return "grados Celsius" }
@@ -520,10 +534,10 @@
       return singular + "es"
     }
   },
-  
+
   it: (unit, count, is-in-denom) => {
     let singular = units.it.at(unit, default: units.en.at(unit))
-    if unit in ("J", "A", "T") { return singular }
+    if unit in ("J", "A", "T", "%", "‰") { return singular }
     if unit == sym.degree + "C" { return "gradi Celsius" }
     if unit.ends-with("o") or unit.ends-with("e") {
       return singular.slice(0, -1) + "i"
@@ -541,8 +555,8 @@
 
     // Easier keywords
     let (dual, plural-3-4, is-float) = (
-      count == 2,           // Dual
-      count in (3, 4),      // Plural for 3 and 4
+      count == 2, // Dual
+      count in (3, 4), // Plural for 3 and 4
 
       // A would-be `plural-5` for 5+ and 0
       // Is simply an `else` branch instead
@@ -574,14 +588,13 @@
 
     let masculine(word) = {
       // Denominator rule with a hardcoded `return`
-      if is-in-denom and word == "tesla" { return word.slice(0, -1) + "o" }
-      else if is-in-denom { return word }
+      if is-in-denom and word == "tesla" { return word.slice(0, -1) + "o" } else if is-in-denom { return word }
 
       // Different float rule with a hardcoded `return`
       if word == "tesla" and is-float {
         return "tesle"
       }
-      
+
       if dual or is-float {
         if word == "dan" {
           "dneva"
@@ -628,14 +641,53 @@
         }
       }
     }
-    
+
     // Feminine
     if unit in ("cd", str(sym.degree), "h", "min", "s", "t") {
       return feminine(singular)
     }
 
     // Masculine
-    if unit in ("A", "B", "Bq", "C", "d", "Da", "dB", "eV", "F", "g", "Gy", "H", "ha", "Hz", "J", "K", "kat", "kg", "L", "lm", "lx", "m", "mol", "N", "Np", str(sym.Omega), "Pa", "rad", "S", "sr", "Sv", "T", "V", "W", "Wb") {
+    if (
+      unit
+        in (
+          "A",
+          "B",
+          "Bq",
+          "C",
+          "d",
+          "Da",
+          "dB",
+          "eV",
+          "F",
+          "g",
+          "Gy",
+          "H",
+          "ha",
+          "Hz",
+          "J",
+          "K",
+          "kat",
+          "kg",
+          "L",
+          "lm",
+          "lx",
+          "m",
+          "mol",
+          "N",
+          "Np",
+          str(sym.Omega),
+          "Pa",
+          "rad",
+          "S",
+          "sr",
+          "Sv",
+          "T",
+          "V",
+          "W",
+          "Wb",
+        )
+    ) {
       return masculine(singular)
     }
 
@@ -644,8 +696,7 @@
       return singular
         .split(" ")
         .map(word => {
-          if word == "Celzija" { word }
-          else { feminine(word) }
+          if word == "Celzija" { word } else { feminine(word) }
         })
         .join(" ")
     }
@@ -660,15 +711,15 @@
 #let join-prefix-unit(
   /// The translated prefix, e.g. "milli"
   /// -> str
-  prefix, 
-  
+  prefix,
+
   /// The translated unit, e.g. "meter".
   /// -> str
-  unit, 
-  
+  unit,
+
   /// The language code.
   /// -> str
-  lang
+  lang,
 ) = {
   if lang == "de" {
     prefix + lower(unit)
@@ -683,11 +734,11 @@
 #let needs-plural(
   /// The value of the quantity, e.g. `1.5`.
   /// -> float
-  value, 
-  
+  value,
+
   /// The language code.
   /// -> str
-  lang
+  lang,
 ) = {
   if lang == "fr" {
     calc.abs(value) >= 2
@@ -743,25 +794,13 @@
       )
     } else {
       alt += (
-        " "
-          + translation.plus
-          + " "
-          + translation.minus
-          + " "
-          + format-comma-number(..info.pm)
+        " " + translation.plus + " " + translation.minus + " " + format-comma-number(..info.pm)
       )
     }
   }
   if info.e != none {
     alt += (
-      " "
-        + translation.times
-        + " "
-        + base-to-string(info.base)
-        + " "
-        + translation.power
-        + " "
-        + info.e
+      " " + translation.times + " " + base-to-string(info.base) + " " + translation.power + " " + info.e
     )
   }
 
@@ -769,7 +808,7 @@
 }
 
 
-  
+
 
 #let unit-component-description(
   component,
@@ -778,21 +817,18 @@
   is-in-denom: false,
 ) = {
   if count == auto {
-    if not plural { count = 1 }
-    else { count = 99 }
+    if not plural { count = 1 } else { count = 99 }
   }
 
   let lang = text.lang
   let units = units.en + units.at(lang, default: units.en)
   let get-unit(unit-code) = {
-    if plural { (pluralize.at(lang))(unit-code, count, is-in-denom) }
-    // Add your language here to `pluralize` the denominator
+    if plural { (pluralize.at(lang))(unit-code, count, is-in-denom) } // Add your language here to `pluralize` the denominator
     else if is-in-denom and lang == "sl" {
       (pluralize.at(lang))(unit-code, count, is-in-denom)
-    }
-    else { units.at(unit-code) }
+    } else { units.at(unit-code) }
   }
-  
+
   if type(component) in (symbol, str) {
     component = str(component)
     if component in units {
@@ -856,7 +892,6 @@
     }
     unit
   }
-
 
   let plural = needs-plural(value, lang)
   if numerator.len() > 0 {
