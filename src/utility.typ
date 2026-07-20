@@ -69,44 +69,49 @@
 }
 
 #let info-to-float(value) = {
-  let f = float(value.sign + value.int + if value.frac != ""{"." + value.frac} + if value.e != none and not value.e.contains("."){"e" + value.e})
-  
-  if value.e != none and value.e.contains("."){
+  let f = float(
+    value.sign
+      + value.int
+      + if value.frac != "" { "." + value.frac }
+      + if value.e != none and not value.e.contains(".") { "e" + value.e },
+  )
+
+  if value.e != none and value.e.contains(".") {
     f *= calc.pow(10, float(value.e))
   }
   return f
-  }
+}
 
-#let info-to-uncertainty(value) = if value.pm != none{
-  if type(value.pm.first())== array{
-    value.pm.map(x=>float(x.at(0) + "." + x.at(1) + if value.e != none {"e" + value.e}))
-  }else{
-    float(value.pm.at(0) + "." + value.pm.at(1) + if value.e != none {"e" + value.e})
+#let info-to-uncertainty(value) = if value.pm != none {
+  if type(value.pm.first()) == array {
+    value.pm.map(x => float(x.at(0) + "." + x.at(1) + if value.e != none { "e" + value.e }))
+  } else {
+    float(value.pm.at(0) + "." + value.pm.at(1) + if value.e != none { "e" + value.e })
   }
 }
 
 #let create-num-metadata(info, raw, args) = [#metadata((
-    info:info,
-    raw:raw,
-    args:args
-  ))<zero-num>]
-  
+  info: info,
+  raw: raw,
+  args: args,
+))<zero-num>]
+
 #let create-qty-metadata(info, raw, unit, args) = [#metadata((
-    info:info,
-    unit:unit,
-    raw:raw,
-    args:args
-  ))<zero-qty>]
+  info: info,
+  unit: unit,
+  raw: raw,
+  args: args,
+))<zero-qty>]
 
 #let create-unit-metadata(unit, args) = [#metadata((
-    unit:unit,
-    args:args
-  ))<zero-unit>]
+  unit: unit,
+  args: args,
+))<zero-unit>]
 
 #let _sequence = ([A] + [B]).func()
 #let retrieve-metadata(it) = {
-  if type(it) == content and it.func() == _sequence{
-    if it.children.first().func() == metadata{
+  if type(it) == content and it.func() == _sequence {
+    if it.children.first().func() == metadata {
       return it.children.first().value
     }
   }

@@ -34,7 +34,6 @@
 
 // Process the exponent with its various modes mode
 #let process-exponent(info, exponent) = {
-
   if (info.int + info.frac).trim("0") == "" {
     // Add no exponent if number is 0
     return info
@@ -156,7 +155,11 @@
   }
   if type(it.alt) == dictionary {
     assert(
-      "times" in it.alt and "power" in it.alt and "plus" in it.alt and "minus" in it.alt and "decimal-separator" in it.alt,
+      "times" in it.alt
+        and "power" in it.alt
+        and "plus" in it.alt
+        and "minus" in it.alt
+        and "decimal-separator" in it.alt,
       message: "Expected keys \"times\", \"power\", \"plus\", \"minus\", and \"decimal-marker\" got " + repr(it.alt),
     )
     it.alt = generate-num-alt-description.with(translation: it.alt)
@@ -170,7 +173,7 @@
         pm: info.pm,
         e: info.e,
         base: it.base,
-      )
+      ),
     )
   } else {
     description = it.alt
@@ -243,7 +246,7 @@
     return number.map(n => {
       let info = process-input(n)
       utility.create-num-metadata(info, n, args)
-      show-num(it + (info:info))
+      show-num(it + (info: info))
     })
   }
 
@@ -252,23 +255,19 @@
 
   if state != auto {
     let it = (
-      update-num-state(state, args.named())
-        + inline-args
-        + (info: info)
+      update-num-state(state, args.named()) + inline-args + (info: info)
     )
-    if align == "components"{
+    if align == "components" {
       (metadata,) + show-num(it)
-    }else {
+    } else {
       metadata
       show-num(it)
     }
-  } else{
+  } else {
     metadata
     context {
       let it = (
-        update-num-state(num-state.get(), args.named())
-          + inline-args
-          + (info: info)
+        update-num-state(num-state.get(), args.named()) + inline-args + (info: info)
       )
       show-num(it)
     }

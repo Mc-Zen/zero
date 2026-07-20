@@ -95,14 +95,12 @@
     } else if type(child) == array {
       assert(
         child.len() == 2,
-        message: "Unit entries need to be a tuple of a unit and an exponent, got "
-          + repr(child),
+        message: "Unit entries need to be a tuple of a unit and an exponent, got " + repr(child),
       )
       let (unit, exponent) = child
       assert(
         type(exponent) in (int, float, str),
-        message: "The exponent of a unit entry needs to be an int, float, or str, got "
-          + repr(exponent),
+        message: "The exponent of a unit entry needs to be an int, float, or str, got " + repr(exponent),
       )
       if type(exponent) in (int, float) {
         exponent = str(exponent).replace("−", "-")
@@ -116,8 +114,7 @@
     } else {
       assert(
         false,
-        message: "Expected str, content, symbol or a unit-exponent pair, got "
-          + repr(child),
+        message: "Expected str, content, symbol or a unit-exponent pair, got " + repr(child),
       )
     }
   }
@@ -227,9 +224,7 @@
 ) = {
   assert(
     fraction in ("power", "fraction", "inline"),
-    message: "Invalid fraction: "
-      + fraction
-      + ". Expected \"power\", \"fraction\", or \"inline\"",
+    message: "Invalid fraction: " + fraction + ". Expected \"power\", \"fraction\", or \"inline\"",
   )
   if alt == auto {
     alt = generate-unit-alt-description(numerator, denominator, value: value)
@@ -285,23 +280,24 @@
 ) = {
   utility.create-unit-metadata(unit, args)
   context {
-  let args = (unit: args.named())
-  if "math" in args.unit {
-    args.math = args.unit.math
-  }
-  let num-state = update-num-state(num-state.get(), args)
+    let args = (unit: args.named())
+    if "math" in args.unit {
+      args.math = args.unit.math
+    }
+    let num-state = update-num-state(num-state.get(), args)
 
-  let result = (
-    show-unit(
-      unit.numerator,
-      unit.denominator,
-      ..num-state.unit,
-      math: num-state.math,
-      alt: alt,
+    let result = (
+      show-unit(
+        unit.numerator,
+        unit.denominator,
+        ..num-state.unit,
+        math: num-state.math,
+        alt: alt,
+      )
     )
-  )
-  result
-}}
+    result
+  }
+}
 
 
 
@@ -315,75 +311,75 @@
   let info = process-input(value)
   utility.create-qty-metadata(info, value, unit, args)
   context {
-  let unit = unit
+    let unit = unit
 
-  let num-state = update-num-state(
-    num-state.get(),
-    (unit: args.named()) + args.named(),
-  )
-
-  let separator = sym.space.thin
-  if num-state.math {
-    separator = math.equation($separator$, alt: sym.zws)
-  }
-
-  let angles = ("°", "′", "″", sym.degree, sym.prime, sym.prime.double)
-  if unit.numerator.len() > 0 and unit.numerator.at(0).at(0) in angles {
-    separator = none
-  }
-
-  if num-state.unit.prefix == auto and num-state.exponent == "eng" {
-    num-state.prefixed-eng = true
-
-    let e = if info.e == none { 0 } else { int(info.e) }
-    let eng = compute-eng-digits(info)
-
-    if eng != 0 {
-      let prefixes = (
-        "3": "k",
-        "6": "M",
-        "9": "G",
-        "12": "T",
-        "15": "P",
-        "18": "E",
-        "−3": "m",
-        "−6": "µ",
-        "−9": "n",
-        "−12": "p",
-        "−15": "f",
-        "−18": "a",
-      )
-
-      let prefix = prefixes.at(str(eng))
-      assert(unit.numerator.len() != 0)
-      unit.numerator.first().first() = prefix + unit.numerator.first().first()
-    }
-  }
-  let breakable = utility.process-breakable(num-state.breakable)
-
-  let result = {
-    num(value, state: num-state, force-parentheses-around-uncertainty: true)
-    sym.wj
-    separator
-    if not breakable.unit { sym.wj }
-    show-unit(
-      unit.numerator,
-      unit.denominator,
-      fraction: num-state.unit.fraction,
-      unit-separator: num-state.unit.unit-separator,
-      math: num-state.math,
-      use-sqrt: num-state.unit.use-sqrt,
-      alt: alt,
-      value: if info.frac == "" { 
-        int(info.int) 
-      } else {
-        float(info.int + "." + info.frac)
-      },
+    let num-state = update-num-state(
+      num-state.get(),
+      (unit: args.named()) + args.named(),
     )
-  }
 
-  result
-}
+    let separator = sym.space.thin
+    if num-state.math {
+      separator = math.equation($separator$, alt: sym.zws)
+    }
+
+    let angles = ("°", "′", "″", sym.degree, sym.prime, sym.prime.double)
+    if unit.numerator.len() > 0 and unit.numerator.at(0).at(0) in angles {
+      separator = none
+    }
+
+    if num-state.unit.prefix == auto and num-state.exponent == "eng" {
+      num-state.prefixed-eng = true
+
+      let e = if info.e == none { 0 } else { int(info.e) }
+      let eng = compute-eng-digits(info)
+
+      if eng != 0 {
+        let prefixes = (
+          "3": "k",
+          "6": "M",
+          "9": "G",
+          "12": "T",
+          "15": "P",
+          "18": "E",
+          "−3": "m",
+          "−6": "µ",
+          "−9": "n",
+          "−12": "p",
+          "−15": "f",
+          "−18": "a",
+        )
+
+        let prefix = prefixes.at(str(eng))
+        assert(unit.numerator.len() != 0)
+        unit.numerator.first().first() = prefix + unit.numerator.first().first()
+      }
+    }
+    let breakable = utility.process-breakable(num-state.breakable)
+
+    let result = {
+      num(value, state: num-state, force-parentheses-around-uncertainty: true)
+      sym.wj
+      separator
+      if not breakable.unit { sym.wj }
+      show-unit(
+        unit.numerator,
+        unit.denominator,
+        fraction: num-state.unit.fraction,
+        unit-separator: num-state.unit.unit-separator,
+        math: num-state.math,
+        use-sqrt: num-state.unit.use-sqrt,
+        alt: alt,
+        value: if info.frac == "" {
+          int(info.int)
+        } else {
+          float(info.int + "." + info.frac)
+        },
+      )
+    }
+
+    result
+  }
 }
 
 
