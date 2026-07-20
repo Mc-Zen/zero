@@ -119,7 +119,6 @@
 #let µH = declare("µH")
 #let uH = µH
 #let nH = declare("nH")
-#let pH = declare("pH")
 #let mC = declare("mC")
 #let nC = declare("nC")
 #let µC = declare("µC")
@@ -200,6 +199,3 @@
 #let N-A2 = declare("N/A^2")
 #let F-m = declare("F/m")
 #let kWh = declare("kW h")
-
-
-#kWh()
