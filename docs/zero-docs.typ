@@ -142,3 +142,10 @@ The numbers are not only aligned at the decimal point but also at the uncertaint
 
 
 = Zero for packages
+*NOTE THAT WHEN USING ZERO'S PACKAGE FEATURES NO STABLE API CAN BE PROVIDED.*
+
+To accept `num` or `qty` as arguments for package functions, the underlying raw data can be accessed by calling the `impl.utility.retrieve-metadata` function. Manipulating this data will not change what content is drawn, but allows reasoning about the values and units. The info dictionary contains all the relevant information for the numeral and `impl.utility.info-to-float` converts these values to float numbers.
+
+Creating _Zero_-equivalent number and quantity metadata should only be done when the content is contextually equivalent to the outputs from the num and qty functions, this can be done using the `impl.utility.create-qty-metadata` and `create-num-metadata` functions.
+
+_Zero_ features powerful accessibility descriptions for numbers. If your package displays numbers in any way, even if not using the _Zero_ package it may still be useful to generate description strings from numbers. `impl.accessibility.generate-num-alt-description` accepts a number info dictionary which can be created manually or from `impl.parsing.parse-numeral`.

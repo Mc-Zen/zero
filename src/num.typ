@@ -34,7 +34,6 @@
 
 // Process the exponent with its various modes mode
 #let process-exponent(info, exponent) = {
-
   if (info.int + info.frac).trim("0") == "" {
     // Add no exponent if number is 0
     return info
@@ -84,12 +83,10 @@
 }
 
 
-
-#let show-num = it => {
-  // Process input
+#let process-input(number) = {
   let info
-  if type(it.number) == dictionary {
-    info = it.number
+  if type(number) == dictionary {
+    info = number
     if "mantissa" in info {
       let mantissa = info.mantissa
       if type(mantissa) in (int, float) {
@@ -100,8 +97,14 @@
     }
     if "sign" not in info { info.sign = "" }
   } else {
-    info = parse-numeral(it.number)
+    info = parse-numeral(number)
   }
+  return info
+}
+
+#let show-num(it) = {
+  // Process input
+  let info = it.info
 
   if it.exponent != auto {
     info = process-exponent(info, it.exponent)
@@ -152,7 +155,11 @@
   }
   if type(it.alt) == dictionary {
     assert(
-      "times" in it.alt and "power" in it.alt and "plus" in it.alt and "minus" in it.alt and "decimal-separator" in it.alt,
+      "times" in it.alt
+        and "power" in it.alt
+        and "plus" in it.alt
+        and "minus" in it.alt
+        and "decimal-separator" in it.alt,
       message: "Expected keys \"times\", \"power\", \"plus\", \"minus\", and \"decimal-marker\" got " + repr(it.alt),
     )
     it.alt = generate-num-alt-description.with(translation: it.alt)
@@ -166,7 +173,7 @@
         pm: info.pm,
         e: info.e,
         base: it.base,
-      )
+      ),
     )
   } else {
     description = it.alt
@@ -235,22 +242,35 @@
     let named = args.named()
     let num-state = if state == auto { num-state.get() } else { state }
     let it = num-state + inline-args + args.named()
-    return number.map(n => show-num(it + (number: n)))
+
+    return number.map(n => {
+      let info = process-input(n)
+      utility.create-num-metadata(info, n, args)
+      show-num(it + (info: info))
+    })
   }
+
+  let info = process-input(number)
+  let metadata = utility.create-num-metadata(info, number, args)
 
   if state != auto {
     let it = (
-      update-num-state(state, args.named()) + inline-args + (number: number)
+      update-num-state(state, args.named()) + inline-args + (info: info)
     )
-    return show-num(it)
-  }
-  context {
-    let it = (
-      update-num-state(num-state.get(), args.named())
-        + inline-args
-        + (number: number)
-    )
-    show-num(it)
+    if align == "components" {
+      (metadata,) + show-num(it)
+    } else {
+      metadata
+      show-num(it)
+    }
+  } else {
+    metadata
+    context {
+      let it = (
+        update-num-state(num-state.get(), args.named()) + inline-args + (info: info)
+      )
+      show-num(it)
+    }
   }
 }
 
