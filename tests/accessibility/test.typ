@@ -234,6 +234,8 @@
       H: ("henrijev", "henri", "henrija", "henrija", "henriji", "henrijev", "henrija", "henri"),
       lm: ("lumnov", "lumen", "lumna", "lumna", "lumni", "lumnov", "lumna", "lumen"),
       T: ("tesel", "tesla", "tesle", "tesli", "tesle", "tesel", "tesle", "teslo"),
+      "%": ("odstotkov", "odstotek", "odstotka", "odstotka", "odstotki", "odstotkov", "odstotka", "odstotek"),
+      "‰": ("odtisočkov", "odtisoček", "odtisočka", "odtisočka", "odtisočki", "odtisočkov", "odtisočka", "odtisoček"),
 
       // Masculine, special rule for `*ber/*ter`
       L: ("litrov", "liter", "litra", "litra", "litri", "litrov", "litra", "liter"),

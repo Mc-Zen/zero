@@ -433,8 +433,8 @@
     t: "tona",
     W: "vat",
     Wb: "veber",
-    "%": "procènt",
-    "‰": "promíle",
+    "%": "odstotek",
+    "‰": "odtisoček",
   ),
 )
 
@@ -604,6 +604,8 @@
           "lumna"
         } else if word == "tesla" {
           "tesli"
+        } else if word.ends-with("ek") {
+          word.slice(0, -2) + "ka"
         } else if word.ends-with(regex("ber|ter")) {
           word.slice(0, -2) + "ra"
         } else {
@@ -618,6 +620,8 @@
           "lumni"
         } else if word == "tesla" {
           "tesle"
+        } else if word.ends-with("ek") {
+          word.slice(0, -2) + "ki"
         } else if word.ends-with(regex("ber|ter")) {
           word.slice(0, -2) + "ri"
         } else {
@@ -632,6 +636,8 @@
           "lumnov"
         } else if word == "tesla" {
           "tesel"
+        } else if word.ends-with("ek") {
+          word.slice(0, -2) + "kov"
         } else if word.ends-with(regex("ber|ter")) {
           word.slice(0, -2) + "rov"
         } else if word.ends-with(regex("c|j")) {
@@ -649,44 +655,12 @@
 
     // Masculine
     if (
-      unit
-        in (
-          "A",
-          "B",
-          "Bq",
-          "C",
-          "d",
-          "Da",
-          "dB",
-          "eV",
-          "F",
-          "g",
-          "Gy",
-          "H",
-          "ha",
-          "Hz",
-          "J",
-          "K",
-          "kat",
-          "kg",
-          "L",
-          "lm",
-          "lx",
-          "m",
-          "mol",
-          "N",
-          "Np",
-          str(sym.Omega),
-          "Pa",
-          "rad",
-          "S",
-          "sr",
-          "Sv",
-          "T",
-          "V",
-          "W",
-          "Wb",
-        )
+      unit in (
+        "A", "B", "Bq", "C", "d", "Da", "dB", "eV", "F", "g", "Gy", "H", "ha", 
+        "Hz", "J", "K", "kat", "kg", "L", "lm", "lx", "m", "mol", "N", "Np", 
+        str(sym.Omega), "Pa", "rad", "S", "sr", "Sv", "T", "V", "W", "Wb", 
+        "%", "‰",
+      )
     ) {
       return masculine(singular)
     }
