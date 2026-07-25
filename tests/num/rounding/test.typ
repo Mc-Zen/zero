@@ -186,37 +186,41 @@
 
 
 #assert.eq(
-  round-to-uncertainty("42", "3734", ("", "0025"), precision: 2),
+  round-to-uncertainty("42", "3734", ("", "0025"), mode: "figures", precision: 2),
   ("42", "3734", ("", "0025")),
 )
 #assert.eq(
-  round-to-uncertainty("42", "3734", ("", "0025"), precision: 1),
+  round-to-uncertainty("42", "3734", ("", "0025"), mode: "figures", precision: 1),
   ("42", "373", ("", "003")),
 )
 #assert.eq(
-  round-to-uncertainty("42", "3734", ("2", "2"), precision: 1),
+  round-to-uncertainty("67", "3734", ("", "025"), mode: "places", precision: 2),
+  ("67", "37", ("", "03")),
+)
+#assert.eq(
+  round-to-uncertainty("42", "3734", ("2", "2"), mode: "figures", precision: 1),
   ("42", "", ("2", "")),
 )
 #assert.eq(
-  round-to-uncertainty("42", "3734", ("2", "2"), precision: 2),
+  round-to-uncertainty("42", "3734", ("2", "2"), mode: "figures", precision: 2),
   ("42", "4", ("2", "2")),
 )
 #assert.eq(
-  round-to-uncertainty("42", "3734", ("2", "2"), precision: 3),
+  round-to-uncertainty("42", "3734", ("2", "2"), mode: "figures", precision: 3),
   ("42", "37", ("2", "20")),
 )
 
 #assert.eq(
-  round-to-uncertainty("4211", "3734", ("230", "2"), precision: 1),
+  round-to-uncertainty("4211", "3734", ("230", "2"), mode: "figures", precision: 1),
   ("4200", "", ("200", "")),
 )
 
 #assert.eq(
-  round-to-uncertainty("1", "23", ("0", "2"), precision: 1),
+  round-to-uncertainty("1", "23", ("0", "2"), mode: "figures", precision: 1),
   ("1", "2", ("", "2")),
 )
 #assert.eq(
-  round-to-uncertainty("123", "9", ("20", ""), precision: 1),
+  round-to-uncertainty("123", "9", ("20", ""), mode: "figures", precision: 1),
   ("120", "", ("20", "")),
 )
 #assert.eq(
@@ -225,6 +229,7 @@
     "23",
     (("0", "2"), ("0", "3")),
     precision: 1,
+    mode: "figures",
   ),
   ("1", "2", (("", "2"), ("", "3"))),
 )
@@ -234,6 +239,7 @@
     "9",
     (("020", ""), ("30", "")),
     precision: 1,
+    mode: "figures",
   ),
   ("120", "", (("20", ""), ("30", ""))),
 )
@@ -243,6 +249,7 @@
     "23",
     (("0", "24"), ("0", "3")),
     precision: 1,
+    mode: "figures",
   ),
   ("1", "2", (("", "2"), ("", "3"))),
 )
@@ -252,6 +259,7 @@
     "23",
     (("0", "04"), ("0", "3")),
     precision: 1,
+    mode: "figures",
   ),
   ("1", "23", (("", "04"), ("", "30"))),
 )
