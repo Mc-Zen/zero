@@ -302,6 +302,12 @@
   /// -> "+" | "-"
   sign: "+",
 
+  /// Rounding mode.
+  /// - `"places"`: The number is rounded to the number of places after the
+  ///   decimal point given by the `precision` parameter.
+  /// - `"figures"`: The number is rounded to a number of significant figures.
+  mode: "places",
+
   /// The precision to round the uncertainty to. If `auto`, the uncertainty left as is.
   /// -> auto | int
   precision: auto,
@@ -323,6 +329,8 @@
   ..
 
 ) = {
+  assert-option(mode, "round-mode", ("places", "figures"))
+
   let is-symmetric = type(uncertainty.first()) != array
   if is-symmetric {
     uncertainty = (uncertainty,)
@@ -334,9 +342,16 @@
       ..uncertainty.map(((i, f)) => f.len())
     )
   } else {
-    precision + calc.max(
-      ..uncertainty.map(((i, f)) => count-leading-zeros(i + f) - i.len())
-    )
+    if mode == "places" {
+      precision
+    } else {
+      (
+        precision
+          + calc.max(
+            ..uncertainty.map(((i, f)) => count-leading-zeros(i + f) - i.len()),
+          )
+      )
+    }
   }
 
   uncertainty = uncertainty
