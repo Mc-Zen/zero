@@ -222,8 +222,8 @@
     V: "volt",
     W: "watt",
     Wb: "weber",
-    "%": "percent",
-    "‰": "permille",
+    sym.percent: "percent",
+    sym.permille: "permille",
   ),
   de: (
     // identical/similar units are inherited from English
@@ -272,8 +272,8 @@
     V: "Volt",
     W: "Watt",
     Wb: "Weber",
-    "%": "Prozent",
-    "‰": "Promille",
+    sym.percent: "Prozent",
+    sym.permille: "Promille",
   ),
   fr: (
     A: "ampère",
@@ -294,8 +294,8 @@
     l: "litre",
     Np: "néper",
     sr: "stéradian",
-    "%": "pour cent",
-    "‰": "pour mille",
+    sym.percent: "pour cent",
+    sym.permille: "pour mille",
   ),
   es: (
     A: "amperio",
@@ -326,8 +326,8 @@
     au: "unidad astronómica",
     sym.prime.double: "segundo de arco",
     sym.prime: "minuto de arco",
-    "%": "por ciento",
-    "‰": "por mil",
+    sym.percent: "por ciento",
+    sym.permille: "por mil",
   ),
   it: (
     m: "metro",
@@ -345,8 +345,8 @@
     au: "unità astronomica",
     sym.prime.double: "secondo d'arco",
     sym.prime: "minuto d'arco",
-    "%": "per cento",
-    "‰": "per mille",
+    sym.percent: "per cento",
+    sym.permille: "per mille",
   ),
   fi: (
     A: "ampeeria",
@@ -394,8 +394,8 @@
     V: "volttia",
     W: "wattia",
     Wb: "weberiä",
-    "%": "prosentti",
-    "‰": "promille",
+    sym.percent: "prosentti",
+    sym.permille: "promille",
   ),
   sl: (
     /* inherits bel, dalton,
@@ -433,8 +433,8 @@
     t: "tona",
     W: "vat",
     Wb: "veber",
-    "%": "odstotek",
-    "‰": "odtisoček",
+    sym.percent: "odstotek",
+    sym.permille: "odtisoček",
   ),
 )
 
@@ -479,7 +479,7 @@
 #let pluralize = (
   en: (unit, count, is-in-denom) => {
     let singular = units.en.at(unit)
-    if unit in ("lx", "Hz", "S", "%", "‰") {
+    if unit in ("lx", "Hz", "S", sym.percent, sym.permille) {
       return singular
     }
     if unit == sym.degree + "C" {
@@ -493,7 +493,7 @@
 
   de: (unit, count, is-in-denom) => {
     let singular = units.de.at(unit)
-    if unit in ("h", "min", "s", sym.prime.double, sym.prime, "t", "%", "‰") {
+    if unit in ("h", "min", "s", sym.prime.double, sym.prime, "t", sym.percent, sym.permille) {
       return singular + "n"
     }
     if unit == "au" {
@@ -508,7 +508,7 @@
 
   fr: (unit, count, is-in-denom) => {
     let singular = units.fr.at(unit, default: units.en.at(unit))
-    if unit in ("lx", "Hz", "S", "%", "‰") {
+    if unit in ("lx", "Hz", "S", sym.percent, sym.permille) {
       return singular
     }
     if unit == sym.degree + "C" { return "degrés Celsius" }
@@ -520,7 +520,7 @@
 
   es: (unit, count, is-in-denom) => {
     let singular = units.es.at(unit, default: units.en.at(unit))
-    if unit in ("lx", "Hz", "S", "%", "‰") {
+    if unit in ("lx", "Hz", "S", sym.percent, sym.permille) {
       return singular
     }
     if unit == sym.degree + "C" { return "grados Celsius" }
@@ -537,7 +537,7 @@
 
   it: (unit, count, is-in-denom) => {
     let singular = units.it.at(unit, default: units.en.at(unit))
-    if unit in ("J", "A", "T", "%", "‰") { return singular }
+    if unit in ("J", "A", "T", sym.percent, sym.permille) { return singular }
     if unit == sym.degree + "C" { return "gradi Celsius" }
     if unit.ends-with("o") or unit.ends-with("e") {
       return singular.slice(0, -1) + "i"
@@ -659,7 +659,7 @@
         "A", "B", "Bq", "C", "d", "Da", "dB", "eV", "F", "g", "Gy", "H", "ha", 
         "Hz", "J", "K", "kat", "kg", "L", "lm", "lx", "m", "mol", "N", "Np", 
         str(sym.Omega), "Pa", "rad", "S", "sr", "Sv", "T", "V", "W", "Wb", 
-        "%", "‰",
+        sym.percent, sym.permille,
       )
     ) {
       return masculine(singular)
