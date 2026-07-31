@@ -363,9 +363,15 @@ Zero not only aligns numbers at the decimal point but also at the uncertainty an
 
 ## Units and Quantities
 
-Numbers are frequently displayed together with a (physical) unit forming a so-called _quantity_. Zero has built-in support for formatting quantities through the `zi` module. 
+Numbers are frequently displayed together with a (physical) unit forming a so-called _quantity_. Zero has built-in support for formatting quantities through two different philosophies.
+<!-- the `zi` module.  -->
 
-Zero takes a different approach to units than other packages: In order to avoid repetition ([DRY principle](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself)) and to avoid accidental errors, every unit is
+<!-- Zero takes a different approach to units than other packages: -->
+### 1. The `quan` function
+
+### 2. Predefined units
+
+In order to avoid repetition ([DRY principle](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself)) and to avoid accidental errors, every unit can be
 - first _declared_ (or already predefined)
 - and then used as a function to produce a quantity. 
 
@@ -389,7 +395,7 @@ Take a look at the example below:
 </p>
 
 
-### Declaring a New Unit
+#### Declaring a New Unit
 
 All common single units as well as a few frequent combinations are already predefined in the `zi` module (e.g., `zi.m`, `zi.V`, `zi.m-s`). 
 
