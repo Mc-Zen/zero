@@ -302,8 +302,12 @@
   /// -> "+" | "-"
   sign: "+",
 
-  /// The precision to round the uncertainty to. If `auto`, the uncertainty left as is.
-  /// -> auto | int
+  /// The precision to round the uncertainty to. If `auto`, the uncertainty
+  /// left as is. If given as an int, the precision is interpreted in terms 
+  /// of number of significant figures. Alternatively, a dictionary of the form
+  /// `(places: int)` can be passed to specify the precision in terms of decimal 
+  /// places.
+  /// -> auto | int | dictionary
   precision: auto,
 
   /// Rounding direction.
@@ -333,9 +337,20 @@
     calc.max(
       ..uncertainty.map(((i, f)) => f.len())
     )
-  } else {
+  } else if type(precision) == std.int {
     precision + calc.max(
       ..uncertainty.map(((i, f)) => count-leading-zeros(i + f) - i.len())
+    )
+  } else if type(precision) == dictionary {
+    assert(
+      precision.keys() == ("places",), 
+      message: "Expected a dictionary with the key \"places\""
+    )
+    precision.places
+  } else {
+    assert(
+      false,
+      message: "Unexpected argument " + repr(precision) + " for uncertainty-precision"
     )
   }
 
