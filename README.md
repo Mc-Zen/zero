@@ -209,7 +209,7 @@ If `follow-uncertainty` is false or the number just has no uncertainty, the norm
 ```typ
 #set-round(
   follow-uncertainty:    bool = true,
-  uncertainty-precision: auto | int = auto,
+  uncertainty-precision: auto | int | dictionary = auto,
   mode:                  str = "places",
   precision:             int | auto = auto,
   pad:                   bool = true,
@@ -218,7 +218,10 @@ If `follow-uncertainty` is false or the number just has no uncertainty, the norm
 )
 ```
 - `follow-uncertainty: bool = true` : If `true`, round to match the uncertainty (if present) instead of rounding to a fixed precision.
-- `uncertainty-precision: int | auto = auto` : The number of significant figures to round the uncertainty to. 
+- `uncertainty-precision: auto | int | dictionary = auto` : 
+  - `auto` : The uncertainty is left as-is. 
+  - `int` : The number of significant figures to round the uncertainty to. 
+  - `(places: int)` : The number of decimal places to round the uncertainty to.
 - `mode: str = "places"` : Sets the fixed appendrounding mode. The possible options are
   - `"places"` : The number is rounded to the number of decimal places given by the `precision` parameter. 
   - `"figures"` : The number is rounded to a number of significant figures given by the `precision` parameter.
