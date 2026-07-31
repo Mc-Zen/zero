@@ -186,7 +186,6 @@
 /// -> (int: str, frac: str, sign: str, pm: array | str, e: str)
 #let parse-normalized-compound-numeral(numeral) = {
   numeral = numeral.replace("E", "e")
-  // numeral = numeral.replace(" ", "")
   let original-numeral = numeral
   let e
   let pm
