@@ -28,8 +28,8 @@
 
   if pos == none {
     num(input)
-  } else if pos == "0" {
-    unit(input)
+  } else if pos == 0 {
+    unit(parse-unit(input))
   } else {
     qty(
       input.slice(0, pos),
