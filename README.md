@@ -139,7 +139,7 @@ Zero's core is the `num()` function, which provides flexible number formatting. 
 - `omit-zero-exponent: bool = false` : Determines whether a power with an exponent of 0 is omitted.  
 - `positive-sign: bool = false` : If set to `true`, positive coefficients are shown with a $+$ sign. 
 - `positive-sign-exponent: bool = false` : If set to `true`, positive exponents are shown with a $+$ sign. 
-- `trim-zeros: bool = false` : If set to `true`, trailing zeros are trimmed from the fractional part of the number. By default, they are kept in order to preserve the given input precision but especially for `float` input and automatic exponents, such as scientific notation, it can be useful to trim any trailing zeros. 
+- `trim-zeros: bool = false` : If set to `true`, trailing zeros are trimmed from the fractional part of the number. By default, they are kept in order to preserve the given input precision but especially for `float` input and automatic exponents, such as scientific notation, it can be useful to trim any trailing zeros. [Rounding](#rounding) is applied after trimming.
 - `base: int | content = 10` : The base used for scientific power notation. 
 - `uncertainty-mode: str = "separate"` : Selects one of the modes `"separate"`, `"compact"`, or `"compact-separator"` for displaying uncertainties. The different behaviors are shown below:
 
@@ -202,9 +202,11 @@ Set `threshold: calc.inf` to disable grouping.
 
 ### Rounding
 
-Rounding can be configured with the `set-round()` function. Numbers with an uncertainty are by default automatically rounded to the precision of the uncertainty. This behavior is engaged when `follow-uncertainty` is true. 
+Rounding can be configured with the `set-round()` function. 
 
-If `follow-uncertainty` is false or the number just has no uncertainty, the normal rounding method according to `mode` and `precision` applies. In this case, there is no guarantee that value and uncertainty have the same number of digits.
+Numbers with an uncertainty are by default (`round.follow-uncertainty: true`) rounded to the precision of the uncertainty − we call this _automatic rounding_. If no uncertainty is present or `round.follow-uncertainty: false`, _manually rounding_ is applied according to the options `mode` and `precision`.
+
+In the second case, there is no guarantee that value and uncertainty have the same number of digits.
 
 ```typ
 #set-round(
@@ -499,6 +501,40 @@ Lastly, the function `align-columns` can be used to format and align an array of
 
 
 ## Changelog
+
+### Version 0.7.0
+
+Features:
+- The new `quan` function provides a new way of defining quantities and units.
+- Zero now adds alt descriptions for all numbers and units for supported languages, see [Accessibility](#accessibility). New translations are work, see the [language contribution guide](docs/language-contribution-guide.md).
+
+Rounding:
+- ⚠️ Breaking change: the rounding API was changed to a more comprehensible model and to better reflect common applications. Numbers with an uncertainty are by default (`round.follow-uncertainty: true`) rounded to the precision of the uncertainty − we call this _automatic rounding_. If no uncertainty is present or `round.follow-uncertainty: false`, _manually rounding_ is applied according to the options `mode` and `precision`. The `mode: "uncertainty"` has been removed.
+- ⚠️ Breaking change: zeros are now trimmed after rounding and padding is independent. This leads to the following effect of change:
+  - Before: `num(round: (precision: 2, pad: false)[0.299]` -> 0.30
+  - Now: `num(round: (precision: 2, pad: false)[0.299]` -> 0.3 
+- Fixed a bug where rounding to zero were for negative precision led to multiple zeros being displayed in the integer part.
+- Fixed rounding to negative (integer) places.
+- Fixed rounding of 0 to a positive number of significant figures: now no trailing zeros are displayed anymore.
+
+Input:
+- Added support for capital E in exponent notation.
+
+Formatting:
+- New option `num.trim-zeros` for trimming trailing zeros.
+- New option `num.omit-zero-exponent`.
+- Fixed: Automatic exponents with scientific or engineering notation are now omitted when the mantissa is 0 and no explicit exponent is given.
+- Fixed prevention of line breaks and add more fine-grained line break control: after the ×, after the ± and before the unit.
+- ⚠️ Breaking change: moved the parameter `breakable` from `set-unit` to `set-num` since it now also affects numbers.
+- Fixed `num.use-sqrt` with inline fraction mode.
+- Fixed formatting of exponents with custom decimal separators.
+- Fixed an error with scientific mode with asymmetric uncertainties.
+- Fixed a tiny detail when formatting the decimal separator.
+
+
+API:
+- Added queryable metadata to numbers and units, see [here](#zero-for-third-party-packages).
+- Moved the internal `num-state` to the impl module.
 
 ### Version 0.6.1
 - Fixed dictionary input for 3rd-party packages. 
