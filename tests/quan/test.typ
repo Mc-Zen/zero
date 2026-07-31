@@ -30,4 +30,6 @@
 #pagebreak()
 
 #quan[12+-23] \
-#quan[m/s]
+#quan[au] \
+#quan[m/s] \
+#quan[us] \

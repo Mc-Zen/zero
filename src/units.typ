@@ -57,6 +57,9 @@
       }
 
       let (symbol, exponent) = get-symbol-and-exponent(unit, per)
+      if symbol.starts-with("u") {
+        symbol = "µ" + symbol.slice(1)
+      }
       if exponent.starts-with("-") {
         per = not per
         exponent = exponent.slice(1)

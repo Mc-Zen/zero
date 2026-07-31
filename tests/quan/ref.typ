@@ -28,4 +28,6 @@
 #pagebreak()
 
 #num[12+-23] \
+#zi.astronomicalunit() \
 #zi.m-s() \
+#zi.us() \
