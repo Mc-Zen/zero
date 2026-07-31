@@ -366,9 +366,25 @@ Zero not only aligns numbers at the decimal point but also at the uncertainty an
 
 ## Units and Quantities
 
-Numbers are frequently displayed together with a (physical) unit forming a so-called _quantity_. Zero has built-in support for formatting quantities through the `zi` module. 
+Numbers are frequently displayed together with a (physical) unit forming a so-called _quantity_. Zero has built-in support for formatting quantities through two different philosophies.
+<!-- the `zi` module.  -->
 
-Zero takes a different approach to units than other packages: In order to avoid repetition ([DRY principle](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself)) and to avoid accidental errors, every unit is
+<!-- Zero takes a different approach to units than other packages: -->
+### 1. The `quan` function
+The function `quan` 
+Similar to `num`, the function `quan` takes one argument, specifying a value and a unit − or just one of them. A few examples:
+- `quan[1.2 m/s]` - the space is optional
+- `quan[-2.0+-.4e3 m/s]` - the value works just like `num`
+- `quan[GHz]` - units can also go without a value
+- `quan[600us]` - "u" is changed to "µ"
+
+The precise syntax for specifying units is explained in the next section.
+Units of the SI system and units that may be used in compliance with the SI system are automatically recognized and annotated with alt descriptions, see also [accessibility](#accessibility) below.
+
+
+### 2. Predefined units
+
+In order to avoid repetition ([DRY principle](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself)) and to avoid accidental errors, every unit can be
 - first _declared_ (or already predefined)
 - and then used as a function to produce a quantity. 
 
@@ -392,7 +408,7 @@ Take a look at the example below:
 </p>
 
 
-### Declaring a New Unit
+#### Declaring a New Unit
 
 All common single units as well as a few frequent combinations are already predefined in the `zi` module (e.g., `zi.m`, `zi.V`, `zi.m-s`). 
 
