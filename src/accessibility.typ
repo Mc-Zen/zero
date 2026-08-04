@@ -506,6 +506,121 @@
     return singular
   },
 
+  fi: (unit, count, is-in-denom) => {
+    if is-in-denom {
+      // Things get more complex here since when in a denominator we need a form of each word where things happen IN something.
+      // Like literally IN one second, or IN one meter. And of course Finnish has a specific suffix for each word for this.
+      // Often this just means adding a "ss" before the last letter of the quentity form of each word but not always.
+      // For example "metriä sekunnissa" means "meters per second" or "meters in one second".
+      let finnish-in-unit-dict = (
+        A: "ampeerissa",
+        au: "astronomisessa yksikkössä",
+        B: "belissä",
+        Bq: "becquerelissä",
+        C: "coulombissa",
+        cd: "kandelassa",
+        d: "päivässä",
+        Da: "daltonissa",
+        dB: "desibelissä",
+        sym.degree: "asteessa",
+        sym.degree + "C": "Celsiusasteessa",
+        eV: "elektronivolttissa",
+        F: "faradissa",
+        g: "grammassa",
+        Gy: "grayssä",
+        H: "henryssä",
+        h: "tunnissa",
+        ha: "hehtaarissa",
+        Hz: "hertsissä",
+        J: "joulessa",
+        K: "kelvinissä",
+        kat: "katalissa",
+        kg: "kilogrammassa",
+        L: "litrassa",
+        lm: "luumenissa",
+        lx: "luksissa",
+        m: "metrissä",
+        sym.prime: "kaariminuuttissa",
+        min: "minuutissa",
+        mol: "moolissa",
+        sym.prime.double: "kaarisekunnissa",
+        N: "newtonissa",
+        Np: "neperissä",
+        sym.Omega: "ohmissa",
+        Pa: "pascalissa",
+        rad: "radiaanissa",
+        s: "sekunnissa",
+        S: "siemensissä",
+        sr: "steradiaanissa",
+        Sv: "sievertissä",
+        t: "tonnissa",
+        T: "teslassa",
+        V: "voltissa",
+        W: "watissa",
+        Wb: "weberissä",
+        "%": "prosentissa",
+        "‰": "promillessa",
+      )
+      return finnish-in-unit-dict.at(unit)
+    } else {
+      if count == 1 {
+        // We also have a separate case for when the number of units in the numerator is exactly one...
+        let finnish-singular-dict = (
+          A: "ampeeri",
+          au: "astronominen yksikkö",
+          B: "bel",
+          Bq: "becquerel",
+          C: "coulombi",
+          cd: "kandela",
+          d: "päivä",
+          Da: "dalton",
+          dB: "desibeli",
+          sym.degree: "aste",
+          sym.degree + "C": "Celsiusaste",
+          eV: "elektronivoltti",
+          F: "faradi",
+          g: "gramma",
+          Gy: "gray",
+          H: "henry",
+          h: "tunti",
+          ha: "hehtaari",
+          Hz: "hertsi",
+          J: "joule",
+          K: "kelvin",
+          kat: "katal",
+          kg: "kilogramma",
+          L: "litra",
+          lm: "luumen",
+          lx: "luksi",
+          m: "metri",
+          sym.prime: "kaariminuutti",
+          min: "minuuti",
+          mol: "mooli",
+          sym.prime.double: "kaarisekunti",
+          N: "newton",
+          Np: "neper",
+          sym.Omega: "ohmi",
+          Pa: "pascal",
+          rad: "radiaani",
+          s: "sekunti",
+          S: "siemens",
+          sr: "steradiaani",
+          Sv: "sievertti",
+          t: "tonni",
+          T: "tesla",
+          V: "voltti",
+          W: "watti",
+          Wb: "weber",
+          "%": "prosentti",
+          "‰": "promille",
+        )
+        return finnish-singular-dict.at(unit)
+      } else {
+        return units.at(unit)
+      }
+    }
+  },
+
   fr: (unit, count, is-in-denom) => {
     let singular = units.fr.at(unit, default: units.en.at(unit))
     if unit in ("lx", "Hz", "S", "%", "‰") {
@@ -656,9 +771,9 @@
     // Masculine
     if (
       unit in (
-        "A", "B", "Bq", "C", "d", "Da", "dB", "eV", "F", "g", "Gy", "H", "ha", 
-        "Hz", "J", "K", "kat", "kg", "L", "lm", "lx", "m", "mol", "N", "Np", 
-        str(sym.Omega), "Pa", "rad", "S", "sr", "Sv", "T", "V", "W", "Wb", 
+        "A", "B", "Bq", "C", "d", "Da", "dB", "eV", "F", "g", "Gy", "H", "ha",
+        "Hz", "J", "K", "kat", "kg", "L", "lm", "lx", "m", "mol", "N", "Np",
+        str(sym.Omega), "Pa", "rad", "S", "sr", "Sv", "T", "V", "W", "Wb",
         "%", "‰",
       )
     ) {
