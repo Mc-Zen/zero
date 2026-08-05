@@ -523,7 +523,7 @@
   "‰": "promillessa",
 )
 
-// Also needed by pluralize when we have exatctly one of something.
+// Also needed by pluralize when we have exactly one of something.
 #let finnish-singular-dict = (
   A: "ampeeri",
   au: "astronominen yksikkö",
@@ -612,7 +612,7 @@
     if is-in-denom {
       // Things get more complex here since when in a denominator we need a form of each word where things happen IN something.
       // Like literally IN one second, or IN one meter. And of course Finnish has a specific suffix for each word for this.
-      // Often this just means adding a "ss" before the last letter of the quentity form of each word but not always.
+      // Often this just means adding a "ss" before the last letter of the quantity form of each word but not always.
       // For example "metriä sekunnissa" means "meters per second" or "meters in one second".
       return finnish-in-unit-dict.at(unit)
     } else {
