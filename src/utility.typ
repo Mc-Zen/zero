@@ -96,14 +96,14 @@
   args: args,
 ))<zero-num>]
 
-#let create-qty-metadata(info, raw, unit, args) = [#metadata((
+#let create-qty-metadata(info, raw, unit, ..args) = [#metadata((
   info: info,
   unit: unit,
   raw: raw,
   args: args,
 ))<zero-qty>]
 
-#let create-unit-metadata(unit, args) = [#metadata((
+#let create-unit-metadata(unit, ..args) = [#metadata((
   unit: unit,
   args: args,
 ))<zero-unit>]
