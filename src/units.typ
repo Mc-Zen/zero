@@ -393,11 +393,3 @@
     s
   })
 }
-
-#let liter-impl = context {
-  if not num-state.get().unit.lowercase-liter {
-    "L"
-  } else {
-    "l"
-  }
-}
