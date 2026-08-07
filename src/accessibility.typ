@@ -912,7 +912,7 @@
   let units = units.en + units.at(lang, default: units.en)
   let get-unit(unit-code) = {
     if plural { (pluralize.at(lang))(unit-code, count, is-in-denom) } // Add your language here to `pluralize` the denominator
-    else if is-in-denom and lang == "sl" {
+    else if is-in-denom and lang in ("sl", "fi") {
       (pluralize.at(lang))(unit-code, count, is-in-denom)
     } else { units.at(unit-code) }
   }
