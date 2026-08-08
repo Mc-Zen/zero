@@ -281,7 +281,7 @@
   alt: auto,
   ..args,
 ) = {
-  utility.create-unit-metadata(unit, args)
+  utility.create-unit-metadata(unit, alt: alt, ..args)
   context {
     let args = (unit: args.named())
     if "math" in args.unit {
@@ -312,7 +312,7 @@
   ..args,
 ) = {
   let info = process-input(value)
-  utility.create-qty-metadata(info, value, unit, args)
+  utility.create-qty-metadata(info, value, unit, alt: alt, ..args)
   context {
     let unit = unit
 
