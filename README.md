@@ -506,7 +506,7 @@ Lastly, the function `align-columns` can be used to format and align an array of
 
 Features:
 - The new `quan` function provides a new way of defining quantities and units.
-- Zero now adds alt descriptions for all numbers and units for supported languages, see [Accessibility](#accessibility). New translations are work, see the [language contribution guide][language contribution guide].
+- Zero now adds alt descriptions for all numbers and units for supported languages, see [Accessibility](#accessibility). New translations are welcome, see the [language contribution guide][language contribution guide].
 
 Rounding:
 - ⚠️ Breaking change: the rounding API was changed to a more comprehensible model and to better reflect common applications. Numbers with an uncertainty are by default (`round.follow-uncertainty: true`) rounded to the precision of the uncertainty − we call this _automatic rounding_. If no uncertainty is present or `round.follow-uncertainty: false`, _manually rounding_ is applied according to the options `mode` and `precision`. The `mode: "uncertainty"` has been removed.
