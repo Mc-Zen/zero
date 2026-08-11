@@ -35,9 +35,9 @@ A number in scientific notation consists of three parts: the _mantissa_, an opti
 
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/a78ff9a4-eb90-44b4-9168-37d100452363">
-    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/feb578b1-9c8b-43e6-a825-fe0f57fd2d9b">
-    <img alt="Anatomy of a formatted number" src="https://github.com/user-attachments/assets/a78ff9a4-eb90-44b4-9168-37d100452363">
+    <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/5c5572a6-f163-4581-863a-e73335e2b373">
+    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/2ac4f172-4564-4c50-abe7-90889379f80e">
+    <img alt="Anatomy of a formatted number" src="https://github.com/user-attachments/assets/5c5572a6-f163-4581-863a-e73335e2b373">
   </picture>
 </p>
 
