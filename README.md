@@ -31,7 +31,7 @@ Proper number formatting is essential for clear and readable scientific document
 - Digit [**grouping**](#grouping), e.g., $`299\,792\,458`$ instead of $299792458$
 - [**Accessibility**](#accessibility) through auto-generated alt descriptions for numbers and units
 
-A number in scientific notation consists of three parts: the _mantissa_, an optional _uncertainty_, and an optional _power_ (exponent). The following figure illustrates the anatomy of a formatted number:
+A number in scientific notation consists of three parts: the _mantissa_, an optional _uncertainty_, and an optional _power_ (exponent). Additionally, the number can be followed by a unit. This figure illustrates the anatomy of a formatted quantity:
 
 <p align="center">
   <picture>
