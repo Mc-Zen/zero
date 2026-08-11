@@ -2,7 +2,7 @@
 
 _Precise scientific number and unit formatting for Typst._
 
-[![Typst Package](https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fraw.githubusercontent.com%2FMc-Zen%2Fzero%2Fv0.6.1%2Ftypst.toml&query=%24.package.version&prefix=v&logo=typst&label=package&color=239DAD)](https://typst.app/universe/package/zero)
+[![Typst Package](https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fraw.githubusercontent.com%2FMc-Zen%2Fzero%2Fv0.7.0%2Ftypst.toml&query=%24.package.version&prefix=v&logo=typst&label=package&color=239DAD)](https://typst.app/universe/package/zero)
 [![Test Status](https://github.com/Mc-Zen/zero/actions/workflows/run_tests.yml/badge.svg)](https://github.com/Mc-Zen/zero/actions/workflows/run_tests.yml)
 [![MIT License](https://img.shields.io/badge/license-MIT-blue)](https://github.com/Mc-Zen/zero/blob/main/LICENSE)
 
@@ -48,7 +48,7 @@ A number in scientific notation consists of three parts: the _mantissa_, an opti
 ## Demo
 
 ```typ
-#import "@preview/zero:0.6.1": num, format-table, zi
+#import "@preview/zero:0.7.0": num, format-table, zi
 
 Physicists estimate a number of #num[1e80] particles in the observable universe. 
 
@@ -153,7 +153,7 @@ Zero's core is the `num()` function, which provides flexible number formatting. 
 
 - `round: dictionary` : You can provide one or more rounding options in a dictionary. Also see [rounding](#rounding). 
 - `group: dictionary` : You can provide one or more grouping options in a dictionary. Also see [grouping](#grouping). 
-- `alt: auto | dictionary | str | none` : The alt description for the number, as read by a screen reader. If set to `auto` and if the document language is supported, the description is generated automatically. By passing a dictionary with the keys `plus`, `minus`, `times`, `power`, and `decimal-separator` you can override the translations for these parts (the meaning of these keys is explained in the [language contribution guide](docs/language-contribution-guide.md#translations-for-numbers)). The alt description can also be set manually per number instance. Also see [accessibility](#accessibility). 
+- `alt: auto | dictionary | str | none` : The alt description for the number, as read by a screen reader. If set to `auto` and if the document language is supported, the description is generated automatically. By passing a dictionary with the keys `plus`, `minus`, `times`, `power`, and `decimal-separator` you can override the translations for these parts (the meaning of these keys is explained in the [language contribution guide][language contribution guide]). The alt description can also be set manually per number instance. Also see [accessibility](#accessibility). 
 
 Configuration example: 
 ```typ
@@ -392,7 +392,7 @@ In order to avoid repetition ([DRY principle](https://en.wikipedia.org/wiki/Don%
 
 Take a look at the example below:
 ```typ
-#import "@preview/zero:0.6.1": zi
+#import "@preview/zero:0.7.0": zi
 
 #let kgm-s2 = zi.declare("kg m/s^2")
 
@@ -469,7 +469,7 @@ By default, the symbol for liter is an uppercase L. In order to display a lowerc
 
 Zero generates accessible output! Numbers, units, and quantities that are formatted with Zero have automatically generated alt descriptions that specify how a screen reader should read them.
 
-This is supported for a selection of languages (currently: English, German, French, Spanish, Italian, Finnish, and Slovenian) and you can extend this selection by opening a PR and providing the necessary translations for the new language. When opening a PR, please read the [language contribution guide](docs/language-contribution-guide.md) first.
+This is supported for a selection of languages (currently: English, German, French, Spanish, Italian, Finnish, and Slovenian) and you can extend this selection by opening a PR and providing the necessary translations for the new language. When opening a PR, please read the [language contribution guide][language contribution guide] first.
 
 
 
@@ -506,7 +506,7 @@ Lastly, the function `align-columns` can be used to format and align an array of
 
 Features:
 - The new `quan` function provides a new way of defining quantities and units.
-- Zero now adds alt descriptions for all numbers and units for supported languages, see [Accessibility](#accessibility). New translations are work, see the [language contribution guide](docs/language-contribution-guide.md).
+- Zero now adds alt descriptions for all numbers and units for supported languages, see [Accessibility](#accessibility). New translations are work, see the [language contribution guide][language contribution guide].
 
 Rounding:
 - ⚠️ Breaking change: the rounding API was changed to a more comprehensible model and to better reflect common applications. Numbers with an uncertainty are by default (`round.follow-uncertainty: true`) rounded to the precision of the uncertainty − we call this _automatic rounding_. If no uncertainty is present or `round.follow-uncertainty: false`, _manually rounding_ is applied according to the options `mode` and `precision`. The `mode: "uncertainty"` has been removed.
@@ -612,3 +612,6 @@ _Performance and math-less mode_
 
 ### Version 0.1.0
 _Initial release_
+
+
+[language contribution guide]: https://github.com/Mc-Zen/zero/blob/v0.7.0/docs/language-contribution-guide.md
