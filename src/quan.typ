@@ -2,7 +2,7 @@
 #import "parsing.typ": content-to-string
 #import "units.typ": parse-unit, qty, unit
 
-#let quan(input) = {
+#let quan(input, ..args) = {
   if type(input) == content {
     input = content-to-string(input)
     assert(input != none, message: "")
@@ -27,13 +27,14 @@
   }
 
   if pos == none {
-    num(input)
+    num(input, ..args)
   } else if pos == 0 {
-    unit(parse-unit(input))
+    unit(parse-unit(input), ..args)
   } else {
     qty(
       input.slice(0, pos),
       parse-unit(input.slice(pos)),
+      ..args
     )
   }
 }

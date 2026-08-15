@@ -31,3 +31,9 @@
 #zi.astronomicalunit() \
 #zi.m-s() \
 #zi.us() \
+
+#pagebreak()
+
+#num[1.2e1] \
+#zi.m-s(fraction: "fraction") \
+#zi.m-s(fraction: "fraction")[2e-3] \

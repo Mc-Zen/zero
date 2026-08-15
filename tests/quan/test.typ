@@ -33,3 +33,10 @@
 #quan[au] \
 #quan[m/s] \
 #quan[us] \
+
+#pagebreak()
+
+// forwarding of num and unit options
+#quan(exponent: "sci")[12] \
+#quan(fraction: "fraction")[m/s] \
+#quan(fraction: "fraction", exponent: "sci")[0.002m/s] \
