@@ -23,12 +23,16 @@
 /// if `positive-sign` is set to true. In all other cases, the result is
 /// `none`.
 /// -> content | none
-#let format-sign(sign, positive-sign: false) = {
-  if sign == "-" {
-    math.class("unary", sym.minus)
+#let format-sign(sign, positive-sign: false, math: true) = {
+  sign = if sign == "-" {
+    sym.minus
   } else if sign == "+" and positive-sign {
-    return math.class("unary", sym.plus)
+    sym.plus
   }
+  if math {
+    sign = std.math.class("unary", sign)
+  }
+  sign
 }
 
 
@@ -167,7 +171,7 @@
   ))
 
   return sequence((
-    format-sign(it.sign, positive-sign: it.positive-sign),
+    format-sign(it.sign, positive-sign: it.positive-sign, math: it.math),
     format-integer((int: it.int, group: it.group)),
     frac,
   ))
@@ -215,6 +219,7 @@
     group: false,
     positive-sign: false,
     decimal-separator: it.decimal-separator,
+    math: it.math,
   )))
   if is-symmetric {
     if it.concise {
@@ -275,6 +280,7 @@
     group: false,
     positive-sign: it.positive-sign-exponent,
     decimal-separator: it.decimal-separator,
+    math: it.math
   ))
 
   if it.math {
@@ -368,7 +374,7 @@
   )
 
   let integer-part = (
-    format-sign(it.sign, positive-sign: it.positive-sign),
+    format-sign(it.sign, positive-sign: it.positive-sign, math: it.math),
     format-integer(integer),
   )
 
