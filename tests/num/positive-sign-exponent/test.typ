@@ -10,3 +10,16 @@
 #num("1e9") \
 #set-num(positive-sign-exponent: false)
 #num("1e9")
+
+#pagebreak()
+
+#set-num(math: false)
+
+#num("1e3", positive-sign-exponent: false) \
+#num("1e3", positive-sign-exponent: true) \
+#num("1e-1", positive-sign-exponent: false) \
+#num("1e-1", positive-sign-exponent: true) \
+#set-num(positive-sign-exponent: true)
+#num("1e9") \
+#set-num(positive-sign-exponent: false)
+#num("1e9")
