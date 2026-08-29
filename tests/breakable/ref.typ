@@ -23,6 +23,9 @@
 #block(stroke: gray, width: 10em)[
   The length is $(1plus.minus$\ $2)×10^2th"m"th"s"^(-1)$.
 ]
+#block(stroke: gray, width: 6em)[
+  ABC\ $1th 000th 000$
+]
 
 #pagebreak()
 
@@ -45,6 +48,9 @@
 #block(stroke: gray, width: 10em)[
   The length is (1#th±#th\ 2) ⁠× ⁠10#super[2]#th;m#th;s#super[−1].
 ]
+#block(stroke: gray, width: 4em)[
+  ABC\ 1#th;000#th;000
+]
 
 #pagebreak()
 
@@ -65,6 +71,9 @@
 ]
 #block(stroke: gray, width: 10em)[
   The length is $(1plus.minus$\ $2)#h(0pt)×#h(0pt)10^2th"m"th"s"^(-1)$.
+]
+#block(stroke: gray, width: 6em)[
+  ABC\ $1th 000th 000$
 ]
 
 
@@ -88,6 +97,10 @@
 #block(stroke: gray, width: 10em)[
   The length is (1#hair±#hair\ 2)#hair;⁠×#hair;⁠10#super[2]#th;m#th;s#super[−1].
 ]
+#block(stroke: gray, width: 4em)[
+  ABC\ 1#th;000#th;000
+]
+
 
 
 #pagebreak()
