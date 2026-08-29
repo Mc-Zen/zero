@@ -19,7 +19,7 @@
   breakable: false,
   group: (
     size: 3,
-    separator: sym.space.thin,
+    separator: sym.space.narrow,
     threshold: 5,
   ),
   round: (
@@ -32,7 +32,7 @@
     ties: "away-from-zero",
   ),
   unit: (
-    unit-separator: sym.space.thin,
+    unit-separator: sym.space.narrow,
     fraction: "power",
     use-sqrt: true,
     prefix: auto,

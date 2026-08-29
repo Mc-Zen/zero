@@ -16,6 +16,7 @@
 #block(stroke: gray, width: 13em, test-clause(breakable: (unit: true)))
 #block(stroke: gray, width: 12em, test-clause(breakable: (power: true)))
 #block(stroke: gray, width: 10em, test-clause(breakable: (uncertainty: true)))
+#block(stroke: gray, width: 6em, [ABC #num[1000000]])
 
 #pagebreak()
 
@@ -28,6 +29,7 @@
 #block(stroke: gray, width: 11em, test-clause(breakable: (unit: true)))
 #block(stroke: gray, width: 10.5em, test-clause(breakable: (power: true)))
 #block(stroke: gray, width: 10em, test-clause(breakable: (uncertainty: true)))
+#block(stroke: gray, width: 4em, [ABC #num[1000000]])
 
 #pagebreak()
 
@@ -40,6 +42,7 @@
 #block(stroke: gray, width: 11em, test-clause(breakable: (unit: true)))
 #block(stroke: gray, width: 10.5em, test-clause(breakable: (power: true)))
 #block(stroke: gray, width: 10em, test-clause(breakable: (uncertainty: true)))
+#block(stroke: gray, width: 6em, [ABC #num[1000000]])
 
 
 #pagebreak()
@@ -53,6 +56,7 @@
 #block(stroke: gray, width: 11em, test-clause(breakable: (unit: true)))
 #block(stroke: gray, width: 10.5em, test-clause(breakable: (power: true)))
 #block(stroke: gray, width: 10em, test-clause(breakable: (uncertainty: true)))
+#block(stroke: gray, width: 4em, [ABC #num[1000000]])
 
 
 #pagebreak()

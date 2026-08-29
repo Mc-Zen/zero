@@ -181,12 +181,12 @@ Digit grouping can be configured with the `set-group()` function.
 ```typ
 #set-group(
   size:       int = 3, 
-  separator:  content = sym.space.thin,
+  separator:  content = sym.space.narrow,
   threshold:  int | dictionary = 5
 )
 ```
 - `size: int = 3` : Determines the size of the groups. 
-- `separator: content = sym.space.thin` : Separator between groups. 
+- `separator: content = sym.space.narrow` : Separator between groups. 
 - `threshold: int | dictionary = 5` : Necessary number of digits needed for digit grouping to kick in. Four-digit numbers for example are usually not grouped at all since they can still be read easily. This parameter also accepts dictionary arguments of the form `(integer: int, fractional: int)` to allow turning on grouping for only the integer or fractional part, for example `(integer: 5, fractional: calc.inf)`. 
 
 
@@ -380,7 +380,7 @@ Similar to `num`, the function `quan` takes one argument, specifying a value and
 - `quan[GHz]` - units can also go without a value
 - `quan[600us]` - "u" is changed to "µ"
 
-The precise syntax for specifying units is explained in the next section.
+The precise syntax for specifying units is explained in the next section. 
 Units of the SI system and units that may be used in compliance with the SI system are automatically recognized and annotated with alt descriptions, see also [accessibility](#accessibility) below.
 
 
@@ -436,7 +436,7 @@ If you need to build more complex units, consisting of symbols, math, or other c
 The appearance of units can be configured via `set-unit`:
 ```typ
 #set-unit(
-  unit-separator:  content = sym.space.thin,
+  unit-separator:  content = sym.space.narrow,
   fraction:        str = "power",
   prefix:          auto | none = auto
 )
