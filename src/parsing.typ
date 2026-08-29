@@ -289,6 +289,10 @@
   exponent + e
 }
 
-#let compute-eng-digits(num-info) = {
-  calc.floor(compute-sci-digits(num-info) / 3) * 3
+#let compute-eng-digits(num-info, unit-exponent: 1,clamp-to-valid-prefixes: false) = {
+  let exponent = calc.floor(compute-sci-digits(num-info) / 3 / unit-exponent) * 3 * unit-exponent
+  if clamp-to-valid-prefixes {
+    exponent = calc.clamp(exponent, -18, 18)
+  }
+  exponent
 }
