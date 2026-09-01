@@ -165,7 +165,7 @@
   ..units,
   exp-multiplier,
   math: true,
-  unit-separator: sym.space.thin,
+  unit-separator: sym.space.nobreak.narrow,
   use-sqrt: true,
 ) = {
   let units = units
@@ -209,7 +209,7 @@
 
   /// Symbol to use between constituent units.
   /// -> content
-  unit-separator: sym.space.thin,
+  unit-separator: sym.space.nobreak.narrow,
 
   /// Whether to display a square root symbol when the exponent is 1/2.
   use-sqrt: true,

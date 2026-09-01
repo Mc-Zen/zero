@@ -59,7 +59,7 @@
   size: 3,
   /// The group separator to use.
   /// -> str | symbol | content
-  separator: sym.space.thin,
+  separator: sym.space.nobreak.narrow,
 ) = {
   if type(threshold) == dictionary {
     assert(
