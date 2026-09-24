@@ -33,3 +33,8 @@
 // exponent that exceeds the valid prefixes
 #zi.m[2e22] \
 #zi.m[2e-22] \
+
+#pagebreak()
+
+// Square root units are spared from automatic engineering notation
+#zi.declare("m^0.5")([12e2]) \
