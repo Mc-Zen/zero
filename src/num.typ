@@ -33,7 +33,7 @@
 
 
 // Process the exponent with its various modes mode
-#let process-exponent(info, exponent) = {
+#let process-exponent(info, exponent, absorbed-eng-exponent-into-prefix: none) = {
   if (info.int + info.frac).trim("0") == "" {
     // Add no exponent if number is 0
     return info
@@ -59,7 +59,11 @@
       e
     }
   } else if exponent == "eng" {
-    parsing.compute-eng-digits(info)
+    if absorbed-eng-exponent-into-prefix != none {
+      absorbed-eng-exponent-into-prefix
+    } else {
+      parsing.compute-eng-digits(info)
+    }
   } else if exponent == "sci" {
     parsing.compute-sci-digits(info)
   }
@@ -69,6 +73,9 @@
   let shift = utility.shift-decimal-left.with(digits: new-exponent - e)
 
   info.e = str(new-exponent).replace("−", "-")
+  if absorbed-eng-exponent-into-prefix != none {
+    info.e = none
+  }
   (info.int, info.frac) = shift(info.int, info.frac)
 
   if info.pm != none {
@@ -107,10 +114,11 @@
   let info = it.info
 
   if it.exponent != auto {
-    info = process-exponent(info, it.exponent)
-    if "prefixed-eng" in it {
-      info.e = none
-    }
+    info = process-exponent(
+      info, 
+      it.exponent, 
+      absorbed-eng-exponent-into-prefix: if "prefixed-eng" in it { it.prefixed-eng }
+    )
   }
   if info.e in (0, "0") and it.omit-zero-exponent {
     info.e = none

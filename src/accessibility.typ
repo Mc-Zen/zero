@@ -895,6 +895,27 @@
   alt
 }
 
+#let extract-prefix-and-unit(
+  // mHz, mm, MPa etc.
+  unit-component
+) = {
+
+  if type(unit-component) not in (symbol, str) {
+    return none
+  }
+  unit-component = str(unit-component)
+
+  if unit-component in units.en or unit-component.len() == 1 {
+    return (none, unit-component)
+  }
+  let clusters = unit-component.clusters()
+  let prefix = clusters.at(0)
+  let unit = clusters.slice(1).join()
+  if prefix in prefixes.en and unit in units.en {
+    return (prefix, unit)
+  }
+  none
+}
 
 
 
@@ -910,6 +931,7 @@
 
   let lang = text.lang
   let units = units.en + units.at(lang, default: units.en)
+  
   let get-unit(unit-code) = {
     if plural { (pluralize.at(lang))(unit-code, count, is-in-denom) } // Add your language here to `pluralize` the denominator
     else if is-in-denom and lang in ("sl", "fi") {
@@ -917,20 +939,14 @@
     } else { units.at(unit-code) }
   }
 
-  if type(component) in (symbol, str) {
-    component = str(component)
-    if component in units {
-      return get-unit(component)
+  let prefix-and-unit = extract-prefix-and-unit(component)
+  if prefix-and-unit != none {
+    let (prefix, unit) = prefix-and-unit
+    if prefix == none {
+      return get-unit(unit)
     }
-    if component.len() > 1 {
-      let prefixes = prefixes.en + prefixes.at(lang, default: prefixes.en)
-      let clusters = component.clusters()
-      let prefix = clusters.at(0)
-      let unit = clusters.slice(1).join()
-      if prefix in prefixes and unit in units {
-        return join-prefix-unit(prefixes.at(prefix), get-unit(unit), text.lang)
-      }
-    }
+    let prefixes = prefixes.en + prefixes.at(lang, default: prefixes.en)
+    return join-prefix-unit(prefixes.at(prefix), get-unit(unit), text.lang)
   }
   assert(
     false,

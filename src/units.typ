@@ -331,32 +331,40 @@
       separator = none
     }
 
-    if num-state.unit.prefix == auto and num-state.exponent == "eng" {
-      num-state.prefixed-eng = true
-
-      let e = if info.e == none { 0 } else { int(info.e) }
-      let eng = compute-eng-digits(info)
-
-      if eng != 0 {
-        let prefixes = (
-          "3": "k",
-          "6": "M",
-          "9": "G",
-          "12": "T",
-          "15": "P",
-          "18": "E",
-          "−3": "m",
-          "−6": "µ",
-          "−9": "n",
-          "−12": "p",
-          "−15": "f",
-          "−18": "a",
+    if num-state.unit.prefix == auto and num-state.exponent == "eng" and unit.numerator.len() > 0 {
+      let first-numerator-unit-exponent = unit.numerator.first().at(1)
+      if first-numerator-unit-exponent != "0.5" and not "." in first-numerator-unit-exponent {
+        let unit-exponent = int(first-numerator-unit-exponent)
+        let eng = compute-eng-digits(
+          info, 
+          clamp-to-valid-prefixes: true, 
+          unit-exponent: unit-exponent
         )
+        num-state.prefixed-eng = eng
+        eng /= unit-exponent
+        
 
-        let prefix = prefixes.at(str(eng))
-        assert(unit.numerator.len() != 0)
-        unit.numerator.first().first() = prefix + unit.numerator.first().first()
+        if eng != 0 {
+          let prefixes = (
+            "3": "k",
+            "6": "M",
+            "9": "G",
+            "12": "T",
+            "15": "P",
+            "18": "E",
+            "−3": "m",
+            "−6": "µ",
+            "−9": "n",
+            "−12": "p",
+            "−15": "f",
+            "−18": "a",
+          )
+
+          let prefix = prefixes.at(str(eng))
+          unit.numerator.first().first() = prefix + unit.numerator.first().first()
+        }
       }
+
     }
     let breakable = utility.process-breakable(num-state.breakable)
 

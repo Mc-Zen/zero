@@ -1,8 +1,6 @@
 #set page(width: auto, height: auto, margin: .5em)
 #import "/src/zero.typ": set-num, set-unit, zi, num
 
-// #num(round: (precision: 2, pad: true, mode: "places"))[1223+-.2]
-// #num(round: (precision: 2, pad: true, mode: "places"))[1223.12+-.3]
 #set-num(exponent: "eng")
 
 #zi.m[2] \
@@ -17,4 +15,26 @@
 #pagebreak()
 
 #zi.m-s[12e2] \
-#zi.declare("V m")([12e2])
+#zi.declare("V m")([12e2]) \
+#zi.declare("V m/N")([12e2]) \
+#zi.declare("1/s")([12e2]) \
+
+#pagebreak()
+
+// first numerator unit has an exponent
+#zi.m2[2e5] \
+#zi.m2[2e6] \
+#zi.m3[2e8] \
+#zi.m3[2e9] \
+#zi.m3[2e-9] \
+
+#pagebreak()
+
+// exponent that exceeds the valid prefixes
+#zi.m[2e22] \
+#zi.m[2e-22] \
+
+#pagebreak()
+
+// Square root units are spared from automatic engineering notation
+#zi.declare("m^0.5")([12e2]) \
