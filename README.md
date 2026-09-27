@@ -364,6 +364,7 @@ Zero not only aligns numbers at the decimal point but also at the uncertainty an
     <img alt="Advanced number alignment in tables" src="https://github.com/user-attachments/assets/f91004fe-d7ca-4db8-81a1-b65236c72cac">
   </picture>
 </p>
+
 ---
 
 ## Units and Quantities
@@ -418,11 +419,12 @@ You can create a new unit through the `zi.declare` function. We recommend the fo
 
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/c0c6b280-d53e-4b4f-a719-5f86001c326e">
-    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/761fe5c4-ee2c-49e1-b438-f0589104b06c">
-    <img alt="Declaring new units" src="https://github.com/user-attachments/assets/c0c6b280-d53e-4b4f-a719-5f86001c326e">
+    <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/a26a76e7-0fb6-4e0e-8d86-169f7ed73f90">
+    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/82c16878-f242-466c-918a-cc35a3022544">
+    <img alt="Declaring new units" src="https://github.com/user-attachments/assets/a26a76e7-0fb6-4e0e-8d86-169f7ed73f90">
   </picture>
 </p>
+
 
 For most units, it will suffice to use the string unit syntax shown above because mostly Latin letters are used. For the µ symbol, you can write "mu", as in `zi.declare("mus")` for microseconds. 
 
