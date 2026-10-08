@@ -11,6 +11,24 @@
 }
 
 
+/// Increment a string of digits by one, preserving its leading zeros.
+#let increment-integer(
+  /// A string of digits
+  /// -> str
+  string,
+) = {
+  let i = string.len() - 1
+  while i >= 0 and string.at(i) == "9" {
+    i -= 1
+  }
+  if i < 0 {
+    "1" + "0" * string.len()
+  } else {
+    string.slice(0, i) + str(int(string.at(i)) + 1) + "0" * (string.len() - i - 1)
+  }
+}
+
+
 /// Rounds an integer given as a string of digits to a given digit place.
 #let round-integer(
 
@@ -44,39 +62,43 @@
   }
 
   if dir == "towards-zero" {
-    return integer.slice(0, place)
+    integer = integer.slice(0, place)
   } else if dir == "away-from-zero" {
-    let x = float(integer.slice(0, place) + "." + integer.slice(place))
-    integer = str(int(calc.ceil(x)))
+    integer = if integer.slice(place).trim("0", at: start) == "" {
+      integer.slice(0, place)
+    } else {
+      increment-integer(integer.slice(0, place))
+    }
   } else if dir == "nearest" {
     let fractional = integer.slice(place)
-    if fractional.trim("0", at: end) == "5" {
-      if ties == "away-from-zero" {} else if ties == "towards-zero" {
-        fractional = "4"
-      } else if ties == "to-even" {
-        let ls-integer-digit = integer.slice(place - 1, place)
-        if calc.even(int(ls-integer-digit)) {
-          fractional = "4"
-        }
-      } else if ties == "to-odd" {
-        let ls-integer-digit = integer.slice(place - 1, place)
-        if calc.odd(int(ls-integer-digit)) {
-          fractional = "4"
-        }
-      } else if ties == "towards-infinity" {
-        let ls-integer-digit = integer.slice(place - 1, place)
-        if sign == "-" {
-          fractional = "4"
-        }
-      } else if ties == "towards-negative-infinity" {
-        let ls-integer-digit = integer.slice(place - 1, place)
-        if sign == "+" {
-          fractional = "4"
+    let prefix = integer.slice(0, place)
+    let round-up = false
+    if fractional != "" {
+      let first = int(fractional.at(0))
+      if first > 5 {
+        round-up = true
+      } else if first == 5 {
+        if fractional.trim("0", at: end) == "5" {
+          let ls-integer-digit = int(prefix.at(-1))
+          if ties == "towards-zero" {
+            round-up = false
+          } else if ties == "to-even" {
+            round-up = calc.odd(ls-integer-digit)
+          } else if ties == "to-odd" {
+            round-up = calc.even(ls-integer-digit)
+          } else if ties == "towards-infinity" {
+            round-up = sign == "+"
+          } else if ties == "towards-negative-infinity" {
+            round-up = sign == "-"
+          } else {
+            round-up = true
+          }
+        } else {
+          round-up = true
         }
       }
     }
-    let x = float(integer.slice(0, place) + "." + fractional)
-    integer = str(int(calc.round(x)))
+    integer = if round-up { increment-integer(prefix) } else { prefix }
   }
   if place > integer.len() {
     integer = "0" * (place - integer.len()) + integer
