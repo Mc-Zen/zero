@@ -99,6 +99,11 @@
           x: it.x,
           y: it.y,
           inset: it.inset,
+          colspan: it.colspan,
+          rowspan: it.rowspan,
+          fill: it.fill,
+          stroke: it.stroke,
+          breakable: it.breakable,
         )
       }
     }
