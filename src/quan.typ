@@ -8,7 +8,8 @@
     assert(input != none, message: "")
   }
   
-  let regex-beginning-of-unit = regex("[ a-zA-Zµ/]")
+  // Non-letter unit symbols need to be listed explicitly.
+  let regex-beginning-of-unit = regex("[ a-zA-Zµ/°′″%‰Ω]")
 
   
   // We need to protect against detecting the e/E exponent notation as a unit
