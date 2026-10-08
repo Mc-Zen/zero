@@ -56,13 +56,29 @@
   let table = context {
     let state = num-state.get()
 
-    let table-end = query(selector(<__pillar-table__>).after(here()))
-      .first()
-      .location()
-
-    let number-infos = query(
-      selector(<__pillar-num__>).after(here()).before(table-end),
-    ).map(x => x.value)
+    // Nested tables emit their markers before ours, so walk the marker stream
+    // and only collect numbers that belong to this table's own level.
+    let number-infos = ()
+    let depth = 0
+    for marker in query(
+      selector
+        .or(
+          selector(<__pillar-table-start__>),
+          selector(<__pillar-table__>),
+          selector(<__pillar-num__>),
+        )
+        .after(here()),
+    ) {
+      let value = marker.value
+      if value == "start" {
+        depth += 1
+      } else if value == none {
+        if depth == 0 { break }
+        depth -= 1
+      } else if depth == 0 {
+        number-infos.push(value)
+      }
+    }
 
 
     // let debug-info = (counter: ptable-counter.get(), d: number-infos)
@@ -104,7 +120,7 @@
     }
     it
   }
-  table + [#metadata(none)<__pillar-table__>] + place(hide(std.table()))
+  [#metadata("start")<__pillar-table-start__>] + table + [#metadata(none)<__pillar-table__>] + place(hide(std.table()))
 }
 
 
