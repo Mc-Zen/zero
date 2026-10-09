@@ -31,6 +31,17 @@
   assert(unit-component-description("au") == "astronomical unit")
   assert(unit-component-description("aau") == "attoastronomical unit") // silly but it should work
 
+  for spelling in ("L", "l", "ℓ") {
+    assert.eq(
+      generate-unit-alt-description(..parse-unit(spelling).values()),
+      "liter",
+    )
+    assert.eq(
+      generate-unit-alt-description(..parse-unit(spelling).values(), value: 2),
+      "liters",
+    )
+  }
+
   assert.eq(
     generate-unit-alt-description(
       ..parse-unit("m").values(),
@@ -167,6 +178,22 @@
   )
   assert.eq(
     generate-unit-alt-description(
+      ..parse-unit("m^2/s^3/L^4").values(),
+    ),
+    "mètre carré par seconde cube par litre à la puissance 4",
+  )
+  for spelling in ("L", "l", "ℓ") {
+    assert.eq(
+      generate-unit-alt-description(..parse-unit(spelling).values()),
+      "litre",
+    )
+    assert.eq(
+      generate-unit-alt-description(..parse-unit(spelling).values(), value: 2),
+      "litres",
+    )
+  }
+  assert.eq(
+    generate-unit-alt-description(
       ..parse-unit("MN m").values(),
     ),
     "méganewton mètre",
@@ -188,6 +215,20 @@
     generate-unit-alt-description(..parse-unit("°C").values(), value: 2),
     "degrés Celsius",
   )
+}
+
+#set text(lang: "es")
+#context {
+  for spelling in ("L", "l", "ℓ") {
+    assert.eq(
+      generate-unit-alt-description(..parse-unit(spelling).values()),
+      "litro",
+    )
+    assert.eq(
+      generate-unit-alt-description(..parse-unit(spelling).values(), value: 2),
+      "litros",
+    )
+  }
 }
 
 #set text(lang: "fi")
@@ -212,6 +253,25 @@
       value: 1,
     ),
     "metri jaettuna sekunnilla jaettuna newtonilla",
+  )
+
+  for spelling in ("L", "l", "ℓ") {
+    assert.eq(
+      generate-unit-alt-description(..parse-unit(spelling).values()),
+      "litra",
+    )
+    assert.eq(
+      generate-unit-alt-description(..parse-unit(spelling).values(), value: 2),
+      "litraa",
+    )
+  }
+  assert.eq(
+    generate-unit-alt-description(..parse-unit("m/l").values(), value: 1),
+    "metri jaettuna litralla",
+  )
+  assert.eq(
+    generate-unit-alt-description(..parse-unit("m/ℓ").values(), value: 2),
+    "metriä jaettuna litralla",
   )
 }
 
