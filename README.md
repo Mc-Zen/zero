@@ -101,7 +101,7 @@ Zero's core is the `num()` function, which provides flexible number formatting. 
 #num(
   number:                 str | content | int | float | dictionary | array,
   digits:                 auto | int = auto,
-  exponent:               auto | str = auto,
+  exponent:               auto | str | dictionary = auto,
 
   decimal-separator:      str = ".",
   product:                content = sym.times,
@@ -125,7 +125,7 @@ Zero's core is the `num()` function, which provides flexible number formatting. 
 ```
 - `number: str | content | int | float | array` : Number input; `str` is preferred. If the input is `content`, it may only contain text nodes. Numeric types `int` and `float` are supported but not encouraged because of information loss (e.g., the number of trailing "0" digits or the exponent). The remaining types `dictionary` and `array` are intended for advanced use, see [below](#zero-for-third-party-packages).
 - `digits: auto | int = auto` : Truncates the number at a given (positive) number of decimal places or pads the number with zeros if necessary. This is independent of [rounding](#rounding).
-- `exponent: auto | str = auto` : Controls the value of the exponent. Possible values are
+- `exponent: auto | str | dictionary = auto` : Controls the value of the exponent. Possible values are
   - `auto` : The exponent is taken to be the _input exponent_, e.g., `5` for `num[1e5]`. 
   - `"sci"` : The exponent is chosen according to scientific notation. Use `(sci: n)` to activate scientific notation only when the absolute of the exponent is at least `n` or `(sci: (min, max))` to activate scientific notation only when the exponent is less or equal to `min` or greater or equal to `max`. 
   - `"eng"` : The exponent chosen according to engineering notation, that is the exponent is a multiple of three and the integer part is never zero. 
