@@ -145,9 +145,9 @@ Zero's core is the `num()` function, which provides flexible number formatting. 
 
   <p align="center">
     <picture>
-      <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/b7f5b106-efd5-477a-8299-c8daacdbd6e4">
-      <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/9afc2776-b9a2-4c2a-abc7-c453727f36ea">
-      <img alt="Uncertainty modes" src="https://github.com/user-attachments/assets/b7f5b106-efd5-477a-8299-c8daacdbd6e4">
+      <source media="(prefers-color-scheme: light)" srcset="https://github.com/user-attachments/assets/840f18d5-08ae-4f31-92cf-d441896b8540">
+      <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/4c32da35-864e-4051-9738-b8ad810aedd6">
+      <img alt="Uncertainty modes" src="https://github.com/user-attachments/assets/840f18d5-08ae-4f31-92cf-d441896b8540">
     </picture>
   </p>
 
