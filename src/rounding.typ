@@ -73,10 +73,14 @@
         if sign == "+" {
           fractional = "4"
         }
+      } else {
+        panic("Unexpected round-ties value: " + ties)
       }
     }
     let x = float(integer.slice(0, place) + "." + fractional)
     integer = str(int(calc.round(x)))
+  } else {
+    panic("Unexpected round-direction value: " + dir)
   }
   if place > integer.len() {
     integer = "0" * (place - integer.len()) + integer
@@ -267,6 +271,14 @@
     "away-from-zero",
     "towards-zero",
   ))
+  assert-option(ties, "round-ties", (
+    "away-from-zero",
+    "towards-zero",
+    "to-odd",
+    "to-even",
+    "towards-infinity",
+    "towards-negative-infinity",
+  ))
 
 
   pad-decimal(
@@ -327,6 +339,22 @@
   ..
 
 ) = {
+  assert-option(direction, "round-direction", (
+    "nearest",
+    "towards-infinity",
+    "towards-negative-infinity",
+    "away-from-zero",
+    "towards-zero",
+  ))
+  assert-option(ties, "round-ties", (
+    "away-from-zero",
+    "towards-zero",
+    "to-odd",
+    "to-even",
+    "towards-infinity",
+    "towards-negative-infinity",
+  ))
+
   let is-symmetric = type(uncertainty.first()) != array
   if is-symmetric {
     uncertainty = (uncertainty,)
