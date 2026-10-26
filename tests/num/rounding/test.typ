@@ -110,6 +110,21 @@
 #assert.eq(round-integer("0395", 3, dir: "nearest"), "040")
 #assert.eq(round-integer("999", 2, dir: "nearest"), "100")
 
+// exactly-rounded long numerals (no float detour)
+#assert.eq(
+  round-integer("0360287970189639705", 18, dir: "nearest"),
+  "036028797018963971",
+)
+#assert.eq(round-integer("12345678901234567890123", 5, dir: "nearest"), "12346")
+#assert.eq(
+  round-integer("99999999999999999999", 5, dir: "away-from-zero"),
+  "100000",
+)
+#assert.eq(
+  round-integer("999999999999999999995", 20, dir: "nearest"),
+  "100000000000000000000",
+)
+
 
 // #assert-panic(() => round-integer("123", 0))
 
@@ -174,6 +189,16 @@
 #assert.eq(round-figures("0", "0016", precision: 4, pad: 0), ("", "0016"))
 #assert.eq(round-figures("0", "0016", precision: 4, pad: 3), ("", "00160"))
 #assert.eq(round-figures("0", "0016", precision: 4, pad: 6), ("", "001600"))
+
+// long numerals round exactly, without a float round-trip
+#assert.eq(
+  round-figures("360287970189639", "705", precision: 17, pad: false),
+  ("360287970189639", "71"),
+)
+#assert.eq(
+  round-figures("12345678901234567890123456", "", precision: 3, pad: false),
+  ("123" + "0" * 23, ""),
+)
 
 
 #assert.eq(round-places("99", "92", precision: 2), ("99", "92"))
