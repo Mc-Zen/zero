@@ -8,8 +8,8 @@
     assert(input != none, message: "")
   }
   
-  let regex-beginning-of-unit = regex("[ a-zA-Zµ/]")
-
+  input = input.replace("ohm", "Ω")
+  let regex-beginning-of-unit = regex("[ a-zA-Zµ/°′″%‰Ω]")
   
   // We need to protect against detecting the e/E exponent notation as a unit
   let e-position = lower(input).position("e")

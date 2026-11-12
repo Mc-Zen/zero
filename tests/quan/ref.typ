@@ -37,3 +37,14 @@
 #num[1.2e1] \
 #zi.m-s(fraction: "fraction") \
 #zi.m-s(fraction: "fraction")[2e-3] \
+
+#pagebreak()
+
+#zi.degree[2] \
+#zi.arcminute[2] \
+#zi.arcsecond[2] \
+#zi.degreeCelsius[2] \
+#zi.percent[21] \
+#zi.kohm[21] \
+#zi.ohm[21] \
+#zi.mL[21] \

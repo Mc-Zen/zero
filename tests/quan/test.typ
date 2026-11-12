@@ -40,3 +40,14 @@
 #quan(exponent: "sci")[12] \
 #quan(fraction: "fraction")[m/s] \
 #quan(fraction: "fraction", exponent: "sci")[0.002m/s] \
+
+#pagebreak()
+
+#quan[2°] \
+#quan[2′] \
+#quan[2″] \
+#quan[2°C] \
+#quan[21%] \
+#quan[21kohm] \
+#quan[21ohm] \
+#quan[21 mL] \
