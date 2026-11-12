@@ -155,6 +155,14 @@
     generate-unit-alt-description(..parse-unit("au").values(), value: 2),
     "astronomische Einheiten",
   )
+  assert.eq(
+    generate-unit-alt-description(..parse-unit("mL").values(), value: 2),
+    "Milliliter",
+  )
+  assert.eq(
+    generate-unit-alt-description(..parse-unit("ml").values(), value: 2),
+    "Milliliter",
+  )
 }
 
 #set text(lang: "fr")

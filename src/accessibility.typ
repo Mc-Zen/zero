@@ -291,7 +291,7 @@
     eV: "électronvolt",
     g: "gramme",
     kg: "kilogramme",
-    l: "litre",
+    L: "litre",
     Np: "néper",
     sr: "stéradian",
     "%": "pour cent",
@@ -306,7 +306,7 @@
     F: "faradio",
     g: "gramo",
     kg: "kilogramo",
-    l: "litro",
+    L: "litro",
     m: "metro",
     ha: "hectárea",
     J: "julio",
@@ -906,11 +906,17 @@
   unit-component = str(unit-component)
 
   if unit-component in units.en or unit-component.len() == 1 {
+    if unit-component == "l" {
+      unit-component = "L"
+    }
     return (none, unit-component)
   }
   let clusters = unit-component.clusters()
   let prefix = clusters.at(0)
   let unit = clusters.slice(1).join()
+  if unit == "l" {
+    unit = "L"
+  }
   if prefix in prefixes.en and unit in units.en {
     return (prefix, unit)
   }
@@ -930,7 +936,7 @@
   }
 
   let lang = text.lang
-  let units = units.en + units.at(lang, default: units.en)
+  let units = units.en + units.at(lang, default: (:))
   
   let get-unit(unit-code) = {
     if plural { (pluralize.at(lang))(unit-code, count, is-in-denom) } // Add your language here to `pluralize` the denominator
