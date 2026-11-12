@@ -3,10 +3,15 @@
 #let declare(alt: auto, ..unit) = {
   assert(unit.named().len() == 0, )
 
-  (..value) => if value.pos().len() == 0 { 
-    units.unit(units.parse-unit(..unit.pos()), ..value, alt: alt)
-  } else { 
-    units.qty(..value, units.parse-unit(..unit.pos()), alt: alt)
+  (..value) => {
+    // a caller-supplied alt must not be overridden by the declaration's
+    let args = value.named()
+    if "alt" not in args { args += (alt: alt) }
+    if value.pos().len() == 0 {
+      units.unit(units.parse-unit(..unit.pos()), ..value.pos(), ..args)
+    } else {
+      units.qty(..value.pos(), units.parse-unit(..unit.pos()), ..args)
+    }
   }
 }
 
