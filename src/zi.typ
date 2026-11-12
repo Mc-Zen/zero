@@ -95,6 +95,10 @@
 #let tonne = declare("t")
 #let gram = declare("g")
 
+#let L = liter
+#let eV = electronvolt
+#let dB = decibel
+
 // Common units with prefixes
 #let mm = declare("mm")
 #let km = declare("km")
