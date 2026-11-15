@@ -661,10 +661,10 @@
     let singular = units.it.at(unit, default: units.en.at(unit))
     if unit in ("J", "A", "T", "%", "‰") { return singular }
     if unit == sym.degree + "C" { return "gradi Celsius" }
-    if unit.ends-with("o") or unit.ends-with("e") {
+    if singular.ends-with("o") or singular.ends-with("e") {
       return singular.slice(0, -1) + "i"
     }
-    if unit.ends-with("a") { return singular.slice(0, -1) + "e" }
+    if singular.ends-with("a") { return singular.slice(0, -1) + "e" }
     return singular
   },
 
