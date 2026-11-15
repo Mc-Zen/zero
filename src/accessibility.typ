@@ -204,6 +204,7 @@
     lm: "lumen",
     lx: "lux",
     m: "meter",
+    M: "molar",
     sym.prime: "arc minute",
     min: "minute",
     mol: "mole",
@@ -259,6 +260,7 @@
     lm: "Lumen",
     lx: "Lux",
     m: "Meter",
+    M: "Molar",
     N: "Newton",
     Np: "Neper",
     sym.Omega: "Ohm",
@@ -292,6 +294,7 @@
     g: "gramme",
     kg: "kilogramme",
     L: "litre",
+    M: "molaire",
     Np: "néper",
     sr: "stéradian",
     "%": "pour cent",
@@ -308,6 +311,7 @@
     kg: "kilogramo",
     L: "litro",
     m: "metro",
+    M: "molar",
     ha: "hectárea",
     J: "julio",
     H: "henrio",
@@ -338,6 +342,7 @@
     sym.degree + "C": "grado Celsius",
     h: "ora",
     min: "minuto",
+    M: "molare",
     s: "secondo",
     d: "giorno",
     rad: "radiante",
@@ -376,6 +381,7 @@
     lm: "luumen",
     lx: "luksi",
     m: "metri",
+    M: "molaarinen",
     sym.prime: "kaariminuutti",
     min: "minuuti",
     mol: "mooli",
@@ -500,6 +506,7 @@
   lm: "luumenia",
   lx: "luksia",
   m: "metriä",
+  M: "molaarista",
   sym.prime: "kaariminuuttia",
   min: "minuuttia",
   mol: "moolia",
@@ -552,6 +559,7 @@
   lm: "luumenilla",
   lx: "luksilla",
   m: "metrillä",
+  M: "molaarisella",
   sym.prime: "kaariminuuttilla",
   min: "minuutilla",
   mol: "moolilla",
@@ -653,10 +661,10 @@
     let singular = units.it.at(unit, default: units.en.at(unit))
     if unit in ("J", "A", "T", "%", "‰") { return singular }
     if unit == sym.degree + "C" { return "gradi Celsius" }
-    if unit.ends-with("o") or unit.ends-with("e") {
+    if singular.ends-with("o") or singular.ends-with("e") {
       return singular.slice(0, -1) + "i"
     }
-    if unit.ends-with("a") { return singular.slice(0, -1) + "e" }
+    if singular.ends-with("a") { return singular.slice(0, -1) + "e" }
     return singular
   },
 
